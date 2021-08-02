@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React from // , { useState }
+'react';
 import { style } from './LoginStyle';
 
 export default function Login() {
-  const [isVaild, setIsVaild] = useState(false);
+  // const [isVaild, setIsVaild] = useState(false);
 
   return (
     <Container>
       <Wrap>
         <Title>로그인</Title>
-        {isVaild && (
+        {/* {isVaild && (
           <VaildMessage>
             유효한 아이디 또는 비밀번호를 입력해주세요
           </VaildMessage>
-        )}
+        )} */}
 
         <IdInput />
         <PasswordInput />
@@ -28,7 +29,7 @@ const {
   Container,
   Wrap,
   Title,
-  VaildMessage,
+  // VaildMessage,
   IdInput,
   PasswordInput,
   LoginButton,
