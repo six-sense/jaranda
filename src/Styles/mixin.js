@@ -1,9 +1,9 @@
-import { css } from "styled-components";
+import { css } from 'styled-components';
 
 const flexSet = (
-  justify = "center",
-  items = "center",
-  direction = "row"
+  justify = 'center',
+  items = 'center',
+  direction = 'row',
 ) => css`
   display: flex;
   justify-content: ${justify};

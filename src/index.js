@@ -1,9 +1,9 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import { GlobalStyles } from "./Styles/GlobalStyles";
-import { ThemeProvider } from "styled-components";
-import mixin from "./Styles/mixin";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import { GlobalStyles } from './Styles/GlobalStyles';
+import { ThemeProvider } from 'styled-components';
+import mixin from './Styles/mixin';
 
 ReactDOM.render(
   <>
@@ -12,5 +12,5 @@ ReactDOM.render(
       <App />
     </ThemeProvider>
   </>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
