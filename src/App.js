@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { routes } from 'utils/constants';
 import Navbar from 'Compnents/Navbar';
 import LandingPage from 'Pages/LandingPage';
 import LoginPage from 'Pages/LoginPage';
@@ -9,13 +9,11 @@ import AdminPage from 'Pages/AdminPage';
 import Parent from 'Pages/Parent';
 import Teacher from 'Pages/Teacher';
 import Help from 'Pages/Help';
-import { routes } from 'utils/constants';
 
 function App() {
   return (
     <Router>
       <Navbar />
-      <Hello />
       <Switch>
         <Route exact path={routes.MAIN} component={LandingPage} />
         <Route path={routes.PARENT} component={Parent} />
@@ -30,7 +28,3 @@ function App() {
 }
 
 export default App;
-
-const Hello = styled.div`
-  ${({ theme }) => theme.flexSet()};
-`;

@@ -19,7 +19,7 @@ const Navbar = () => {
             <NavLink to="/parent">자란다선생님 보기</NavLink>
             <NavLink to="/teacher">선생님지원하기</NavLink>
             <NavLink to="/help">이용안내</NavLink>
-            <NavLink to="/account">로그인/회원가입</NavLink>
+            <NavLink to="/signin">로그인/회원가입</NavLink>
           </NavMenu>
         </NavbarInnerContainer>
       </NavbarContainer>
