@@ -10,9 +10,15 @@ export const USER_INFO = getUserInfo(); // 암호화 된 정보 제외한 정보
 //   menubar: user.menubar,
 // }
 
-export const routes = {
+export const ROUTES = {
   MAIN: '/',
   SIGN_IN: '/signin',
   SIGN_UP: '/signup',
   ADMIN: '/admin',
+};
+
+export const ROLE = {
+  ADMIN: 'admin',
+  TEACHER: 'teacher',
+  PARENT: 'parent',
 };
