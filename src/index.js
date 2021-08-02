@@ -8,7 +8,7 @@ import mixin from './Styles/mixin';
 ReactDOM.render(
   <>
     <GlobalStyles />
-    <ThemeProvider theme={{ ...mixin }}>
+    <ThemeProvider theme={mixin}>
       <App />
     </ThemeProvider>
   </>,
