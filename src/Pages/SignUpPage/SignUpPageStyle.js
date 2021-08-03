@@ -57,12 +57,12 @@ export const Input_ID = styled(Input).attrs({
 })``;
 
 export const Input_PW = styled(Input).attrs({
-  type: 'text',
+  type: 'password',
   placeholder: '비밀번호',
 })``;
 
 export const Input_PW_confirm = styled(Input).attrs({
-  type: 'text',
+  type: 'password',
   placeholder: '비밀번호 확인',
 })``;
 

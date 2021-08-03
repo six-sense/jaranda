@@ -5,14 +5,17 @@ import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
-import {LOCAL_STORAGE} from 'utils/constants';
+import { LOCAL_STORAGE } from 'utils/constants';
 
-const { checkId } = Validation;
-//, checkPassword
+const { checkId, checkPassword } = Validation;
+
 export default function SignUpPage() {
   const [checkRole, setCheckRole] = useState(false);
-  const [userId, setUserId] = useState("");
-
+  const [userId, setUserId] = useState('');
+  const [userPw, setUserPw] = useState('');
+  const [userPwconfirm, setUserPwConfirm] = useState('');
+  // const [userName, setUserName] = useState('');
+  // const [userAge, setUserAge] = useState('');
   const handleRadioButton = (name) => {
     setCheckRole(name);
     // setUserInfo({
@@ -50,25 +53,25 @@ export default function SignUpPage() {
 
   const handleId = (e) => {
     setUserId(e.target.value);
-  }
+  };
 
   const handleIdValidate = async () => {
     const checkValidId = checkId(userId);
-    let userData = LOCAL_STORAGE.get("userData");
-    if(!userData) {
+    let userData = LOCAL_STORAGE.get('userData');
+    if (!userData) {
       userData = [];
     }
     const reduplication = userData.find((data) => data.userId === userId);
     if (checkValidId && reduplication === undefined) {
-      console.log("사용가능한 아이디입니다.");
-      return ;
+      console.log('사용가능한 아이디입니다.');
+      return;
     } else if (!checkValidId) {
-      console.log("사용 가능하지 않은 아이디입니다.");
+      console.log('사용 가능하지 않은 아이디입니다.');
       return;
     } else {
-      console.log("중복된 아이디입니다.");
+      console.log('중복된 아이디입니다.');
     }
-  }
+  };
 
   const signupBtnEvnt = () => {
     const userAddr =
@@ -79,6 +82,41 @@ export default function SignUpPage() {
   const inputData = (addr) => {
     const data = userDataForm(addr);
     setUserData(data);
+  };
+
+  const onChangePW = (e) => {
+    setUserPw(e.target.value);
+    HandleValidatePW(e.target.value);
+  };
+
+  const HandleValidatePW = (value) => {
+  
+    const checkValidPw = checkPassword(value);
+    let userData = LOCAL_STORAGE.get('userData');
+
+    if (!userData) {
+      userData = [];
+    }
+
+    if (checkValidPw) {
+      console.log('사용가능한 비밀번호입니다.');
+    } else if (!checkValidPw) {
+      console.log('사용할 수 없는 비밀번호 입니다.');
+    }
+  };
+
+  const onChangePwconfirm = (e) => {
+    setUserPwConfirm(e.target.value);
+    MatchPW(e.target.value);
+    console.log(userPwconfirm);
+  };
+
+  const MatchPW = (value) => {
+    if (value !== userPw) {
+      console.log('비밀번호가 일치하지 않습니다.');
+    } else if (value === userPw) {
+      console.log('비밀번호가 일치합니다.');
+    }
   };
   return (
     <>
@@ -114,10 +152,13 @@ export default function SignUpPage() {
             </label>
           </Wrapper_Radio>
           <Wrapper_ID>
-            <Input_ID placeholder="ID" maxLength="30" onChange={handleId}/>
-            <Submit_ID_btn onClick={handleIdValidate}> 아이디 중복 확인 </Submit_ID_btn>
+            <Input_ID placeholder="ID" maxLength="30" onChange={handleId} />
+            <Submit_ID_btn onClick={handleIdValidate}>
+              {' '}
+              아이디 중복 확인{' '}
+            </Submit_ID_btn>
           </Wrapper_ID>
-          <Input_PW />
+          <Input_PW onChange={onChangePW} />
 
           <PW_policy_container>
             <PW_poclicy_item>
@@ -142,7 +183,7 @@ export default function SignUpPage() {
             </PW_poclicy_item>
           </PW_policy_container>
 
-          <Input_PW_confirm />
+          <Input_PW_confirm onChange={onChangePwconfirm} />
           <Input_name />
           <Input_age />
 
