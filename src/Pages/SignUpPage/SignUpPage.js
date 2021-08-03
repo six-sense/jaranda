@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { ROUTES } from 'utils/constants';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
@@ -10,6 +12,7 @@ import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
+  const history = useHistory();
   const [userPwconfirm, setUserPwConfirm] = useState('');
   const { checkId, checkPassword } = Validation;
   const [userInfo, setUserInfo] = useState({
@@ -24,7 +27,7 @@ export default function SignUpPage() {
       CVC: '',
     },
     role: '',
-        zcode: '',
+    zcode: '',
     roadAddr: '',
     jibunAddr: '',
     detailAddr: '',
@@ -32,7 +35,7 @@ export default function SignUpPage() {
   });
 
   const signupBtnEvnt = () => {
-    const {userId, password, name, age, role} = userInfo;
+    const { userId, password, name, age, role } = userInfo;
 
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
@@ -49,16 +52,27 @@ export default function SignUpPage() {
       ...userInfo,
       role: name,
     });
-  }
+  };
   const [showModal, setShowModal] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (status) => {
+    console.log(flag);
+    if (status === false) {
+      setFlag(false);
+    } else {
+      setFlag(true);
+    }
     setShowModal(false);
   };
+
+  // const closeBtnStatus = ()=>{
+
+  // }
 
   const addrBtnEvent = () => {
     get_address(userInfo, setUserInfo);
@@ -68,6 +82,18 @@ export default function SignUpPage() {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
   };
 
+  const handleCardInput = (cardInput) => {
+    setUserInfo({
+      ...userInfo,
+      creditCard: {
+        ...userInfo.creditCard,
+        cardNumber: cardInput.cardNumber,
+        holderName: cardInput.holderName,
+        expired: cardInput.expired,
+        CVC: cardInput.CVC,
+      },
+    });
+  };
 
   const handleId = (e) => {
     setUserInfo({
@@ -147,8 +173,8 @@ export default function SignUpPage() {
       age: e.target.value,
     });
     console.log(userInfo.userAge);
-
   };
+
   return (
     <>
       <Container>
@@ -247,7 +273,11 @@ export default function SignUpPage() {
         </Wrap>
       </Container>
       <Modal show={showModal} onClose={closeModal}>
-        <CreditCardForm />
+        <CreditCardForm
+          closeModal={closeModal}
+          creditCard={userInfo.creditCard}
+          handleCardInput={handleCardInput}
+        />
       </Modal>
     </>
   );
