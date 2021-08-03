@@ -1,5 +1,5 @@
 import { USER_INFO } from './constants';
 
-export const getUserMenubar = (id) => {
-  return USER_INFO.find((data) => data.id === id).menubar;
+export const getUserMenubar = (userId) => {
+  return USER_INFO.find((data) => data.userId === userId).menubar;
 };
