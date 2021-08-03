@@ -3,6 +3,7 @@ import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import userData from 'utils/userData.json';
+import { useHistory } from 'react-router-dom';
 
 const properties = [
   { label: 'Parents', value: 'Parents' },
@@ -10,6 +11,7 @@ const properties = [
 ];
 
 function AdminPage() {
+  const history = useHistory();
   const [datas, setDatas] = useState([]);
   const [, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState([]);
@@ -28,6 +30,10 @@ function AdminPage() {
     setCheckedArray(newChecked);
   };
 
+  const goRoleManagementPage = () => {
+    history.push('/role-management');
+  };
+
   useEffect(() => {
     setDatas(userData);
   }, []);
@@ -36,7 +42,7 @@ function AdminPage() {
     <div>
       <TableContainer>
         <TableTitleContainer>
-          <TableTitle>User List</TableTitle>
+          <TableTitle>사용자 목록</TableTitle>
           <SearchContainer>
             <SearchIcon src={searchIcon} alt="search-icon" />
             <Searchbox
@@ -44,6 +50,9 @@ function AdminPage() {
               placeholder="Search Name"
               onChange={onHandleSearch}
             />
+            <GoRolePageButton onClick={goRoleManagementPage}>
+              권한 별 사용자 목록 보기
+            </GoRolePageButton>
           </SearchContainer>
         </TableTitleContainer>
         <table>
@@ -100,4 +109,5 @@ const {
   TableFooter,
   TableTitle,
   TableTitleContainer,
+  GoRolePageButton,
 } = style;

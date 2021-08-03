@@ -23,8 +23,8 @@ export const TableHeader = styled.div`
 `;
 
 export const TableTitle = styled.h4`
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   line-height: 1.6rem;
   letter-spacing: 0.0075em;
   padding-top: 0.5rem;
@@ -66,6 +66,7 @@ export const SelectBox = styled.select`
   font-weight: 500;
   padding: 10px;
   color: rgb(70, 70, 77);
+  margin-right: 1rem;
 `;
 
 export const TableFooter = styled.div`
@@ -85,6 +86,41 @@ export const TableFooter = styled.div`
   }
 `;
 
+export const SubmitButton = styled.button`
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 200px;
+  height: 50px;
+  border-radius: 5px;
+  background-color: #52c41a;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+`;
+
+export const GoAdminPageButton = styled.button`
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: 600;
+  color: rgb(44, 44, 49);
+
+  &:hover {
+    background-color: #f6ffed;
+    cursor: pointer;
+  }
+
+  & > svg {
+    margin-right: 0.7rem;
+  }
+`;
+
 export const SelectContainer = styled.div`
   display: flex;
 `;
@@ -98,4 +134,6 @@ export const style = {
   SelectContainer,
   TableContainer,
   TableTitle,
+  SubmitButton,
+  GoAdminPageButton,
 };
