@@ -1,12 +1,13 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
+import Modal from 'Modal';
+import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
-  
   const [userInfo, setUserInfo] = useState({
     // userId:'',
     // password:'',
@@ -19,30 +20,41 @@ export default function SignUpPage() {
     //   CVC:'',
     // },
     // role:'',
-    zcode:'',
-    roadAddr:'',
-    jibunAddr:'',
-    detailAddr:'',
+    zcode: '',
+    roadAddr: '',
+    jibunAddr: '',
+    detailAddr: '',
     // menubar:'',
-  })
+  });
 
-  const addrBtnEvent = ()=>{
-    get_address(userInfo, setUserInfo)
-  }
+  const [showModal, setShowModal] = useState(false);
 
-  const handleChange = (e)=>{
-    setUserInfo({...userInfo, detailAddr:e.target.value})
-  }
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-  const signupBtnEvnt =()=>{
-    const userAddr = userInfo.zcode +' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr
-    inputData(userAddr)
-  }
-// id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-  const inputData=(addr)=>{
-    const data = userDataForm(addr)
-    setUserData(data)
-  }
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const addrBtnEvent = () => {
+    get_address(userInfo, setUserInfo);
+  };
+
+  const handleChange = (e) => {
+    setUserInfo({ ...userInfo, detailAddr: e.target.value });
+  };
+
+  const signupBtnEvnt = () => {
+    const userAddr =
+      userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
+    inputData(userAddr);
+  };
+  // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
+  const inputData = (addr) => {
+    const data = userDataForm(addr);
+    setUserData(data);
+  };
   return (
     <>
       <Container>
@@ -89,23 +101,33 @@ export default function SignUpPage() {
             <Address_title>주소</Address_title>
             <Wrapper_ZipCode>
               <ZipCode value={userInfo.zcode} />
-              <Button_ZipCode_find onClick={addrBtnEvent}>우편번호 찾기 </Button_ZipCode_find>
+              <Button_ZipCode_find onClick={addrBtnEvent}>
+                우편번호 찾기{' '}
+              </Button_ZipCode_find>
             </Wrapper_ZipCode>
 
             <Wrapper_addr>
               <Street_addr value={userInfo.roadAddr} />
-              <Lot_addr value={userInfo.jibunAddr}/>
+              <Lot_addr value={userInfo.jibunAddr} />
             </Wrapper_addr>
 
             <Wrapper_addr>
-              <Detailed_addr value={userInfo.detailAddr} onChange={handleChange}/>
+              <Detailed_addr
+                value={userInfo.detailAddr}
+                onChange={handleChange}
+              />
               {/* <Note_addr /> */}
             </Wrapper_addr>
           </Address_container>
-          <Button_credit>신용카드 등록</Button_credit>
-          <Submit_SignUp_btn onClick={signupBtnEvnt}>가입하기</Submit_SignUp_btn>
+          <Button_credit onClick={openModal}>신용카드 등록</Button_credit>
+          <Submit_SignUp_btn onClick={signupBtnEvnt}>
+            가입하기
+          </Submit_SignUp_btn>
         </Wrap>
       </Container>
+      <Modal show={showModal} onClose={closeModal}>
+        <CreditCardForm />
+      </Modal>
     </>
   );
 }
