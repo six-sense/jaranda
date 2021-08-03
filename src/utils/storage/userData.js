@@ -1,0 +1,62 @@
+export const userData = [
+  {
+    id: 'park',
+    password: '',
+    name: '',
+    age: 0,
+    creditCard: {
+      cardNumber: '0000-0000-0000-0000',
+      name: '',
+      expired: '0624',
+      CVC: '000',
+    },
+    role: 'admin',
+    address: '',
+    menubar: ['aaa', 'bbbb', 'cccc'],
+  },
+  {
+    id: 'jung',
+    password: '',
+    name: '',
+    age: 0,
+    creditCard: {
+      cardNumber: '0000-0000-0000-0000',
+      name: '',
+      expired: '0624',
+      CVC: '000',
+    },
+    role: 'user',
+    address: '',
+    menubar: ['dddddd', 'eee', 'ff', 'g', 'h'],
+  },
+  {
+    id: 'lee',
+    password: '',
+    name: '',
+    age: 0,
+    creditCard: {
+      cardNumber: '0000-0000-0000-0000',
+      name: '',
+      expired: '0624',
+      CVC: '000',
+    },
+    role: 'admin',
+    address: '',
+    menubar: ['aaa', 'bbbb', 'cccc'],
+  },
+  {
+    id: 'kim',
+    password: '',
+    name: '',
+    age: 0,
+    creditCard: {
+      cardNumber: '0000-0000-0000-0000',
+      name: '',
+      expired: '0624',
+      CVC: '000',
+    },
+    role: 'user',
+    address: '',
+    menubar: ['dddddd', 'eee', 'ff', 'g', 'h'], // 계정별 메뉴 데이터 제공
+  },
+];
