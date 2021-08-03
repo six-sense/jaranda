@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
-import { userData } from 'utils/storage/userData';
+import userData from 'utils/userData.json';
 
 const properties = [
   { label: 'Parents', value: 'Parents' },
