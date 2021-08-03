@@ -11,7 +11,7 @@ export const Wrap = styled.div`
 export const Row = styled.div`
   ${({ theme }) => theme.flexSet('', '', 'row')};
   width: 100%;
-  padding: 0 1em;
+  padding: 0 5em;
 `;
 
 export const Title = styled.h1`
@@ -47,28 +47,10 @@ export const HolderNameInput = styled(Input).attrs({
   placeholder: '이름',
 })``;
 
-export const SelectInput = styled.select`
-  width: 100%;
-  height: 40px;
-  padding-left: 24px;
-  margin-right: 1em;
-  margin-bottom: 8px;
-  outline-color: #87bf44;
-  border: solid 1px #cccccc;
-  border-radius: 2px;
-  background-color: #ffffff;
-  color: #0b0b0b;
-  &:focus {
-    color: #6dc043;
-    border: solid 1px #a5d25f;
-    background-color: rgba(165, 210, 95, 0.1);
-  }
-`;
-
-export const SelectOption = styled.option`
-  background-color: #ffffff;
-  color: #0b0b0b;
-`;
+export const ExpiredInput = styled(Input).attrs({
+  type: 'text',
+  placeholder: 'MM/YY',
+})``;
 
 export const CVCInput = styled(Input).attrs({
   type: 'text',
@@ -105,8 +87,7 @@ export const style = {
   Title,
   CardNumberInput,
   HolderNameInput,
-  SelectInput,
-  SelectOption,
+  ExpiredInput,
   CVCInput,
   CancelButton,
   CreditButton,

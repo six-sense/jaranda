@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { ROUTES } from 'utils/constants';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
@@ -8,17 +10,18 @@ import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
+  const history = useHistory();
   const [userInfo, setUserInfo] = useState({
     // userId:'',
     // password:'',
     // name:'',
     // age:'',
-    // creditCard:{
-    //   cardNumber:'',
-    //   holderName:'',
-    //   expired:'',
-    //   CVC:'',
-    // },
+    creditCard: {
+      cardNumber: '',
+      holderName: '',
+      expired: '',
+      CVC: '',
+    },
     // role:'',
     zcode: '',
     roadAddr: '',
@@ -28,14 +31,25 @@ export default function SignUpPage() {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
   };
 
-  const closeModal = () => {
+  const closeModal = (status) => {
+    console.log(flag);
+    if (status === false) {
+      setFlag(false);
+    } else {
+      setFlag(true);
+    }
     setShowModal(false);
   };
+
+  // const closeBtnStatus = ()=>{
+
+  // }
 
   const addrBtnEvent = () => {
     get_address(userInfo, setUserInfo);
@@ -45,16 +59,56 @@ export default function SignUpPage() {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
   };
 
+  const handleCardNumber = (cardNumber) => {
+    console.log(flag);
+    setUserInfo({
+      ...userInfo,
+      creditCard: {
+        ...userInfo.creditCard,
+        cardNumber: cardNumber.replaceAll(' ', '-'),
+      },
+    });
+  };
+
+  const handleCardInfo = (creditCard) => {
+    setUserInfo({
+      ...userInfo,
+      creditCard: {
+        ...userInfo.creditCard,
+        holderName: creditCard.holderName,
+        CVC: creditCard.CVC,
+      },
+    });
+  };
+
   const signupBtnEvnt = () => {
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
-    inputData(userAddr);
+    // inputData(
+    //   userInfo.userId,
+    //   userInfo.password,
+    //   userInfo.name,
+    //   userInfo.age,
+    //   userInfo.creditCard.cardNumber,
+    //   userInfo.creditCard.holderNumber,
+    //   userInfo.creditCard.expired,
+    //   userInfo.creditCard.cvc,
+    //   userAddr,
+    // );
+    inputData(
+      userInfo.creditCard.cardNumber,
+      userInfo.creditCard.holderNumber,
+      userInfo.creditCard.cvc,
+      userAddr,
+    );
   };
   // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-  const inputData = (addr) => {
-    const data = userDataForm(addr);
+  const inputData = (cardNumber, holderNumber, cvc, userAddr) => {
+    const data = userDataForm(cardNumber, holderNumber, cvc, userAddr);
     setUserData(data);
+    history.push(ROUTES.SIGN_IN);
   };
+
   return (
     <>
       <Container>
@@ -126,7 +180,12 @@ export default function SignUpPage() {
         </Wrap>
       </Container>
       <Modal show={showModal} onClose={closeModal}>
-        <CreditCardForm />
+        <CreditCardForm
+          closeModal={closeModal}
+          handleCardInfo={handleCardInfo}
+          creditCard={userInfo.creditCard}
+          handleCardNumber={handleCardNumber}
+        />
       </Modal>
     </>
   );
