@@ -1,25 +1,25 @@
-import React, { useState } from 'react'; // , { useState }
-import { style } from './LoginPageStyle';
+import React, { useState } from 'react';
 import { Validation } from 'utils/checkValid';
+import { style } from './LoginPageStyle';
 
 export default function Login() {
-  const [isVaild, setIsVaild] = useState(true);
-  const [inputIdValue, setInputIdValue] = useState();
-  const [inputPwValue, setInputPwValue] = useState();
   const { checkId, checkPassword } = Validation;
-  // const idRef =  useRef();
-  // const pwRef = useRef();
-
-  const loginEventHandler = (e) => {
-    checkId(e.target.value), checkPassword(e.target.value);
-  };
+  const [inputIdValue, setInputIdValue] = useState('');
+  const [inputPwValue, setInputPwValue] = useState('');
+  const [isVaild, setIsVaild] = useState(false);
 
   const handleIdInput = (e) => {
-    setInputIdValue(e.target.value), loginEventHandler(e);
+    const { value } = e.target;
+    if (checkId(value)) {
+      setInputIdValue(value);
+    }
   };
 
   const handlePwInput = (e) => {
-    setInputPwValue(e.target.value), loginEventHandler(e);
+    const { value } = e.target;
+    if (checkPassword(value)) {
+      setInputPwValue(value);
+    }
   };
 
   const removeInputText = () => {
@@ -38,7 +38,7 @@ export default function Login() {
     } else {
       setIsVaild(true);
       setTimeout(() => {
-        setIsVaild(false);
+        setIsVaild(true);
       }, 6000);
 
       removeInputText();
@@ -54,9 +54,11 @@ export default function Login() {
             유효한 아이디 또는 비밀번호를 입력해주세요
           </VaildMessage>
         )}
-
-        <IdInput onChange={handleIdInput} value={inputIdValue} />
-        <PasswordInput onChange={handlePwInput} value={inputPwValue} />
+        <IdInput onChange={(e) => handleIdInput(e)} value={inputIdValue} />
+        <PasswordInput
+          onChange={(e) => handlePwInput(e)}
+          value={inputPwValue}
+        />
         <LoginButton onClick={checkLogin}>로그인</LoginButton>
         <Bar />
         <SignButton>회원가입</SignButton>

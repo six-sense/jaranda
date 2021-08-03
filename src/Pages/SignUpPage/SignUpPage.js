@@ -60,16 +60,24 @@ export default function SignUpPage() {
 
           <PW_policy_container>
             <PW_poclicy_item>
-              <span><FiCheck/> 숫자</span>
+              <span>
+                <FiCheck /> 숫자
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 특수문자</span>
+              <span>
+                <FiCheck /> 특수문자
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 영문</span>
+              <span>
+                <FiCheck /> 영문
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 8자리 이상</span>
+              <span>
+                <FiCheck /> 8자리 이상
+              </span>
             </PW_poclicy_item>
           </PW_policy_container>
 
