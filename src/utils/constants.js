@@ -1,6 +1,9 @@
 import { getUserInfo } from './getUserInfo';
+import storage from './storage/storage';
 
-export const USER_INFO = getUserInfo(); // 암호화 된 정보 제외한 정보들만 출력
+export const LOCAL_STORAGE = storage(localStorage);
+
+export const USER_INFO = getUserInfo(); // admin에서 암호화 된 정보 제외한 정보들만 출력
 // {
 //   id: user.id,
 //   name: user.name,
