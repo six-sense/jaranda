@@ -58,4 +58,19 @@ npm start
 |로그인|정유정||
 |로그인|황윤성||
 
+## 프로토타입 이미지
+
+### Main
+<img width="1920" alt="스크린샷 2021-08-04 오전 1 38 22" src="https://user-images.githubusercontent.com/56836077/128053479-896246e5-2977-49ff-a707-9ffde467dae4.png">
+
+### Login
+<img width="1920" alt="스크린샷 2021-08-04 오전 1 38 27" src="https://user-images.githubusercontent.com/56836077/128053491-d887093a-e7ef-40c6-8948-d75fdd8c328e.png">
+
+### SignUp
+<img width="1920" alt="스크린샷 2021-08-04 오전 1 38 36" src="https://user-images.githubusercontent.com/56836077/128053502-35be0597-3274-4b05-9783-6ec57f268027.png">
+
+### Admin
+<img width="1920" alt="스크린샷 2021-08-04 오전 1 39 00" src="https://user-images.githubusercontent.com/56836077/128053516-0bcfa442-10de-4cac-bf5f-822fe4f3582e.png">
+
+
 ## 배포 링크
