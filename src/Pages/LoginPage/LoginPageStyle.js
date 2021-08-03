@@ -48,12 +48,13 @@ export const Input = styled.input`
 
 export const IdInput = styled(Input).attrs({
   type: 'text',
-  placeholder: '휴대폰 번호',
+  placeholder: '아이디',
 })``;
 
 export const PasswordInput = styled(Input).attrs({
   type: 'password',
   placeholder: '비밀번호',
+  autocomplete: 'current-password',
 })`
   margin-bottom: 30px;
 `;
