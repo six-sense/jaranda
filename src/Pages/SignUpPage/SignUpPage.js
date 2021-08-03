@@ -190,6 +190,7 @@ export default function SignUpPage() {
                 value="teacherRadio"
                 checked={userInfo.role === 'teacher'}
                 onClick={() => handleRadioButton('teacher')}
+                readOnly
               />
               teacher
             </label>
@@ -201,6 +202,7 @@ export default function SignUpPage() {
                 value="parentRadio"
                 checked={userInfo.role === 'parent'}
                 onClick={() => handleRadioButton('parent')}
+                readOnly
               />
               parent
             </label>
@@ -244,15 +246,15 @@ export default function SignUpPage() {
           <Address_container>
             <Address_title>주소</Address_title>
             <Wrapper_ZipCode>
-              <ZipCode value={userInfo.zcode} />
+              <ZipCode value={userInfo.zcode} readOnly />
               <Button_ZipCode_find onClick={addrBtnEvent}>
                 우편번호 찾기{' '}
               </Button_ZipCode_find>
             </Wrapper_ZipCode>
 
             <Wrapper_addr>
-              <Street_addr value={userInfo.roadAddr} />
-              <Lot_addr value={userInfo.jibunAddr} />
+              <Street_addr value={userInfo.roadAddr} readOnly />
+              <Lot_addr value={userInfo.jibunAddr} readOnly />
             </Wrapper_addr>
 
             <Wrapper_addr>
