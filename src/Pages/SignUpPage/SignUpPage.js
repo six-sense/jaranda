@@ -59,34 +59,15 @@ export default function SignUpPage() {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
   };
 
-  const handleCardNumber = (cardNumber) => {
-    console.log(flag);
+  const handleCardInput = (cardInput) => {
     setUserInfo({
       ...userInfo,
       creditCard: {
         ...userInfo.creditCard,
-        cardNumber,
-      },
-    });
-  };
-
-  const handleCardInfo = (creditCard) => {
-    setUserInfo({
-      ...userInfo,
-      creditCard: {
-        ...userInfo.creditCard,
-        holderName: creditCard.holderName,
-        CVC: creditCard.CVC,
-      },
-    });
-  };
-
-  const handleExpired = (expired) => {
-    setUserInfo({
-      ...userInfo,
-      creditCard: {
-        ...userInfo.creditCard,
-        expired,
+        cardNumber: cardInput.cardNumber,
+        holderName: cardInput.holderName,
+        expired: cardInput.expired,
+        CVC: cardInput.CVC,
       },
     });
   };
@@ -118,8 +99,6 @@ export default function SignUpPage() {
     setUserData(data);
     history.push(ROUTES.SIGN_IN);
   };
-
-  console.log(userInfo);
 
   return (
     <>
@@ -194,10 +173,8 @@ export default function SignUpPage() {
       <Modal show={showModal} onClose={closeModal}>
         <CreditCardForm
           closeModal={closeModal}
-          handleCardInfo={handleCardInfo}
           creditCard={userInfo.creditCard}
-          handleCardNumber={handleCardNumber}
-          handleExpired={handleExpired}
+          handleCardInput={handleCardInput}
         />
       </Modal>
     </>

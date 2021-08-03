@@ -1,115 +1,105 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { style } from './CreditCardFormStyle';
 import PropTypes from 'prop-types';
+import {
+  addSeparatorBetweenNumber,
+  getOnlyNumber,
+  limitLength,
+  validateExpiration,
+} from './creditCardUtils';
 
-const addSeparatorBetween = (str, sliceNumber, separator) => {
-  let result = '';
-  let startIndex = 0;
-  let endIndex = sliceNumber;
-  const onlyNumber = getOnlyNumber(str);
-
-  let count = 0;
-  const condition = onlyNumber.length / sliceNumber;
-  for (let i = count; i <= condition; i++) {
-    result += onlyNumber.slice(startIndex, endIndex) + separator;
-    startIndex += sliceNumber;
-    endIndex += sliceNumber;
-    count = i;
-  }
-  const separatorRegex = new RegExp(`${separator}*$`);
-  return result.replace(separatorRegex, '');
-};
-
-const getOnlyNumber = (target) => {
-  const numberRegex = new RegExp(/\d*/g);
-  return target.match(numberRegex).join('');
-};
-
-const limitLength = (target, limitNumber) => {
-  return String(target).slice(0, limitNumber);
-};
-
-const validateExpiration = (expired) => {
-  const expirationRegex = new RegExp(/(0[1-9]|1[012])[/]\d\d/);
-  const thisYear = new Date().getFullYear().toString().slice(2);
-  if (expirationRegex.test(expired)) {
-    return expired.slice(2) > thisYear ? true : false;
-  }
+const INPUT_NAMES = {
+  CARD_NUMBER: 'cardNumber',
+  HOLDER_NAME: 'holderName',
+  EXPIRED: 'expired',
+  CVC: 'CVC',
 };
 
 export default function CreditCardForm({
   closeModal,
-  handleCardInfo,
   creditCard,
-  handleCardNumber,
-  handleExpired,
+  handleCardInput,
 }) {
-  const cardNumberRef = useRef();
-  const expiredRef = useRef();
-  const cvcRef = useRef();
+  const { cardNumber, holderName, expired, CVC } = creditCard;
 
   const [cardInput, setCardInput] = useState({
-    cardNumber: '',
-    holderName: '',
-    expired: '',
-    CVC: '',
+    cardNumber: addSeparatorBetweenNumber(cardNumber, 4, ' '),
+    holderName,
+    expired: addSeparatorBetweenNumber(expired, 2, '/'),
+    CVC,
   });
   // const [flag, setFlag] = useState(false)
   // useEffect(()=>{
 
   // },[flag])
 
-  const onClose = (bool) => {
-    // let stuts=false
-    bool ? (bool = true) : (bool = false);
+  // const onClose = (bool) => {
+  //   // let stuts=false
+  //   bool ? (bool = true) : (bool = false);
 
-    closeModal(bool);
-  };
+  //   closeModal(bool);
+  // };
 
-  const onCardNumber = (e) => {
-    const cardNumber = limitLength(
-      addSeparatorBetween(e.target.value, 4, ' '),
-      19,
-    );
-    cardNumberRef.current.value = cardNumber;
-    if (cardNumber.length === 19) {
-      setCardInput({ ...cardInput, cardNumber });
-      handleCardNumber(cardNumber.replaceAll(' ', '-'));
-    } else {
-      // To Do : 실패 메시지
-    }
-  };
-
-  const onExpired = (e) => {
-    const expired = limitLength(addSeparatorBetween(e.target.value, 2, '/'), 5);
-    expiredRef.current.value = expired;
-    if (expired.length === 5) {
-      if (validateExpiration(expired)) {
-        setCardInput({ ...cardInput, expired });
-        handleExpired(expired.replace('/', ''));
-      } else {
-        // To Do : 실패 메시지
-      }
-    }
-  };
-
-  const onUserInfo = (e) => {
-    let cvc;
-    switch (e.target.id) {
-      case 'name':
-        setCardInput({ ...cardInput, holderName: e.target.value });
-        handleCardInfo(cardInput);
-        break;
-      case 'cvc':
-        cvc = limitLength(getOnlyNumber(e.target.value), 3);
-        cvcRef.current.value = cvc;
+  const onChange = (e) => {
+    switch (e.target.name) {
+      case INPUT_NAMES.CARD_NUMBER:
         setCardInput({
           ...cardInput,
-          CVC: cvc,
+          cardNumber: limitLength(
+            addSeparatorBetweenNumber(e.target.value, 4, ' '),
+            19,
+          ),
         });
-        handleCardInfo(cardInput);
+        break;
+
+      case INPUT_NAMES.HOLDER_NAME:
+        setCardInput({ ...cardInput, holderName: e.target.value });
+        break;
+
+      case INPUT_NAMES.EXPIRED:
+        setCardInput({
+          ...cardInput,
+          expired: limitLength(
+            addSeparatorBetweenNumber(e.target.value, 2, '/'),
+            5,
+          ),
+        });
+        break;
+
+      case INPUT_NAMES.CVC:
+        setCardInput({
+          ...cardInput,
+          CVC: limitLength(getOnlyNumber(e.target.value), 3),
+        });
         break;
     }
+  };
+
+  const onSubmit = () => {
+    const { cardNumber, holderName, expired, CVC } = cardInput;
+
+    // To Do : toast message
+    if (cardNumber.length < 19) {
+      console.log('유효한 카드 번호를 입력해주세요');
+      return;
+    } else if (holderName.length < 1) {
+      console.log('이름을 입력해주세요.');
+      return;
+    } else if (!(expired.length === 5 && validateExpiration(expired))) {
+      console.log('유효한 카드 유효기간을 입력해주세요');
+      return;
+    } else if (CVC.length < 3) {
+      console.log('유효한 CVC를 입력해주세요.');
+      return;
+    }
+
+    handleCardInput({
+      cardNumber: cardNumber.replaceAll(' ', '-'),
+      holderName,
+      expired: expired.replace('/', ''),
+      CVC,
+    });
+    closeModal();
   };
 
   return (
@@ -120,36 +110,33 @@ export default function CreditCardForm({
         </Row>
         <Row>
           <CardNumberInput
-            ref={cardNumberRef}
-            defaultValue={addSeparatorBetween(creditCard.cardNumber, 4, ' ')}
-            onChange={onCardNumber}
+            name={INPUT_NAMES.CARD_NUMBER}
+            value={cardInput.cardNumber}
+            onChange={onChange}
           />
         </Row>
         <Row>
           <HolderNameInput
-            id={'name'}
-            defaultValue={creditCard.holderName}
-            name="holderName"
-            onChange={onUserInfo}
+            name={INPUT_NAMES.HOLDER_NAME}
+            value={cardInput.holderName}
+            onChange={onChange}
           />
         </Row>
         <Row>
           <ExpiredInput
-            ref={expiredRef}
-            defaultValue={addSeparatorBetween(creditCard.expired, 2, '/')}
-            onChange={onExpired}
+            name={INPUT_NAMES.EXPIRED}
+            value={cardInput.expired}
+            onChange={onChange}
           />
           <CVCInput
-            id={'cvc'}
-            ref={cvcRef}
-            defaultValue={creditCard.CVC}
-            name="CVC"
-            onChange={onUserInfo}
+            name={INPUT_NAMES.CVC}
+            value={cardInput.CVC}
+            onChange={onChange}
           />
         </Row>
         <Row>
-          <CancelButton onClick={() => onClose(false)}>취소</CancelButton>
-          <CreditButton onClick={() => onClose(true)}>등록</CreditButton>
+          <CancelButton onClick={closeModal}>취소</CancelButton>
+          <CreditButton onClick={onSubmit}>등록</CreditButton>
         </Row>
       </Wrap>
     </Container>
@@ -171,8 +158,6 @@ const {
 
 CreditCardForm.propTypes = {
   closeModal: PropTypes.func,
-  handleCardInfo: PropTypes.func,
   creditCard: PropTypes.object,
-  handleCardNumber: PropTypes.func,
-  handleExpired: PropTypes.func,
+  handleCardInput: PropTypes.func,
 };
