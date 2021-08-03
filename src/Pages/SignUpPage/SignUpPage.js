@@ -2,6 +2,9 @@ import React,{useState} from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
+import userDataForm from 'utils/storage/userDataForm';
+import setUserInfo from 'utils/setUserInfo';
+
 export default function SignUpPage() {
   const [addr, setAddr] = useState({
     zcode:'',
@@ -18,6 +21,15 @@ export default function SignUpPage() {
     setAddr({...addr, detailAddr:e.target.value})
   }
 
+  const signupBtnEvnt =()=>{
+    const userAddr = addr.roadAddr + ' ' + addr.detailAddr
+    inputData(userAddr)
+  }
+// id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
+  const inputData=(addr)=>{
+    const data = userDataForm(addr)
+    setUserInfo(data)
+  }
   return (
     <>
       <Container>
@@ -70,7 +82,7 @@ export default function SignUpPage() {
             </Wrapper_addr>
           </Address_container>
           <Button_credit>신용카드 등록</Button_credit>
-          <Submit_SignUp_btn>가입하기</Submit_SignUp_btn>
+          <Submit_SignUp_btn onClick={signupBtnEvnt}>가입하기</Submit_SignUp_btn>
         </Wrap>
       </Container>
     </>
