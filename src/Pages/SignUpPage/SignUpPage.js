@@ -1,18 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 
 export default function SignUpPage() {
+  // const [userInfo, setUserInfo] = useState({
+
+  // });
+  const [checkRole, setCheckRole] = useState(false);
+
+  const handleRadioButton = (name) => {
+    setCheckRole(name);
+    // setUserInfo({
+    //   ...userInfo,
+    //   role : name
+    // })
+  };
+
   return (
     <>
       <Container>
         <Wrap>
           <Title>
             10초 만에 가입하고
-            <br /> 
+            <br />
             선생님 정보를 받아보세요
           </Title>
-
+          <Wrapper_Radio>
+            <label htmlFor="radio">
+              <Input_Radio
+                type="radio"
+                id="teacherRadio"
+                name="teacher"
+                value="teacherRadio"
+                checked={checkRole === 'teacher'}
+                onClick={() => handleRadioButton('teacher')}
+              />
+              teacher
+            </label>
+            <label htmlFor="radio">
+              <Input_Radio
+                type="radio"
+                id="parentRadio"
+                name="parent"
+                value="parentRadio"
+                checked={checkRole === 'parent'}
+                onClick={() => handleRadioButton('parent')}
+              />
+              parent
+            </label>
+          </Wrapper_Radio>
           <Wrapper_ID>
             <Input_ID placeholder="ID" maxLength="15" />
             <Submit_ID_btn> 아이디 중복 확인 </Submit_ID_btn>
@@ -21,16 +57,24 @@ export default function SignUpPage() {
 
           <PW_policy_container>
             <PW_poclicy_item>
-              <span><FiCheck/> 숫자</span>
+              <span>
+                <FiCheck /> 숫자
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 특수문자</span>
+              <span>
+                <FiCheck /> 특수문자
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 영문</span>
+              <span>
+                <FiCheck /> 영문
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 8자리 이상</span>
+              <span>
+                <FiCheck /> 8자리 이상
+              </span>
             </PW_poclicy_item>
           </PW_policy_container>
 
@@ -67,6 +111,7 @@ const {
   Container,
   Wrap,
   Title,
+  Wrapper_Radio,
   Wrapper_ID,
   Input_ID,
   Submit_ID_btn,
@@ -88,4 +133,5 @@ const {
   Lot_addr,
   Detailed_addr,
   Note_addr,
+  Input_Radio,
 } = style;
