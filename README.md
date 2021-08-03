@@ -1,70 +1,61 @@
-# Getting Started with Create React App
+# SixthSence Jaranda 기업 과제
+- 회원가입, 로그인 / 로그아웃 기능 구현
+- 각 계정, role에 따른 메뉴바 다르게 구현
+- 관리자 페이지에서 계정 추가, 계정 검색, role 별 메뉴바 설정 구현
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 요구사항
+### 기본 요구 사항
+- 정보를 입력받아 회원가입 페이지를 구현하고, 로그인 / 로그아웃 기능을 구현해주세요.
+- 관리자 로그인을 하면, 데이터 테이블을 페이지네이션, 검색기능을 더하여 시각화 해주세요.
+- 주소는 다음 API를 이용해서 사용해도 무방합니다.
+- 계정, 비밀번호만 입력하면 로그인이 되어야 합니다.
+- 관리자는 계정을 임의로 생성할 수 있고 계정별로 볼 수 있는 메뉴를 설정할 수 있습니다.
 
-## Available Scripts
+## 실행방법
 
-In the project directory, you can run:
+```
+npm install
 
-### `npm start`
+npm start
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 페이지 별 상세 기능
+**1. 로그인 페이지 (/signin)**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 계정, 비밀번호를 입력하여 로그인.
+- 계정, 비밀번호의 유효성 검사.
+- 회원가입 버튼을 누르면 회원 가입 페이지로 이동.
 
-### `npm test`
+**2. 회원가입 페이지 (/signup)**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 아이디, 비밀번호, 이름, 나이, 주소, 신용카드 등록을 통해 회원가입 가능
+- 아이디, 비밀번호 입력시 유효성 검사, 중복 검사, 비밀번호 일치 확인 검사
+- 주소는 팝업창으로 다음 api를 통해 불러옴.
+- 신용카드는 팝업창으로 받아옴.
 
-### `npm run build`
+**3. 관리자 페이지 (/admin, /role-management)**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+/admin
+- 기본 관리자 계정 로그인 시 화면 로드
+- 가입자 계정을 볼 수 있고, 페이지네이션을 통해 이동 가능
+- 자동 검색기능을 통해 입력된 keyword에 해당하는 이름 혹은 아이디가 존재하면 데이터 로드
+- 계정 생성을 통해 관리자 페이지에서 계정 추가
+- 계정별 메뉴바 customize 가능
+/role-management
+- role 별 메뉴바 변경 가능
+- 이곳에서 설정된 메뉴바는 처음 회원가입시 제공
+- 이곳에서 특정 role에 해당하는 메뉴바 변경시 모든 role에 해당하는 계정 메뉴바 변경
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 구현 파트
+|팀|팀원|구현기능|
+|-----|------|---|
+|회원가입|곽병선||
+|회원가입|김이수||
+|회원가입|박채연||
+|관리자,메뉴바|김은태||
+|관리자|이용훈||
+|괸리자|이주영||
+|로그인|정유정||
+|로그인|황윤성||
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 배포 링크

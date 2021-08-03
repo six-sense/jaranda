@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -48,12 +49,13 @@ export const Input = styled.input`
 
 export const IdInput = styled(Input).attrs({
   type: 'text',
-  placeholder: '휴대폰 번호',
+  placeholder: '아이디',
 })``;
 
 export const PasswordInput = styled(Input).attrs({
   type: 'password',
   placeholder: '비밀번호',
+  autocomplete: 'current-password',
 })`
   margin-bottom: 30px;
 `;
@@ -70,7 +72,8 @@ export const LoginButton = styled(Button)`
   background-color: #87bf44;
 `;
 
-export const SignButton = styled(Button)`
+export const SignButton = styled(Button.withComponent(Link))`
+  ${({ theme }) => theme.flexSet()};
   background-color: #3e82f8;
 `;
 

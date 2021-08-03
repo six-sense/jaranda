@@ -6,12 +6,12 @@ import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE } from 'utils/constants';
-
-const { checkId, checkPassword } = Validation;
+import Modal from 'Modal';
+import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
   const [userPwconfirm, setUserPwConfirm] = useState('');
-
+  const { checkId, checkPassword } = Validation;
   const [userInfo, setUserInfo] = useState({
     userId: '',
     password: '',
@@ -24,12 +24,13 @@ export default function SignUpPage() {
       CVC: '',
     },
     role: '',
-    zcode: '',
+        zcode: '',
     roadAddr: '',
     jibunAddr: '',
     detailAddr: '',
     // menubar:'',
   });
+
   const signupBtnEvnt = () => {
     const {userId, password, name, age, role} = userInfo;
 
@@ -48,6 +49,15 @@ export default function SignUpPage() {
       ...userInfo,
       role: name,
     });
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
 
   const addrBtnEvent = () => {
@@ -57,6 +67,7 @@ export default function SignUpPage() {
   const handleChange = (e) => {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
   };
+
 
   const handleId = (e) => {
     setUserInfo({
@@ -136,6 +147,7 @@ export default function SignUpPage() {
       age: e.target.value,
     });
     console.log(userInfo.userAge);
+
   };
   return (
     <>
@@ -228,12 +240,15 @@ export default function SignUpPage() {
               {/* <Note_addr /> */}
             </Wrapper_addr>
           </Address_container>
-          <Button_credit>신용카드 등록</Button_credit>
+          <Button_credit onClick={openModal}>신용카드 등록</Button_credit>
           <Submit_SignUp_btn onClick={signupBtnEvnt}>
             가입하기
           </Submit_SignUp_btn>
         </Wrap>
       </Container>
+      <Modal show={showModal} onClose={closeModal}>
+        <CreditCardForm />
+      </Modal>
     </>
   );
 }
