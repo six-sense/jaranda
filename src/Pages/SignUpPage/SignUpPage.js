@@ -1,8 +1,23 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
-
+import get_address from './get_address';
 export default function SignUpPage() {
+  const [addr, setAddr] = useState({
+    zcode:'',
+    roadAddr:'',
+    jibunAddr:'',
+    detailAddr:'',
+  })
+
+  const addrBtnEvent = ()=>{
+    get_address(addr, setAddr)
+  }
+
+  const handleChange = (e)=>{
+    setAddr({...addr, detailAddr:e.target.value})
+  }
+
   return (
     <>
       <Container>
@@ -40,18 +55,18 @@ export default function SignUpPage() {
           <Address_container>
             <Address_title>주소</Address_title>
             <Wrapper_ZipCode>
-              <ZipCode />
-              <Button_ZipCode_find>우편번호 찾기 </Button_ZipCode_find>
+              <ZipCode value={addr.zcode} />
+              <Button_ZipCode_find onClick={addrBtnEvent}>우편번호 찾기 </Button_ZipCode_find>
             </Wrapper_ZipCode>
 
             <Wrapper_addr>
-              <Street_addr />
-              <Lot_addr />
+              <Street_addr value={addr.roadAddr} />
+              <Lot_addr value={addr.jibunAddr}/>
             </Wrapper_addr>
 
             <Wrapper_addr>
-              <Detailed_addr />
-              <Note_addr />
+              <Detailed_addr value={addr.detailAddr} onChange={handleChange}/>
+              {/* <Note_addr /> */}
             </Wrapper_addr>
           </Address_container>
           <Button_credit>신용카드 등록</Button_credit>
@@ -86,5 +101,5 @@ const {
   Street_addr,
   Lot_addr,
   Detailed_addr,
-  Note_addr,
+  // Note_addr,
 } = style;
