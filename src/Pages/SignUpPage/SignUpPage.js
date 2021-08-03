@@ -65,7 +65,7 @@ export default function SignUpPage() {
       ...userInfo,
       creditCard: {
         ...userInfo.creditCard,
-        cardNumber: cardNumber.replaceAll(' ', '-'),
+        cardNumber,
       },
     });
   };
@@ -77,6 +77,16 @@ export default function SignUpPage() {
         ...userInfo.creditCard,
         holderName: creditCard.holderName,
         CVC: creditCard.CVC,
+      },
+    });
+  };
+
+  const handleExpired = (expired) => {
+    setUserInfo({
+      ...userInfo,
+      creditCard: {
+        ...userInfo.creditCard,
+        expired,
       },
     });
   };
@@ -108,6 +118,8 @@ export default function SignUpPage() {
     setUserData(data);
     history.push(ROUTES.SIGN_IN);
   };
+
+  console.log(userInfo);
 
   return (
     <>
@@ -185,6 +197,7 @@ export default function SignUpPage() {
           handleCardInfo={handleCardInfo}
           creditCard={userInfo.creditCard}
           handleCardNumber={handleCardNumber}
+          handleExpired={handleExpired}
         />
       </Modal>
     </>
