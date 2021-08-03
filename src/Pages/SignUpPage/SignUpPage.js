@@ -9,7 +9,8 @@ export default function SignUpPage() {
         <Wrap>
           <Title>
             10초 만에 가입하고
-            <br /> 선생님 정보를 받아보세요
+            <br /> 
+            선생님 정보를 받아보세요
           </Title>
 
           <Wrapper_ID>
