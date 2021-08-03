@@ -9,6 +9,7 @@ import AdminPage from 'Pages/AdminPage';
 import Parent from 'Pages/Parent';
 import Teacher from 'Pages/Teacher';
 import Help from 'Pages/Help';
+import RoleManagement from 'Pages/RoleManagementPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path={ROUTES.SIGN_IN} component={LoginPage} />
         <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
         <Route path={ROUTES.ADMIN} component={AdminPage} />
+        <Route path={ROUTES.ROLE_MANAGEMENT} component={RoleManagement} />
       </Switch>
     </Router>
   );
