@@ -1,7 +1,7 @@
-import { userData } from './storage/userData';
+import { LOCAL_STORAGE } from './constants';
 
 export const getUserInfo = (pages, limit, searchWord) => {
-  const originalData = userData;
+  const originalData = LOCAL_STORAGE.get('userData');
   const filteredUserInfo = [];
   const paginationInfo = [];
 
