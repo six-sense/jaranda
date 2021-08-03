@@ -10,38 +10,45 @@ import { LOCAL_STORAGE } from 'utils/constants';
 const { checkId, checkPassword } = Validation;
 
 export default function SignUpPage() {
-  const [checkRole, setCheckRole] = useState(false);
-  const [userId, setUserId] = useState('');
-  const [userPw, setUserPw] = useState('');
   const [userPwconfirm, setUserPwConfirm] = useState('');
-  // const [userName, setUserName] = useState('');
-  // const [userAge, setUserAge] = useState('');
-  const handleRadioButton = (name) => {
-    setCheckRole(name);
-    // setUserInfo({
-    //   ...userInfo,
-    //   role : name
-    // })
-  };
 
   const [userInfo, setUserInfo] = useState({
-    // userId:'',
-    // password:'',
-    // name:'',
-    // age:'',
-    // creditCard:{
-    //   cardNumber:'',
-    //   holderName:'',
-    //   expired:'',
-    //   CVC:'',
-    // },
-    // role:'',
+    userId: '',
+    password: '',
+    name: '',
+    age: '',
+    creditCard: {
+      cardNumber: '',
+      holderName: '',
+      expired: '',
+      CVC: '',
+    },
+    role: '',
     zcode: '',
     roadAddr: '',
     jibunAddr: '',
     detailAddr: '',
     // menubar:'',
   });
+  const signupBtnEvnt = () => {
+    const {userId, password, name, age, role} = userInfo;
+
+    const userAddr =
+      userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
+    inputData(userId, password, name, age, role, userAddr);
+  };
+  // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
+  const inputData = (userId, pw, name, age, role, addr) => {
+    const data = userDataForm(userId, pw, name, age, role, addr);
+    setUserData(data);
+  };
+
+  const handleRadioButton = (name) => {
+    setUserInfo({
+      ...userInfo,
+      role: name,
+    });
+  };
 
   const addrBtnEvent = () => {
     get_address(userInfo, setUserInfo);
@@ -52,16 +59,21 @@ export default function SignUpPage() {
   };
 
   const handleId = (e) => {
-    setUserId(e.target.value);
+    setUserInfo({
+      ...userInfo,
+      userId: e.target.value,
+    });
   };
 
   const handleIdValidate = async () => {
-    const checkValidId = checkId(userId);
+    const checkValidId = checkId(userInfo.userId);
     let userData = LOCAL_STORAGE.get('userData');
     if (!userData) {
       userData = [];
     }
-    const reduplication = userData.find((data) => data.userId === userId);
+    const reduplication = userData.find(
+      (data) => data.userId === userInfo.userId,
+    );
     if (checkValidId && reduplication === undefined) {
       console.log('사용가능한 아이디입니다.');
       return;
@@ -73,24 +85,15 @@ export default function SignUpPage() {
     }
   };
 
-  const signupBtnEvnt = () => {
-    const userAddr =
-      userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
-    inputData(userAddr);
-  };
-  // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-  const inputData = (addr) => {
-    const data = userDataForm(addr);
-    setUserData(data);
-  };
-
   const onChangePW = (e) => {
-    setUserPw(e.target.value);
+    setUserInfo({
+      ...userInfo,
+      password: e.target.value,
+    });
     HandleValidatePW(e.target.value);
   };
 
   const HandleValidatePW = (value) => {
-  
     const checkValidPw = checkPassword(value);
     let userData = LOCAL_STORAGE.get('userData');
 
@@ -112,11 +115,27 @@ export default function SignUpPage() {
   };
 
   const MatchPW = (value) => {
-    if (value !== userPw) {
+    if (value !== userInfo.userPw) {
       console.log('비밀번호가 일치하지 않습니다.');
-    } else if (value === userPw) {
+    } else if (value === userInfo.userPw) {
       console.log('비밀번호가 일치합니다.');
     }
+  };
+
+  const onChangeName = (e) => {
+    setUserInfo({
+      ...userInfo,
+      name: e.target.value,
+    });
+    console.log(userInfo.userName);
+  };
+
+  const onChangeAge = (e) => {
+    setUserInfo({
+      ...userInfo,
+      age: e.target.value,
+    });
+    console.log(userInfo.userAge);
   };
   return (
     <>
@@ -134,7 +153,7 @@ export default function SignUpPage() {
                 id="teacherRadio"
                 name="teacher"
                 value="teacherRadio"
-                checked={checkRole === 'teacher'}
+                checked={userInfo.role === 'teacher'}
                 onClick={() => handleRadioButton('teacher')}
               />
               teacher
@@ -145,7 +164,7 @@ export default function SignUpPage() {
                 id="parentRadio"
                 name="parent"
                 value="parentRadio"
-                checked={checkRole === 'parent'}
+                checked={userInfo.role === 'parent'}
                 onClick={() => handleRadioButton('parent')}
               />
               parent
@@ -184,8 +203,8 @@ export default function SignUpPage() {
           </PW_policy_container>
 
           <Input_PW_confirm onChange={onChangePwconfirm} />
-          <Input_name />
-          <Input_age />
+          <Input_name onChange={onChangeName} />
+          <Input_age onChange={onChangeAge} />
 
           <Address_container>
             <Address_title>주소</Address_title>
