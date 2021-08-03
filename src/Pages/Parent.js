@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LandingPage() {
+function Parent() {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ function LandingPage() {
         height: '90vh',
       }}
     >
-      Main Page
+      Parent Page
     </div>
   );
 }
 
-export default LandingPage;
+export default Parent;

@@ -1,17 +1,39 @@
 import { userData } from './storage/userData';
 
-export const getUserInfo = () => {
-  const data = userData;
-  const exceptSecret = [];
-  data.map((user) => {
-    exceptSecret.push({
-      id: user.id,
-      name: user.name,
-      age: user.age,
-      role: user.role,
-      address: user.address,
-      menubar: user.menubar,
-    });
+export const getUserInfo = (pages, limit, searchWord) => {
+  const originalData = userData;
+  const filteredUserInfo = [];
+  const paginationInfo = [];
+
+  originalData.map((user) => {
+    if (
+      user.userId.search(searchWord) >= 0 ||
+      user.name.search(searchWord) >= 0
+    ) {
+      filteredUserInfo.push({
+        userId: user.userId,
+        name: user.name,
+        age: user.age,
+        role: user.role,
+        address: user.address,
+        menubar: user.menubar,
+      });
+    }
   });
-  return exceptSecret;
+  const data = filteredUserInfo ? filteredUserInfo : originalData;
+  const maxPage = Math.ceil(data.length / limit);
+
+  data.map((user, idx) => {
+    if (idx >= (pages - 1) * limit && idx < pages * limit) {
+      paginationInfo.push({
+        userId: user.userId,
+        name: user.name,
+        age: user.age,
+        role: user.role,
+        address: user.address,
+        menubar: user.menubar,
+      });
+    }
+  });
+  return { paginationInfo, maxPage };
 };
