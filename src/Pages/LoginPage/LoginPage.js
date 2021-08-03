@@ -9,17 +9,14 @@ export default function Login() {
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
   const history = useHistory();
-  const { checkId } = Validation;
+  const { checkId, checkPassword } = Validation;
 
   const handleIdInput = (e) => {
     setInputIdValue(e.target.value);
   };
 
   const handlePwInput = (e) => {
-    const vaild = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,15}/;
-    if (e.target.value.match(vaild)) {
-      setInputPwValue(e.target.value);
-    }
+    setInputPwValue(e.target.value);
   };
 
   const sendLogin = async (userID, userPW) => {
@@ -41,7 +38,9 @@ export default function Login() {
 
   const checkLogin = () => {
     const validLogin = sendLogin(inputIdValue, inputPwValue);
-    if (checkId(inputIdValue) === true) {
+    if (
+      (checkId(inputIdValue) === true, checkPassword(inputPwValue) === true)
+    ) {
       if (validLogin && LOCAL_STORAGE.get('token').role === 'admin') {
         history.push('/admin');
       } else {
@@ -51,7 +50,7 @@ export default function Login() {
       setIsVaild(true);
       setTimeout(() => {
         setIsVaild(false);
-      }, 6000);
+      }, 2000);
     }
   };
 
