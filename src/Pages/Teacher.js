@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LandingPage() {
+function Teacher() {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ function LandingPage() {
         height: '90vh',
       }}
     >
-      Main Page
+      Teacher Page
     </div>
   );
 }
 
-export default LandingPage;
+export default Teacher;
