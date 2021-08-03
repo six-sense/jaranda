@@ -1,40 +1,32 @@
-/**
- * @memo 주석 처리된 부분들은 Modal 컴포넌트 개발이 완료되면
- * 추가적으로 진행할 부분입니다.
- * 일단 지우지 않으셔도 될 것 같아요
- */
-
 import React, { useEffect, useState } from 'react';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { userData } from 'utils/storage/userData';
 
-// const properties = [
-//   { label: 'Parents', value: 'Parents' },
-//   { label: 'Teachers', value: 'Teachers' },
-// ];
+const properties = [
+  { label: 'Parents', value: 'Parents' },
+  { label: 'Teachers', value: 'Teachers' },
+];
 
 function AdminPage() {
   const [datas, setDatas] = useState([]);
   const [, setSearchValue] = useState('');
-  // const [checked, setChecked] = useState(false);
-  // const [checkedArray, setCheckedArray] = useState([]);
+  const [checkedArray, setCheckedArray] = useState([]);
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
-  // const onHandlePageButton = (page) => {
-  //   const currentIndex = checkedArray.indexOf(page);
-  //   const newChecked = [...checkedArray];
+  const onHandleButton = (page) => {
+    const currentIndex = checkedArray.indexOf(page);
+    const newChecked = [...checkedArray];
 
-  //   if (currentIndex === -1) newChecked.push(page);
-  //   else newChecked.splice(currentIndex, 1);
+    if (currentIndex === -1) newChecked.push(page);
+    else newChecked.splice(currentIndex, 1);
 
-  //   setCheckedArray(newChecked);
-  //   setChecked(true);
-  // };
+    setCheckedArray(newChecked);
+  };
 
   useEffect(() => {
     setDatas(userData);
@@ -70,9 +62,16 @@ function AdminPage() {
                 <Cell>{data.age}</Cell>
                 <Cell>{data.address}</Cell>
                 <Cell>
-                  <div>
-                    <CheckButton>권한 변경</CheckButton>
-                  </div>
+                  {properties.map((property, index) => (
+                    <div key={index}>
+                      <CheckButton
+                        type="checkbox"
+                        id={index}
+                        onChange={() => onHandleButton(property.value)}
+                      />
+                      <span>{property.label}</span>
+                    </div>
+                  ))}
                 </Cell>
               </tr>
             ))}

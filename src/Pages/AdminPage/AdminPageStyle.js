@@ -31,13 +31,14 @@ export const Cell = styled.th`
   }
 `;
 
-export const CheckButton = styled.button`
+export const CheckButton = styled.input`
   display: flex;
   -webkit-box-align: center;
+  padding-top: 10px;
   align-items: center;
   margin-right: 10px;
   padding: 10px 20px;
-  background-color: white;
+  background-color: ${({ checked }) => (checked ? '#c9cdd0' : 'white')};
   border-radius: 50px;
   border: 1px solid rgb(233, 235, 237);
   color: rgb(70, 70, 77);
