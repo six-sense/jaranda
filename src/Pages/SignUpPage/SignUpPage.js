@@ -49,7 +49,7 @@ export default function SignUpPage() {
       ...userInfo,
       role: name,
     });
-
+  }
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
