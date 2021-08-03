@@ -21,7 +21,7 @@ export default function Login() {
 
   const sendLogin = async (userID, userPW) => {
     const userInfo = await LOCAL_STORAGE.get('userData');
-    const test =
+    let test =
       userInfo &&
       userInfo?.find(
         (data) => data.userId === userID && data.password === userPW,
@@ -54,7 +54,6 @@ export default function Login() {
     }
   };
 
-  console.log(inputIdValue);
   return (
     <Container>
       <Wrap>
@@ -65,11 +64,14 @@ export default function Login() {
           </VaildMessage>
         )}
 
-        <IdInput onChange={(e) => handleIdInput(e)} />
-        <PasswordInput onChange={(e) => handlePwInput(e)} />
+        <IdInput onChange={(e) => handleIdInput(e)} value={inputIdValue} />
+        <PasswordInput
+          onChange={(e) => handlePwInput(e)}
+          value={inputPwValue}
+        />
         <LoginButton onClick={checkLogin}>로그인</LoginButton>
         <Bar />
-        <SignButton>회원가입</SignButton>
+        <SignButton to="/signup">회원가입</SignButton>
       </Wrap>
     </Container>
   );
