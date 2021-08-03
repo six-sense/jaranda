@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const TableContainer = styled.div`
   max-width: 960px;
   margin: 3rem auto;
-  // background-color: #f5f5f5;
 
   & > table {
     width: 100%;
@@ -114,6 +113,11 @@ export const TableFooter = styled.div`
     cursor: pointer;
     margin-left: 3rem;
   }
+`;
+
+export const RoleButonWrapper = styled.div`
+  width: 100%;
+  text-align: right;
 `;
 
 export const style = {
