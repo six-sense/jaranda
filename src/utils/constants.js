@@ -17,7 +17,7 @@ export const ROUTES = {
   ADMIN: '/admin',
 };
 
-export const ROLE = {
+export const ROLES = {
   ADMIN: 'admin',
   TEACHER: 'teacher',
   PARENT: 'parent',
