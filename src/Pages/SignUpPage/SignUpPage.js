@@ -4,9 +4,14 @@ import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
+import { Validation } from 'utils/checkValid';
+import {LOCAL_STORAGE} from 'utils/constants';
 
+const { checkId } = Validation;
+//, checkPassword
 export default function SignUpPage() {
   const [checkRole, setCheckRole] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const handleRadioButton = (name) => {
     setCheckRole(name);
@@ -42,6 +47,28 @@ export default function SignUpPage() {
   const handleChange = (e) => {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
   };
+
+  const handleId = (e) => {
+    setUserId(e.target.value);
+  }
+
+  const handleIdValidate = async () => {
+    const checkValidId = checkId(userId);
+    let userData = LOCAL_STORAGE.get("userData");
+    if(!userData) {
+      userData = [];
+    }
+    const reduplication = userData.find((data) => data.userId === userId);
+    if (checkValidId && reduplication === undefined) {
+      console.log("사용가능한 아이디입니다.");
+      return ;
+    } else if (!checkValidId) {
+      console.log("사용 가능하지 않은 아이디입니다.");
+      return;
+    } else {
+      console.log("중복된 아이디입니다.");
+    }
+  }
 
   const signupBtnEvnt = () => {
     const userAddr =
@@ -87,8 +114,8 @@ export default function SignUpPage() {
             </label>
           </Wrapper_Radio>
           <Wrapper_ID>
-            <Input_ID placeholder="ID" maxLength="15" />
-            <Submit_ID_btn> 아이디 중복 확인 </Submit_ID_btn>
+            <Input_ID placeholder="ID" maxLength="30" onChange={handleId}/>
+            <Submit_ID_btn onClick={handleIdValidate}> 아이디 중복 확인 </Submit_ID_btn>
           </Wrapper_ID>
           <Input_PW />
 
