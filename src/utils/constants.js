@@ -12,6 +12,9 @@ export const USER_INFO = getUserInfo(); // 암호화 된 정보 제외한 정보
 
 export const ROUTES = {
   MAIN: '/',
+  PARENT: '/parent',
+  TEACHER: '/teacher',
+  HELP: '/help',
   SIGN_IN: '/signin',
   SIGN_UP: '/signup',
   ADMIN: '/admin',

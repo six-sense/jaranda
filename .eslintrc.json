@@ -11,6 +11,7 @@
     "plugin:import/warnings",
     "plugin:react-hooks/recommended"
   ],
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true

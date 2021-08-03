@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LandingPage() {
+function Help() {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ function LandingPage() {
         height: '90vh',
       }}
     >
-      Main Page
+      Help Page
     </div>
   );
 }
 
-export default LandingPage;
+export default Help;
