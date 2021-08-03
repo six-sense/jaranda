@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { style } from './CreditCardFormStyle';
 
 const getExpirationMonths = () => {
@@ -22,7 +22,41 @@ const EXPIRATION_MONTHS = getExpirationMonths();
 const EXPIRATION_END_YEAR = new Date().getFullYear() + 11;
 const EXPIRATION_YEARS = getExpirationYears(EXPIRATION_END_YEAR);
 
+const numberRegex = new RegExp(/\d*/g);
+const addSpaceBetween = (str, sliceNumber) => {
+  let result = '';
+  let startIndex = 0;
+  let endIndex = sliceNumber;
+  const onlyNumber = str.match(numberRegex).join('');
+
+  for (let i = 0; i <= str.length / sliceNumber; i++) {
+    result += onlyNumber.slice(startIndex, endIndex) + ' ';
+    startIndex += sliceNumber;
+    endIndex += sliceNumber;
+  }
+  return result.trim();
+};
+
+const limitLength = (target, limitNumber) => {
+  return String(target).slice(0, limitNumber);
+};
+
 export default function CreditCardForm() {
+  const cardNumberRef = useRef();
+
+  const [cardInput, setCardInput] = useState({
+    cardNumber: '',
+    holderName: '',
+    expired: '',
+    CVC: '',
+  });
+
+  const handleCardNumber = (e) => {
+    const cardNumber = limitLength(addSpaceBetween(e.target.value, 4), 19);
+    cardNumberRef.current.value = cardNumber;
+    setCardInput({ ...cardInput, cardNumber: cardNumber.replaceAll(' ', '-') });
+  };
+
   return (
     <Container>
       <Wrap>
@@ -30,14 +64,14 @@ export default function CreditCardForm() {
           <Title>신용카드 정보 입력</Title>
         </Row>
         <Row>
-          <CardNumberInput />
+          <CardNumberInput ref={cardNumberRef} onChange={handleCardNumber} />
         </Row>
         <Row>
-          <HolderNameInput type="text" placeholder="이름" />
+          <HolderNameInput name="holderName" placeholder="이름" />
         </Row>
         <Row>
-          <SelectInput>
-            <SelectOption value="" disabled selected>
+          <SelectInput defaultValue="">
+            <SelectOption name="expired" value="" disabled>
               MM
             </SelectOption>
             {EXPIRATION_MONTHS.map((month) => (
@@ -46,8 +80,8 @@ export default function CreditCardForm() {
               </SelectOption>
             ))}
           </SelectInput>
-          <SelectInput>
-            <SelectOption value="" disabled selected>
+          <SelectInput defaultValue="">
+            <SelectOption value="" disabled>
               YY
             </SelectOption>
             {EXPIRATION_YEARS.map((year) => (
@@ -56,7 +90,7 @@ export default function CreditCardForm() {
               </SelectOption>
             ))}
           </SelectInput>
-          <CVCInput type="text" placeholder="CVC" />
+          <CVCInput name="CVC" placeholder="CVC" />
         </Row>
         <Row>
           <CancelButton>취소</CancelButton>

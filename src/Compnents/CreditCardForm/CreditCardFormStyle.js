@@ -11,6 +11,7 @@ export const Wrap = styled.div`
 export const Row = styled.div`
   ${({ theme }) => theme.flexSet('', '', 'row')};
   width: 100%;
+  padding: 0 1em;
 `;
 
 export const Title = styled.h1`
