@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Modal from 'Modal/Modal';
+import Modal from 'Modal';
 import ModalChildExample from 'Modal/ModalChildExample';
 
 // Modal Sample
