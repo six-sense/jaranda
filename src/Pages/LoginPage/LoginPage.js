@@ -15,6 +15,8 @@ export default function Login() {
     }
   };
 
+  console.log(inputIdValue);
+
   const handlePwInput = (e) => {
     const { value } = e.target;
     if (checkPassword(value)) {
