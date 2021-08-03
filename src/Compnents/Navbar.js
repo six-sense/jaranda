@@ -4,13 +4,12 @@ import { NavbarContainer } from 'Styles/NavbarStyles';
 import UserNavbar from './UserNavbar';
 
 const Navbar = () => {
-  // const [isLoggedIn] = useState(localStorage.getItem('token'));
-  const [isLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); //eslint-disable-line no-unused-vars
 
   return (
     <div>
       <NavbarContainer>
-        {isLoggedIn ? <GuestNavbar /> : <UserNavbar />}
+        {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
         {/* <GuestNavbar /> */}
         {/* <UserNavbar /> */}
       </NavbarContainer>
