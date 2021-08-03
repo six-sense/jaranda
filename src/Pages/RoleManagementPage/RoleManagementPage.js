@@ -3,6 +3,7 @@ import testData from 'utils/testData.json';
 import { style } from './RoleManagementPageStyle';
 import { FaRegUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
+import { LOCAL_STORAGE } from 'utils/constants';
 
 const properties = [
   { label: '부모님만 이용 가능 페이지', value: '부모님만 이용 가능 페이지' },
@@ -26,14 +27,13 @@ function RoleManagementPage() {
     history.push('/admin');
   };
 
-  // role에 따른 역할 설정은 localStorage에
-  // 실제 값이 들어온 다음에 진행 예정
-
-  //   const onSubmitRoleManagement = () => {
-  //     if(role === '선생님')
-  //     else if(role === '부모님')
-  //     else (role === '학생')
-  //   };
+  const onSubmitRoleManagement = () => {
+    if (role === '선생님')
+      LOCAL_STORAGE.set('role', '[해당 역할에 맞는 pages]');
+    else if (role === '부모님')
+      LOCAL_STORAGE.set('role', '[해당 역할에 맞는 pages]');
+    else LOCAL_STORAGE.set('role', '[해당 역할에 맞는 pages]');
+  };
 
   return (
     <div>
@@ -80,9 +80,7 @@ function RoleManagementPage() {
         </table>
         <TableFooter>
           <div>
-            <SubmitButton
-            // onClick={onSubmitRoleManagement}
-            >
+            <SubmitButton onClick={onSubmitRoleManagement}>
               페이지 권한 확정
             </SubmitButton>
           </div>
