@@ -1,8 +1,48 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
+import get_address from './get_address';
+import userDataForm from 'utils/storage/userDataForm';
+import setUserData from 'utils/setUserInfo';
 
 export default function SignUpPage() {
+  
+  const [userInfo, setUserInfo] = useState({
+    // userId:'',
+    // password:'',
+    // name:'',
+    // age:'',
+    // creditCard:{
+    //   cardNumber:'',
+    //   holderName:'',
+    //   expired:'',
+    //   CVC:'',
+    // },
+    // role:'',
+    zcode:'',
+    roadAddr:'',
+    jibunAddr:'',
+    detailAddr:'',
+    // menubar:'',
+  })
+
+  const addrBtnEvent = ()=>{
+    get_address(userInfo, setUserInfo)
+  }
+
+  const handleChange = (e)=>{
+    setUserInfo({...userInfo, detailAddr:e.target.value})
+  }
+
+  const signupBtnEvnt =()=>{
+    const userAddr = userInfo.zcode +' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr
+    inputData(userAddr)
+  }
+// id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
+  const inputData=(addr)=>{
+    const data = userDataForm(addr)
+    setUserData(data)
+  }
   return (
     <>
       <Container>
@@ -20,16 +60,24 @@ export default function SignUpPage() {
 
           <PW_policy_container>
             <PW_poclicy_item>
-              <span><FiCheck/> 숫자</span>
+              <span>
+                <FiCheck /> 숫자
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 특수문자</span>
+              <span>
+                <FiCheck /> 특수문자
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 영문</span>
+              <span>
+                <FiCheck /> 영문
+              </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
-              <span><FiCheck/> 8자리 이상</span>
+              <span>
+                <FiCheck /> 8자리 이상
+              </span>
             </PW_poclicy_item>
           </PW_policy_container>
 
@@ -40,22 +88,22 @@ export default function SignUpPage() {
           <Address_container>
             <Address_title>주소</Address_title>
             <Wrapper_ZipCode>
-              <ZipCode />
-              <Button_ZipCode_find>우편번호 찾기 </Button_ZipCode_find>
+              <ZipCode value={userInfo.zcode} />
+              <Button_ZipCode_find onClick={addrBtnEvent}>우편번호 찾기 </Button_ZipCode_find>
             </Wrapper_ZipCode>
 
             <Wrapper_addr>
-              <Street_addr />
-              <Lot_addr />
+              <Street_addr value={userInfo.roadAddr} />
+              <Lot_addr value={userInfo.jibunAddr}/>
             </Wrapper_addr>
 
             <Wrapper_addr>
-              <Detailed_addr />
-              <Note_addr />
+              <Detailed_addr value={userInfo.detailAddr} onChange={handleChange}/>
+              {/* <Note_addr /> */}
             </Wrapper_addr>
           </Address_container>
           <Button_credit>신용카드 등록</Button_credit>
-          <Submit_SignUp_btn>가입하기</Submit_SignUp_btn>
+          <Submit_SignUp_btn onClick={signupBtnEvnt}>가입하기</Submit_SignUp_btn>
         </Wrap>
       </Container>
     </>
@@ -86,5 +134,5 @@ const {
   Street_addr,
   Lot_addr,
   Detailed_addr,
-  Note_addr,
+  // Note_addr,
 } = style;
