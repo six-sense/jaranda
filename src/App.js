@@ -4,7 +4,7 @@ import { ROUTES } from 'utils/constants';
 import Navbar from 'Compnents/Navbar';
 import LandingPage from 'Pages/LandingPage';
 import LoginPage from 'Pages/LoginPage';
-import SignUpPage from 'Pages/SignUpPage';
+import SignUpPage from 'Pages/SignUpPage/SignUpPage';
 import AdminPage from 'Pages/AdminPage';
 import Parent from 'Pages/Parent';
 import Teacher from 'Pages/Teacher';
