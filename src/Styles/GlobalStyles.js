@@ -18,4 +18,9 @@ export const GlobalStyles = createGlobalStyle`
         background-color: #fff;
         color: #000;
     }
+    input, button {
+        background-color: transparent;
+        border: none;
+        outline: none;
+    }
 `;
