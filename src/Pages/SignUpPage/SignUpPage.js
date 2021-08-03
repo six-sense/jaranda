@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { ROUTES } from 'utils/constants';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
@@ -12,7 +10,6 @@ import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
-  const history = useHistory();
   const [userPwconfirm, setUserPwConfirm] = useState('');
   const { checkId, checkPassword } = Validation;
   const [userInfo, setUserInfo] = useState({
