@@ -85,7 +85,7 @@ export const Searchbox = styled.input`
   &:hover {
     width: 240px;
     color: #1a2634;
-    background-color: #c9cdd0;
+    background-color: #f0f0f0;
   }
 `;
 
@@ -114,3 +114,15 @@ export const TableFooter = styled.div`
     margin-left: 3rem;
   }
 `;
+
+export const style = {
+  Cell,
+  CheckButton,
+  Searchbox,
+  SearchContainer,
+  SearchIcon,
+  TableContainer,
+  TableFooter,
+  TableTitle,
+  TableTitleContainer,
+};
