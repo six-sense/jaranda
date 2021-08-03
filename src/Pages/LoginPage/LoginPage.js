@@ -9,7 +9,6 @@ export default function Login() {
   const [inputPwValue, setInputPwValue] = useState('');
 
   const handleIdInput = (e) => {
-    console.log(e);
     const { value } = e.target;
     if (checkId(value)) {
       setInputIdValue(value);
