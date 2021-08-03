@@ -6,23 +6,27 @@ import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
+import { Validation } from 'utils/checkValid';
+import { LOCAL_STORAGE } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
   const history = useHistory();
+  const [userPwconfirm, setUserPwConfirm] = useState('');
+  const { checkId, checkPassword } = Validation;
   const [userInfo, setUserInfo] = useState({
-    // userId:'',
-    // password:'',
-    // name:'',
-    // age:'',
+    userId: '',
+    password: '',
+    name: '',
+    age: '',
     creditCard: {
       cardNumber: '',
       holderName: '',
       expired: '',
       CVC: '',
     },
-    // role:'',
+    role: '',
     zcode: '',
     roadAddr: '',
     jibunAddr: '',
@@ -30,6 +34,25 @@ export default function SignUpPage() {
     // menubar:'',
   });
 
+  const signupBtnEvnt = () => {
+    const { userId, password, name, age, role } = userInfo;
+
+    const userAddr =
+      userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
+    inputData(userId, password, name, age, role, userAddr);
+  };
+  // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
+  const inputData = (userId, pw, name, age, role, addr) => {
+    const data = userDataForm(userId, pw, name, age, role, addr);
+    setUserData(data);
+  };
+
+  const handleRadioButton = (name) => {
+    setUserInfo({
+      ...userInfo,
+      role: name,
+    });
+  };
   const [showModal, setShowModal] = useState(false);
   const [flag, setFlag] = useState(false);
 
@@ -72,32 +95,84 @@ export default function SignUpPage() {
     });
   };
 
-  const signupBtnEvnt = () => {
-    const userAddr =
-      userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
-    // inputData(
-    //   userInfo.userId,
-    //   userInfo.password,
-    //   userInfo.name,
-    //   userInfo.age,
-    //   userInfo.creditCard.cardNumber,
-    //   userInfo.creditCard.holderNumber,
-    //   userInfo.creditCard.expired,
-    //   userInfo.creditCard.cvc,
-    //   userAddr,
-    // );
-    inputData(
-      userInfo.creditCard.cardNumber,
-      userInfo.creditCard.holderNumber,
-      userInfo.creditCard.cvc,
-      userAddr,
-    );
+  const handleId = (e) => {
+    setUserInfo({
+      ...userInfo,
+      userId: e.target.value,
+    });
   };
-  // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-  const inputData = (cardNumber, holderNumber, cvc, userAddr) => {
-    const data = userDataForm(cardNumber, holderNumber, cvc, userAddr);
-    setUserData(data);
-    history.push(ROUTES.SIGN_IN);
+
+  const handleIdValidate = async () => {
+    const checkValidId = checkId(userInfo.userId);
+    let userData = LOCAL_STORAGE.get('userData');
+    if (!userData) {
+      userData = [];
+    }
+    const reduplication = userData.find(
+      (data) => data.userId === userInfo.userId,
+    );
+    if (checkValidId && reduplication === undefined) {
+      console.log('사용가능한 아이디입니다.');
+      return;
+    } else if (!checkValidId) {
+      console.log('사용 가능하지 않은 아이디입니다.');
+      return;
+    } else {
+      console.log('중복된 아이디입니다.');
+    }
+  };
+
+  const onChangePW = (e) => {
+    setUserInfo({
+      ...userInfo,
+      password: e.target.value,
+    });
+    HandleValidatePW(e.target.value);
+  };
+
+  const HandleValidatePW = (value) => {
+    const checkValidPw = checkPassword(value);
+    let userData = LOCAL_STORAGE.get('userData');
+
+    if (!userData) {
+      userData = [];
+    }
+
+    if (checkValidPw) {
+      console.log('사용가능한 비밀번호입니다.');
+    } else if (!checkValidPw) {
+      console.log('사용할 수 없는 비밀번호 입니다.');
+    }
+  };
+
+  const onChangePwconfirm = (e) => {
+    setUserPwConfirm(e.target.value);
+    MatchPW(e.target.value);
+    console.log(userPwconfirm);
+  };
+
+  const MatchPW = (value) => {
+    if (value !== userInfo.userPw) {
+      console.log('비밀번호가 일치하지 않습니다.');
+    } else if (value === userInfo.userPw) {
+      console.log('비밀번호가 일치합니다.');
+    }
+  };
+
+  const onChangeName = (e) => {
+    setUserInfo({
+      ...userInfo,
+      name: e.target.value,
+    });
+    console.log(userInfo.userName);
+  };
+
+  const onChangeAge = (e) => {
+    setUserInfo({
+      ...userInfo,
+      age: e.target.value,
+    });
+    console.log(userInfo.userAge);
   };
 
   return (
@@ -106,14 +181,41 @@ export default function SignUpPage() {
         <Wrap>
           <Title>
             10초 만에 가입하고
-            <br /> 선생님 정보를 받아보세요
+            <br />
+            선생님 정보를 받아보세요
           </Title>
-
+          <Wrapper_Radio>
+            <label htmlFor="radio">
+              <Input_Radio
+                type="radio"
+                id="teacherRadio"
+                name="teacher"
+                value="teacherRadio"
+                checked={userInfo.role === 'teacher'}
+                onClick={() => handleRadioButton('teacher')}
+              />
+              teacher
+            </label>
+            <label htmlFor="radio">
+              <Input_Radio
+                type="radio"
+                id="parentRadio"
+                name="parent"
+                value="parentRadio"
+                checked={userInfo.role === 'parent'}
+                onClick={() => handleRadioButton('parent')}
+              />
+              parent
+            </label>
+          </Wrapper_Radio>
           <Wrapper_ID>
-            <Input_ID placeholder="ID" maxLength="15" />
-            <Submit_ID_btn> 아이디 중복 확인 </Submit_ID_btn>
+            <Input_ID placeholder="ID" maxLength="30" onChange={handleId} />
+            <Submit_ID_btn onClick={handleIdValidate}>
+              {' '}
+              아이디 중복 확인{' '}
+            </Submit_ID_btn>
           </Wrapper_ID>
-          <Input_PW />
+          <Input_PW onChange={onChangePW} />
 
           <PW_policy_container>
             <PW_poclicy_item>
@@ -138,9 +240,9 @@ export default function SignUpPage() {
             </PW_poclicy_item>
           </PW_policy_container>
 
-          <Input_PW_confirm />
-          <Input_name />
-          <Input_age />
+          <Input_PW_confirm onChange={onChangePwconfirm} />
+          <Input_name onChange={onChangeName} />
+          <Input_age onChange={onChangeAge} />
 
           <Address_container>
             <Address_title>주소</Address_title>
@@ -185,6 +287,7 @@ const {
   Container,
   Wrap,
   Title,
+  Wrapper_Radio,
   Wrapper_ID,
   Input_ID,
   Submit_ID_btn,
@@ -205,5 +308,6 @@ const {
   Street_addr,
   Lot_addr,
   Detailed_addr,
+  Input_Radio,
   // Note_addr,
 } = style;

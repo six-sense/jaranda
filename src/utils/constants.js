@@ -1,9 +1,9 @@
-// import { getUserInfo } from './getUserInfo';
+//import { getUserInfo } from './getUserInfo';
 import storage from './storage/storage';
 
 export const LOCAL_STORAGE = storage(localStorage);
 
-// export const USER_INFO = getUserInfo(); // admin에서 암호화 된 정보 제외한 정보들만 출력
+//export const USER_INFO = getUserInfo(); // admin에서 암호화 된 정보 제외한 정보들만 출력
 // {
 //   id: user.id,
 //   name: user.name,
@@ -21,6 +21,7 @@ export const ROUTES = {
   SIGN_IN: '/signin',
   SIGN_UP: '/signup',
   ADMIN: '/admin',
+  ROLE_MANAGEMENT: '/role-management',
 };
 
 export const ROLES = {

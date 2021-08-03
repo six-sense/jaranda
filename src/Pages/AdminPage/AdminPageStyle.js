@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const TableContainer = styled.div`
   max-width: 960px;
   margin: 3rem auto;
-  // background-color: #f5f5f5;
 
   & > table {
     width: 100%;
@@ -59,8 +58,8 @@ export const TableTitleContainer = styled.div`
 `;
 
 export const TableTitle = styled.h4`
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 24px;
+  font-weight: 600;
   line-height: 1.6rem;
   letter-spacing: 0.0075em;
   padding-top: 0.5rem;
@@ -86,7 +85,7 @@ export const Searchbox = styled.input`
   &:hover {
     width: 240px;
     color: #1a2634;
-    background-color: #f0f0f0;
+    background-color: #f6ffed;
   }
 `;
 
@@ -116,6 +115,30 @@ export const TableFooter = styled.div`
   }
 `;
 
+export const RoleButonWrapper = styled.div`
+  width: 100%;
+  text-align: right;
+`;
+
+export const GoRolePageButton = styled.button`
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 17px;
+  font-weight: 600;
+  color: rgb(44, 44, 49);
+
+  &:hover {
+    background-color: #f6ffed;
+  }
+
+  & > svg {
+    margin-right: 0.7rem;
+  }
+`;
+
 export const style = {
   Cell,
   CheckButton,
@@ -126,4 +149,5 @@ export const style = {
   TableFooter,
   TableTitle,
   TableTitleContainer,
+  GoRolePageButton,
 };
