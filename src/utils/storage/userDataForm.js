@@ -3,13 +3,13 @@ export default function userDataForm(addr){
     return(
       
         {
-          id: 'test',
+          userId: 'test',
           password: '',
           name: '',
           age: 0,
           creditCard: {
             cardNumber: '0000-0000-0000-0000',
-            name: '',
+            holderName: '',
             expired: '0624',
             CVC: '000',
           },

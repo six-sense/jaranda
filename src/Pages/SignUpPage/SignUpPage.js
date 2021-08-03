@@ -3,32 +3,45 @@ import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
-import setUserInfo from 'utils/setUserInfo';
+import setUserData from 'utils/setUserInfo';
 
 export default function SignUpPage() {
-  const [addr, setAddr] = useState({
+  
+  const [userInfo, setUserInfo] = useState({
+    // userId:'',
+    // password:'',
+    // name:'',
+    // age:'',
+    // creditCard:{
+    //   cardNumber:'',
+    //   holderName:'',
+    //   expired:'',
+    //   CVC:'',
+    // },
+    // role:'',
     zcode:'',
     roadAddr:'',
     jibunAddr:'',
     detailAddr:'',
+    // menubar:'',
   })
 
   const addrBtnEvent = ()=>{
-    get_address(addr, setAddr)
+    get_address(userInfo, setUserInfo)
   }
 
   const handleChange = (e)=>{
-    setAddr({...addr, detailAddr:e.target.value})
+    setUserInfo({...userInfo, detailAddr:e.target.value})
   }
 
   const signupBtnEvnt =()=>{
-    const userAddr = addr.roadAddr + ' ' + addr.detailAddr
+    const userAddr = userInfo.zcode +' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr
     inputData(userAddr)
   }
 // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
   const inputData=(addr)=>{
     const data = userDataForm(addr)
-    setUserInfo(data)
+    setUserData(data)
   }
   return (
     <>
@@ -67,17 +80,17 @@ export default function SignUpPage() {
           <Address_container>
             <Address_title>주소</Address_title>
             <Wrapper_ZipCode>
-              <ZipCode value={addr.zcode} />
+              <ZipCode value={userInfo.zcode} />
               <Button_ZipCode_find onClick={addrBtnEvent}>우편번호 찾기 </Button_ZipCode_find>
             </Wrapper_ZipCode>
 
             <Wrapper_addr>
-              <Street_addr value={addr.roadAddr} />
-              <Lot_addr value={addr.jibunAddr}/>
+              <Street_addr value={userInfo.roadAddr} />
+              <Lot_addr value={userInfo.jibunAddr}/>
             </Wrapper_addr>
 
             <Wrapper_addr>
-              <Detailed_addr value={addr.detailAddr} onChange={handleChange}/>
+              <Detailed_addr value={userInfo.detailAddr} onChange={handleChange}/>
               {/* <Note_addr /> */}
             </Wrapper_addr>
           </Address_container>
