@@ -5,7 +5,7 @@ export const getUserInfo = (pages, limit, searchWord) => {
   const filteredUserInfo = [];
   const paginationInfo = [];
 
-  originalData.map((user) => {
+  originalData?.map((user) => {
     if (
       user.userId.search(searchWord) >= 0 ||
       user.name.search(searchWord) >= 0
