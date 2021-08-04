@@ -32,15 +32,15 @@ export default function SignUpPage() {
   });
 
   const signupBtnEvnt = () => {
-    const { userId, password, name, age, role } = userInfo;
-
+    const { userId, password, name, age, role,  } = userInfo;
+    const {cardNumber, holderName, expired, CVC} = userInfo.creditCard
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
-    inputData(userId, password, name, age, role, userAddr);
+    inputData(userId, password, name, age, cardNumber, holderName, expired,CVC, role, userAddr);
   };
   // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-  const inputData = (userId, pw, name, age, role, addr) => {
-    const data = userDataForm(userId, pw, name, age, role, addr);
+  const inputData = (userId, pw, name, age, cardNumber, holderName, expired,cvc, role, addr) => {
+    const data = userDataForm(userId, pw, name, age, cardNumber, holderName, expired,cvc, role, addr);
     setUserData(data);
   };
 

@@ -1,5 +1,5 @@
 // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-export default function userDataForm(userId, pw, name, age, role, addr){
+export default function userDataForm(userId, pw, name, age, cardNumber, holderName, expired,cvc, role, addr){
     return(
       
         {
@@ -8,10 +8,10 @@ export default function userDataForm(userId, pw, name, age, role, addr){
           name: `${name}`,
           age: `${age}`,
           creditCard: {
-            cardNumber: '0000-0000-0000-0000',
-            holderName: '',
-            expired: '0624',
-            CVC: '000',
+            cardNumber: `${cardNumber}`,
+            holderName: `${holderName}`,
+            expired: `${expired}`,
+            CVC: `${cvc}`,
           },
           role: `${role}`,
           address: `${addr}`,
