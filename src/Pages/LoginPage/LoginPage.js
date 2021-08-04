@@ -5,7 +5,7 @@ import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
 
 export default function Login() {
-  const [isVaild, setIsVaild] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
   const history = useHistory();
@@ -26,30 +26,35 @@ export default function Login() {
       userInfo?.find(
         (data) => data.userId === userID && data.password === userPW,
       );
+
     if (test !== undefined) {
       await LOCAL_STORAGE.set('token', {
         userId: test.userId,
         role: test.role,
       });
+
       return true;
     }
     return false;
   };
 
   const checkLogin = async () => {
+    const validLogin = sendLogin(inputIdValue, inputPwValue);
     if (
-      checkId(inputIdValue) && checkPassword(inputPwValue)
-      ) {
-      const validLogin = sendLogin(inputIdValue, inputPwValue);
-      if (validLogin && await LOCAL_STORAGE.get('token').role === 'admin') {
+      checkId(inputIdValue) &&
+      checkPassword(inputPwValue) &&
+      inputIdValue !== '' &&
+      inputPwValue !== ''
+    ) {
+      if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {
         history.push(ROUTES.MAIN);
       }
     } else {
-      setIsVaild(true);
+      setIsValid(true);
       setTimeout(() => {
-        setIsVaild(false);
+        setIsValid(false);
       }, 6000);
     }
   };
@@ -58,17 +63,14 @@ export default function Login() {
     <Container>
       <Wrap>
         <Title>로그인</Title>
-        {isVaild && (
+        {isValid && (
           <VaildMessage>
             유효한 아이디 또는 비밀번호를 입력해주세요
           </VaildMessage>
         )}
 
-        <IdInput onChange={(e) => handleIdInput(e)} value={inputIdValue} />
-        <PasswordInput
-          onChange={(e) => handlePwInput(e)}
-          value={inputPwValue}
-        />
+        <IdInput onChange={(e) => handleIdInput(e)} />
+        <PasswordInput onChange={(e) => handlePwInput(e)} />
         <LoginButton onClick={checkLogin}>로그인</LoginButton>
         <Bar />
         <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>
