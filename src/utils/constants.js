@@ -15,13 +15,17 @@ export const LOCAL_STORAGE = storage(localStorage);
 
 export const ROUTES = {
   MAIN: '/',
-  PARENT: '/parent',
-  TEACHER: '/teacher',
+  WATCH: '/watch',
+  SUPPORT: '/support',
   HELP: '/help',
-  SIGN_IN: '/account/signin',
-  SIGN_UP: '/account/signup',
+  SIGN_IN: '/signin',
+  SIGN_UP: '/signup',
   ADMIN: '/admin',
   ROLE_MANAGEMENT: '/role-management',
+  FORM: '/form',
+  HISTORY: '/history',
+  LOG: '/log',
+  SCHEDULE: '/schedule',
 };
 
 export const ROLES = {

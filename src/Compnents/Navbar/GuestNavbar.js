@@ -17,14 +17,14 @@ const GuestNavbar = () => {
         </NavLink>
         <NavMenu>
           <NavLink
-            to="/parent"
+            to="/watch"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >
             자란다선생님 보기
           </NavLink>
           <NavLink
-            to="/teacher"
+            to="/support"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >

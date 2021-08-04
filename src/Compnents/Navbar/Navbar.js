@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-// import GuestNavbar from './GuestNavbar';
+import GuestNavbar from './GuestNavbar';
 import { NavbarContainer } from 'Styles/NavbarStyles';
 import UserNavbar from './UserNavbar';
 import { LOCAL_STORAGE } from 'utils/constants';
 
 const Navbar = () => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false); //eslint-disable-line no-unused-vars
+  const [isLoggedIn, setIsLoggedIn] = useState(LOCAL_STORAGE.get('token')); //eslint-disable-line no-unused-vars
   const [currentUser, setCurrentUser] = useState('');
   const [menubar, setMenubar] = useState();
 
@@ -20,9 +20,7 @@ const Navbar = () => {
   return (
     <div>
       <NavbarContainer>
-        {/* {isLoggedIn ? <UserNavbar /> : <GuestNavbar />} */}
-        {/* <GuestNavbar /> */}
-        <UserNavbar />
+        {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
       </NavbarContainer>
     </div>
   );
