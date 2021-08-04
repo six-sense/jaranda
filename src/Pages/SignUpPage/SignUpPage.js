@@ -11,7 +11,7 @@ import CreditCardForm from 'Compnents/CreditCardForm';
 
 export default function SignUpPage() {
   const [userPwconfirm, setUserPwConfirm] = useState('');
-  const { checkId, checkPassword } = Validation;
+  const { checkId, checkPasswordSignUp } = Validation;
   const [userInfo, setUserInfo] = useState({
     userId: '',
     password: '',
@@ -125,11 +125,12 @@ export default function SignUpPage() {
       ...userInfo,
       password: e.target.value,
     });
+    console.log(e.target.value);
     HandleValidatePW(e.target.value);
   };
 
   const HandleValidatePW = (value) => {
-    const checkValidPw = checkPassword(value);
+    const checkValidPw = checkPasswordSignUp(value);
     let userData = LOCAL_STORAGE.get('userData');
 
     if (!userData) {
