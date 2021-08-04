@@ -57,12 +57,27 @@ export const TableTitleContainer = styled.div`
   justify-content: space-between;
 `;
 
+export const TableTitleBox = styled.div`
+  ${({ theme }) => theme.flexSet()}
+`;
+
 export const TableTitle = styled.h4`
   font-size: 24px;
   font-weight: 600;
   line-height: 1.6rem;
   letter-spacing: 0.0075em;
-  padding-top: 0.5rem;
+`;
+
+export const AccountAddButton = styled.button`
+  ${({ theme }) => theme.flexSet()}
+  width: 100px;
+  font-size: 12px;
+  height: 38px;
+  margin-left: 10px;
+  border-radius: 6px;
+  color: #fff;
+  background-color: #87bf44;
+  cursor: pointer;
 `;
 
 export const SearchContainer = styled.div`
@@ -145,6 +160,8 @@ export const style = {
   Searchbox,
   SearchContainer,
   SearchIcon,
+  AccountAddButton,
+  TableTitleBox,
   TableContainer,
   TableFooter,
   TableTitle,

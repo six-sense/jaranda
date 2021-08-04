@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Modal from 'Modal';
+import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
@@ -16,6 +18,7 @@ function AdminPage() {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const limit = 10;
@@ -56,6 +59,14 @@ function AdminPage() {
     history.push(ROUTES.ROLE_MANAGEMENT);
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
     console.log(pages);
     const userInfo = getUserInfo(pages, limit, searchValue);
@@ -68,7 +79,12 @@ function AdminPage() {
     <div>
       <TableContainer>
         <TableTitleContainer>
-          <TableTitle>사용자 목록</TableTitle>
+          <TableTitleBox>
+            <TableTitle>사용자 목록</TableTitle>
+            <AccountAddButton onClick={() => openModal()}>
+              계정 추가
+            </AccountAddButton>
+          </TableTitleBox>
           <SearchContainer>
             <SearchIcon src={searchIcon} alt="search-icon" />
             <Searchbox
@@ -96,11 +112,11 @@ function AdminPage() {
             {data &&
               data.map((data, index) => (
                 <tr key={index}>
-                <Cell>{data.userId}</Cell>
-                <Cell>{data.name}</Cell>
-                <Cell>{data.age}</Cell>
-                <Cell>{data.role}</Cell>
-                <Cell>{data.address}</Cell>
+                  <Cell>{data.userId}</Cell>
+                  <Cell>{data.name}</Cell>
+                  <Cell>{data.age}</Cell>
+                  <Cell>{data.role}</Cell>
+                  <Cell>{data.address}</Cell>
                   <Cell>
                     {properties.map((property, index) => (
                       <div key={index}>
@@ -124,6 +140,9 @@ function AdminPage() {
           </div>
         </TableFooter>
       </TableContainer>
+      <Modal show={showModal} onClose={() => closeModal()}>
+        <SignUpPage />
+      </Modal>
     </div>
   );
 }
@@ -133,10 +152,12 @@ export default AdminPage;
 const {
   Cell,
   CheckButton,
+  AccountAddButton,
   Searchbox,
   SearchContainer,
   SearchIcon,
   TableContainer,
+  TableTitleBox,
   TableFooter,
   TableTitle,
   TableTitleContainer,
