@@ -9,5 +9,5 @@ export default function setUserData(data){
         userInfos.push(data)
         LOCAL_STORAGE.set("userData",userInfos)
     }
-
+    return true;
 }
