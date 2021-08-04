@@ -36,12 +36,12 @@ export default function Login() {
     return false;
   };
 
-  const checkLogin = () => {
-    const validLogin = sendLogin(inputIdValue, inputPwValue);
+  const checkLogin = async () => {
     if (
-      (checkId(inputIdValue) === true, checkPassword(inputPwValue) === true)
-    ) {
-      if (validLogin && LOCAL_STORAGE.get('token').role === 'admin') {
+      checkId(inputIdValue) && checkPassword(inputPwValue)
+      ) {
+      const validLogin = sendLogin(inputIdValue, inputPwValue);
+      if (validLogin && await LOCAL_STORAGE.get('token').role === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {
         history.push(ROUTES.MAIN);
