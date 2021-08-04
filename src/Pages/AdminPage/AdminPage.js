@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Modal from 'Modal';
+import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
@@ -16,6 +18,7 @@ function AdminPage() {
   const [datas, setDatas] = useState([]);
   const [, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
@@ -35,6 +38,14 @@ function AdminPage() {
     history.push(ROUTES.ROLE_MANAGEMENT);
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
     setDatas(userData);
   }, []);
@@ -43,7 +54,12 @@ function AdminPage() {
     <div>
       <TableContainer>
         <TableTitleContainer>
-          <TableTitle>사용자 목록</TableTitle>
+          <TableTitleBox>
+            <TableTitle>사용자 목록</TableTitle>
+            <AccountAddButton onClick={() => openModal()}>
+              계정 추가
+            </AccountAddButton>
+          </TableTitleBox>
           <SearchContainer>
             <SearchIcon src={searchIcon} alt="search-icon" />
             <Searchbox
@@ -99,6 +115,9 @@ function AdminPage() {
           </div>
         </TableFooter>
       </TableContainer>
+      <Modal show={showModal} onClose={() => closeModal()}>
+        <SignUpPage />
+      </Modal>
     </div>
   );
 }
@@ -108,10 +127,12 @@ export default AdminPage;
 const {
   Cell,
   CheckButton,
+  AccountAddButton,
   Searchbox,
   SearchContainer,
   SearchIcon,
   TableContainer,
+  TableTitleBox,
   TableFooter,
   TableTitle,
   TableTitleContainer,
