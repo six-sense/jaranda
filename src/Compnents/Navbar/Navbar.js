@@ -1,29 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import GuestNavbar from './GuestNavbar';
-import { NavbarContainer } from 'Styles/NavbarStyles';
-import UserNavbar from './UserNavbar';
-import { LOCAL_STORAGE } from 'utils/constants';
+import React from 'react';
+import PropTypes from 'prop-types';
+import {
+  NavbarContainer,
+  NavbarInnerContainer,
+  NavLink,
+  NavMenu,
+} from 'Styles/NavbarStyles';
+import jaranda from 'Assets/jarandalogo.png';
+import { ROUTES } from 'utils/constants';
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(LOCAL_STORAGE.get('token')); //eslint-disable-line no-unused-vars
-  const [currentUser, setCurrentUser] = useState('');
-  const [menubar, setMenubar] = useState();
-
-  useEffect(() => {
-    setCurrentUser(LOCAL_STORAGE.get('token'));
-    setMenubar({ menubar: LOCAL_STORAGE.get('role') });
-  }, []);
-
-  console.log(currentUser);
-  console.log(menubar);
-
+const Navbar = ({ isLoggedIn, userMenu, isAdmin, handleLogout }) => {
   return (
-    <div>
-      <NavbarContainer>
-        {isLoggedIn ? <UserNavbar /> : <GuestNavbar />}
-      </NavbarContainer>
-    </div>
+    <NavbarContainer>
+      <NavbarInnerContainer>
+        <NavLink to={ROUTES.MAIN}>
+          <img src={jaranda} alt="logo" />
+        </NavLink>
+        <NavMenu>
+          {!isAdmin &&
+            userMenu.map((menu) => (
+              <NavLink key={menu.path} to={menu.path}>
+                {menu.name}
+              </NavLink>
+            ))}
+          {isLoggedIn && (
+            <NavLink to={ROUTES.MAIN} onClick={handleLogout}>
+              로그아웃
+            </NavLink>
+          )}
+        </NavMenu>
+      </NavbarInnerContainer>
+    </NavbarContainer>
   );
 };
 
 export default Navbar;
+
+Navbar.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  userMenu: PropTypes.array,
+  isAdmin: PropTypes.bool,
+  handleLogout: PropTypes.func,
+};
