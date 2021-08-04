@@ -5,12 +5,14 @@ import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
-import { LOCAL_STORAGE } from 'utils/constants';
+import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
+import { useHistory } from 'react-router-dom';
 
 export default function SignUpPage() {
+  const history = useHistory();
   const [userPwconfirm, setUserPwConfirm] = useState('');
   const { checkId, checkPasswordSignUp } = Validation;
   const [userInfo, setUserInfo] = useState({
@@ -29,12 +31,13 @@ export default function SignUpPage() {
     roadAddr: '',
     jibunAddr: '',
     detailAddr: '',
-    // menubar:'',
+    menubar: '',
   });
   const [toast, setToast] = useState({
     status: false,
     msg: '',
   });
+
   useEffect(() => {
     if (toast.status) {
       const timeInterver = setTimeout(() => {
@@ -45,12 +48,12 @@ export default function SignUpPage() {
   }, [toast]);
 
   const signupBtnEvnt = () => {
-    const { userId, password, name, age, role } = userInfo;
+    const { userId, password, name, age, role, menubar } = userInfo;
     const { cardNumber, holderName, expired, CVC } = userInfo.creditCard;
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
 
-    inputData(
+    const uploadData = inputData(
       userId,
       password,
       name,
@@ -61,8 +64,17 @@ export default function SignUpPage() {
       CVC,
       role,
       userAddr,
+      menubar,
     );
-    setToast({ ...toast, status: true, msg: 'test' });
+    if (uploadData) {
+      console.log('회원가입 가능');
+      setToast({ ...toast, status: true, msg: '회원가입이 완료되었습니다!' });
+      setTimeout(() => {
+        history.push(ROUTES.SIGN_IN);
+      }, 1500);
+    } else {
+      console.log('회원가입이 불가합니다.');
+    }
   };
 
   // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
@@ -77,6 +89,7 @@ export default function SignUpPage() {
     cvc,
     role,
     addr,
+    menubar,
   ) => {
     const data = userDataForm(
       userId,
@@ -89,16 +102,21 @@ export default function SignUpPage() {
       cvc,
       role,
       addr,
+      menubar,
     );
-    setUserData(data);
+    return setUserData(data);
   };
 
-  const handleRadioButton = (name) => {
+  const handleRadioButton = async (name) => {
+    const menu = await LOCAL_STORAGE.get('role').role[name];
+
     setUserInfo({
       ...userInfo,
       role: name,
+      menubar: menu,
     });
   };
+
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {

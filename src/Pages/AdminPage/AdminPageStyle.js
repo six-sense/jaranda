@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 
 export const TableContainer = styled.div`
   max-width: 960px;
@@ -30,24 +31,7 @@ export const Cell = styled.th`
   }
 `;
 
-export const CheckButton = styled.input`
-  display: flex;
-  -webkit-box-align: center;
-  padding-top: 10px;
-  align-items: center;
-  margin-right: 10px;
-  padding: 10px 20px;
-  background-color: ${({ checked }) => (checked ? '#c9cdd0' : 'white')};
-  border-radius: 50px;
-  border: 1px solid rgb(233, 235, 237);
-  color: rgb(70, 70, 77);
-
-  &:hover {
-    background-color: #c9cdd0;
-    color: white;
-    cursor: pointer;
-  }
-`;
+export const CheckButton = styled.input``;
 
 export const TableTitleContainer = styled.div`
   padding-left: 16px;
@@ -116,17 +100,24 @@ export const SearchIcon = styled.img`
 export const TableFooter = styled.div`
   min-height: 52px;
   padding-right: 2px;
-  text-align: right;
+  float: right;
 
   & > div {
+    display: flex;
     padding-top: 20px;
     font-size: 20px;
     margin-right: 1rem;
   }
 
   & > div > svg {
-    cursor: pointer;
     margin-left: 3rem;
+    cursor: pointer;
+  }
+
+  & > div > div {
+    margin-left: 2.8rem;
+    font-size: 17px;
+    padding-bottom: 10px;
   }
 `;
 
@@ -154,6 +145,14 @@ export const GoRolePageButton = styled.button`
   }
 `;
 
+export const AiOutlineLeftStyle = styled(AiOutlineLeft)`
+  color: ${({ pageEnd }) => (pageEnd ? 'lightgray' : '')};
+`;
+
+export const AiOutlineRightStyle = styled(AiOutlineRight)`
+  color: ${({ pageEnd }) => (pageEnd ? 'lightgray' : '')};
+`;
+
 export const style = {
   Cell,
   CheckButton,
@@ -167,4 +166,6 @@ export const style = {
   TableTitle,
   TableTitleContainer,
   GoRolePageButton,
+  AiOutlineLeftStyle,
+  AiOutlineRightStyle,
 };
