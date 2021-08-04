@@ -38,6 +38,7 @@ export default function SignUpPage() {
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
     inputData(userId, password, name, age, role, userAddr);
   };
+
   // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
   const inputData = (userId, pw, name, age, role, addr) => {
     const data = userDataForm(userId, pw, name, age, role, addr);
