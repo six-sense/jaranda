@@ -4,6 +4,7 @@ import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import userData from 'utils/userData.json';
 import { useHistory } from 'react-router-dom';
+import { ROUTES } from 'utils/constants';
 
 const properties = [
   { label: 'Parents', value: 'Parents' },
@@ -31,7 +32,7 @@ function AdminPage() {
   };
 
   const goRoleManagementPage = () => {
-    history.push('/role-management');
+    history.push(ROUTES.ROLE_MANAGEMENT);
   };
 
   useEffect(() => {
