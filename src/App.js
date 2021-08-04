@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ROUTES, LOCAL_STORAGE, ROLES, PUBLIC_MENUS } from 'utils/constants';
+import { Switch, Route } from 'react-router-dom';
+import { ROUTES, LOCAL_STORAGE, PUBLIC_MENUS } from 'utils/constants';
 import Navbar from 'Compnents/Navbar';
 import LandingPage from 'Pages/LandingPage';
 import LoginPage from 'Pages/LoginPage';
@@ -10,7 +10,7 @@ import Help from 'Pages/Help';
 import RoleManagement from 'Pages/RoleManagementPage';
 import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
-// import { MenuBasedRoutes } from 'routes';
+import { checkIsAdmin, getCurrentUser, getUserMenu } from 'utils/getUserInfo';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
@@ -31,27 +31,23 @@ function App() {
   }, [isLoggedIn]);
 
   const handleLogin = () => {
-    const CURRENT_USER = LOCAL_STORAGE.get('token');
-    const USER_LIST = LOCAL_STORAGE.get('userData');
-    if (CURRENT_USER) {
-      const USER_DATA = USER_LIST.find(
-        (user) => user.userId === CURRENT_USER.userId,
-      );
+    if (getCurrentUser()) {
       setIsLoggedIn(true);
-      setUserMenu(USER_DATA.menubar);
-      setIsAdmin(CURRENT_USER.role === ROLES.ADMIN);
+      setUserMenu(getUserMenu());
+      setIsAdmin(checkIsAdmin());
     }
   };
 
   const handleLogout = () => {
     LOCAL_STORAGE.remove('token');
+
     setIsLoggedIn(false);
     setUserMenu(PUBLIC_MENUS);
     setIsAdmin(false);
   };
 
   return (
-    <Router>
+    <>
       <Navbar
         isLoggedIn={isLoggedIn}
         userMenu={isLoggedIn ? userMenu : PUBLIC_MENUS}
@@ -68,7 +64,7 @@ function App() {
         <Route path={ROUTES.ADMIN} component={AdminPage} />
         <Route path={ROUTES.ROLE_MANAGEMENT} component={RoleManagement} />
       </Switch>
-    </Router>
+    </>
   );
 }
 

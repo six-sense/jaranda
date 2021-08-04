@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE } from './constants';
+import { LOCAL_STORAGE, ROLES } from './constants';
 
 // const searchKeyword = (targets, searchWord) => {
 //   console.log('here', targets, searchWord);
@@ -65,4 +65,23 @@ export const getUserInfo = (pages, limit, searchWord) => {
   });
   console.log('paginationInfo', paginationInfo);
   return { userData: paginationInfo, maxPage: maxPage };
+};
+
+export const getCurrentUser = () => {
+  return LOCAL_STORAGE.get('token');
+};
+
+export const getUserData = (userId) => {
+  const allUserData = LOCAL_STORAGE.get('userData');
+  return allUserData.find((user) => user.userId === userId);
+};
+
+export const checkIsAdmin = () => {
+  const currentUser = getCurrentUser();
+  return currentUser.role === ROLES.ADMIN;
+};
+
+export const getUserMenu = () => {
+  const currentUser = getCurrentUser();
+  return getUserData(currentUser.userId).menubar;
 };
