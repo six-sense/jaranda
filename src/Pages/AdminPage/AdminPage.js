@@ -4,9 +4,9 @@ import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
-import userData from 'utils/userData.json';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'utils/constants';
+import { getUserInfo } from 'utils/getUserInfo';
 
 const properties = [
   { label: 'Parents', value: 'Parents' },
@@ -15,10 +15,13 @@ const properties = [
 
 function AdminPage() {
   const history = useHistory();
-  const [datas, setDatas] = useState([]);
-  const [, setSearchValue] = useState('');
+  const [data, setData] = useState([]);
+  const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [pages, setPages] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const limit = 10;
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
@@ -34,6 +37,24 @@ function AdminPage() {
     setCheckedArray(newChecked);
   };
 
+  const onHandleButtonLeft = () => {
+    const page = pages - 1;
+    if (page < 1) {
+      setPages(1);
+    } else {
+      setPages(page);
+    }
+  };
+
+  const onHandleButtonRight = () => {
+    const page = pages + 1;
+    if (page > maxPage) {
+      setPages(maxPage);
+    } else {
+      setPages(page);
+    }
+  };
+
   const goRoleManagementPage = () => {
     history.push(ROUTES.ROLE_MANAGEMENT);
   };
@@ -47,8 +68,12 @@ function AdminPage() {
   };
 
   useEffect(() => {
-    setDatas(userData);
-  }, []);
+    console.log(pages);
+    const userInfo = getUserInfo(pages, limit, searchValue);
+    console.log('userInfo', userInfo);
+    setData(userInfo.userData);
+    setMaxPage(userInfo.maxPage);
+  }, [pages, searchValue]);
 
   return (
     <div>
@@ -84,34 +109,34 @@ function AdminPage() {
             </tr>
           </thead>
           <tbody>
-            {datas.map((data, index) => (
-              <tr key={index}>
-                <Cell>{data.userId}</Cell>
-                <Cell>{data.name}</Cell>
-                <Cell>{data.age}</Cell>
-                <Cell>{data.role}</Cell>
-                <Cell>{data.address}</Cell>
-
-                <Cell>
-                  {properties.map((property, index) => (
-                    <div key={index}>
-                      <CheckButton
-                        type="checkbox"
-                        id={index}
-                        onChange={() => onHandleButton(property.value)}
-                      />
-                      <span>{property.label}</span>
-                    </div>
-                  ))}
-                </Cell>
-              </tr>
-            ))}
+            {data &&
+              data.map((data, index) => (
+                <tr key={index}>
+                  <Cell>{data.userId}</Cell>
+                  <Cell>{data.name}</Cell>
+                  <Cell>{data.age}</Cell>
+                  <Cell>{data.role}</Cell>
+                  <Cell>{data.address}</Cell>
+                  <Cell>
+                    {properties.map((property, index) => (
+                      <div key={index}>
+                        <CheckButton
+                          type="checkbox"
+                          id={index}
+                          onChange={() => onHandleButton(property.value)}
+                        />
+                        <span>{property.label}</span>
+                      </div>
+                    ))}
+                  </Cell>
+                </tr>
+              ))}
           </tbody>
         </table>
         <TableFooter>
           <div>
-            <AiOutlineLeft />
-            <AiOutlineRight />
+            <AiOutlineLeft onClick={onHandleButtonLeft} />
+            <AiOutlineRight onClick={onHandleButtonRight} />
           </div>
         </TableFooter>
       </TableContainer>

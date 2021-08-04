@@ -12,7 +12,7 @@ import ToastForm from 'Compnents/ToastForm/ToastForm';
 
 export default function SignUpPage() {
   const [userPwconfirm, setUserPwConfirm] = useState('');
-  const { checkId, checkPassword } = Validation;
+  const { checkId, checkPasswordSignUp } = Validation;
   const [userInfo, setUserInfo] = useState({
     userId: '',
     password: '',
@@ -173,7 +173,7 @@ export default function SignUpPage() {
   };
 
   const HandleValidatePW = (value) => {
-    const checkValidPw = checkPassword(value);
+    const checkValidPw = checkPasswordSignUp(value);
     let userData = LOCAL_STORAGE.get('userData');
 
     if (!userData) {
@@ -190,13 +190,12 @@ export default function SignUpPage() {
   const onChangePwconfirm = (e) => {
     setUserPwConfirm(e.target.value);
     MatchPW(e.target.value);
-    console.log(userPwconfirm);
   };
 
   const MatchPW = (value) => {
-    if (value !== userInfo.userPw) {
+    if (value !== userInfo.password) {
       console.log('비밀번호가 일치하지 않습니다.');
-    } else if (value === userInfo.userPw) {
+    } else if (value === userInfo.password) {
       console.log('비밀번호가 일치합니다.');
     }
   };
@@ -206,7 +205,6 @@ export default function SignUpPage() {
       ...userInfo,
       name: e.target.value,
     });
-    console.log(userInfo.userName);
   };
 
   const onChangeAge = (e) => {
@@ -214,7 +212,6 @@ export default function SignUpPage() {
       ...userInfo,
       age: e.target.value,
     });
-    console.log(userInfo.userAge);
   };
 
   return (
@@ -224,7 +221,7 @@ export default function SignUpPage() {
           <Title>
             10초 만에 가입하고
             <br />
-            선생님 정보를 받아보세요
+            원하는 역할로 가입해보세요
           </Title>
           <Wrapper_Radio>
             <label htmlFor="radio">
@@ -259,7 +256,7 @@ export default function SignUpPage() {
               아이디 중복 확인{' '}
             </Submit_ID_btn>
           </Wrapper_ID>
-          <Input_PW onChange={onChangePW} />
+          <Input_PW onChange={onChangePW} value={userInfo.password} />
 
           <PW_policy_container>
             <PW_poclicy_item>
@@ -284,7 +281,10 @@ export default function SignUpPage() {
             </PW_poclicy_item>
           </PW_policy_container>
 
-          <Input_PW_confirm onChange={onChangePwconfirm} />
+          <Input_PW_confirm
+            onChange={onChangePwconfirm}
+            value={userPwconfirm}
+          />
           <Input_name onChange={onChangeName} />
           <Input_age onChange={onChangeAge} />
 
