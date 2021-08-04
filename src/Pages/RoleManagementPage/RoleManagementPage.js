@@ -3,7 +3,7 @@ import testData from 'utils/testData.json';
 import { style } from './RoleManagementPageStyle';
 import { FaRegUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
-import { LOCAL_STORAGE } from 'utils/constants';
+import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 
 const properties = [
   { label: '부모님만 이용 가능 페이지', value: '부모님만 이용 가능 페이지' },
@@ -24,7 +24,7 @@ function RoleManagementPage() {
   };
 
   const goAdminPage = () => {
-    history.push('/admin');
+    history.push(ROUTES.ADMIN);
   };
 
   const onSubmitRoleManagement = () => {

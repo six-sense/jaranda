@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // , { useState }
 import { useHistory } from 'react-router-dom';
 import { Validation } from 'utils/checkValid';
-import { LOCAL_STORAGE } from 'utils/constants';
+import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
 
 export default function Login() {
@@ -42,9 +42,9 @@ export default function Login() {
       (checkId(inputIdValue) === true, checkPassword(inputPwValue) === true)
     ) {
       if (validLogin && LOCAL_STORAGE.get('token').role === 'admin') {
-        history.push('/admin');
+        history.push(ROUTES.ADMIN);
       } else {
-        history.push('/');
+        history.push(ROUTES.MAIN);
       }
     } else {
       setIsVaild(true);
@@ -71,7 +71,7 @@ export default function Login() {
         />
         <LoginButton onClick={checkLogin}>로그인</LoginButton>
         <Bar />
-        <SignButton to="/signup">회원가입</SignButton>
+        <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>
       </Wrap>
     </Container>
   );

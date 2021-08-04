@@ -18,8 +18,8 @@ export const ROUTES = {
   PARENT: '/parent',
   TEACHER: '/teacher',
   HELP: '/help',
-  SIGN_IN: '/signin',
-  SIGN_UP: '/signup',
+  SIGN_IN: '/account/signin',
+  SIGN_UP: '/account/signup',
   ADMIN: '/admin',
   ROLE_MANAGEMENT: '/role-management',
 };
