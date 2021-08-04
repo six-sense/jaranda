@@ -1,6 +1,6 @@
 import React, { useState } from 'react'; // , { useState }
 import { useHistory } from 'react-router-dom';
-// import { Validation } from 'utils/checkValid';
+import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
 
@@ -9,7 +9,7 @@ export default function Login() {
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
   const history = useHistory();
-  // const { checkId, checkPassword } = Validation;
+  const { checkId, checkPassword } = Validation;
 
   const handleIdInput = (e) => {
     setInputIdValue(e.target.value);
@@ -38,15 +38,20 @@ export default function Login() {
     return false;
   };
 
-  const checkLogin = () => {
+  const checkLogin = async () => {
     const validLogin = sendLogin(inputIdValue, inputPwValue);
-    if (validLogin === true) {
-      if (validLogin && LOCAL_STORAGE.get('token').role === 'admin') {
+    if (
+      checkId(inputIdValue) &&
+      checkPassword(inputPwValue) &&
+      inputIdValue !== '' &&
+      inputPwValue !== ''
+    ) {
+      if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {
         history.push(ROUTES.MAIN);
       }
-    } else if (validLogin === false) {
+    } else {
       setIsValid(true);
       setTimeout(() => {
         setIsValid(false);
