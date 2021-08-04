@@ -139,10 +139,10 @@ function AdminPage() {
             <AiOutlineRight onClick={onHandleButtonRight} />
           </div>
         </TableFooter>
+        <Modal show={showModal} onClose={() => closeModal()}>
+          <SignUpPage />
+        </Modal>
       </TableContainer>
-      <Modal show={showModal} onClose={() => closeModal()}>
-        <SignUpPage />
-      </Modal>
     </div>
   );
 }

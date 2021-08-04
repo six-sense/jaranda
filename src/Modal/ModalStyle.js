@@ -1,27 +1,29 @@
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 
 export const Overlay = styled.div`
+  ${({ theme }) => theme.flexSet()};
   position: fixed;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
 `;
 
 export const Container = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  background-color: #fff;
-  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 400px;
+  /* max-height: 400px; */
   z-index: 1;
 `;
 
 export const Wrap = styled.div`
-  ${({ theme }) => theme.flexSet('center', 'center', 'column')};
-  width: 480px;
+  ${({ theme }) => theme.flexSet('flex-start', 'center', 'column')};
+  position: absolute;
+  /* height: 400px; */
+  overflow-y: scroll;
+  background-color: #fff;
 `;
 
 export const Header = styled.div`

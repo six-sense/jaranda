@@ -9,17 +9,18 @@ export default function Modal({ show, onClose, children }) {
     <>
       {show && (
         <>
-          <Overlay />
-          <Container>
-            <Wrap>
-              <Header>
+          <Overlay>
+            <Container>
+              <Wrap>
+                {/* <Header> */}
                 <ModalClose onClick={onClose}>
                   <AiOutlineClose size={18} />
                 </ModalClose>
-              </Header>
-              <Contents>{children}</Contents>
-            </Wrap>
-          </Container>
+                {/* </Header> */}
+                <Contents>{children}</Contents>
+              </Wrap>
+            </Container>
+          </Overlay>
         </>
       )}
     </>,
@@ -36,4 +37,4 @@ Modal.propTypes = {
   ]),
 };
 
-const { Overlay, Container, Wrap, Header, ModalClose, Contents } = style;
+const { Overlay, Container, Wrap, ModalClose, Contents } = style;
