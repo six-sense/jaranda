@@ -31,7 +31,7 @@ export default function SignUpPage() {
     roadAddr: '',
     jibunAddr: '',
     detailAddr: '',
-    menubar:'',
+    menubar: '',
   });
   const [toast, setToast] = useState({
     status: false,
@@ -48,7 +48,7 @@ export default function SignUpPage() {
   }, [toast]);
 
   const signupBtnEvnt = () => {
-    const { userId, password, name, age, role,menubar } = userInfo;
+    const { userId, password, name, age, role, menubar } = userInfo;
     const { cardNumber, holderName, expired, CVC } = userInfo.creditCard;
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
@@ -64,13 +64,13 @@ export default function SignUpPage() {
       CVC,
       role,
       userAddr,
-      menubar
+      menubar,
     );
     if (uploadData) {
       console.log('회원가입 가능');
       setToast({ ...toast, status: true, msg: '회원가입이 완료되었습니다!' });
       setTimeout(() => {
-        history.push(ROUTES.MAIN);
+        history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
       console.log('회원가입이 불가합니다.');
@@ -89,7 +89,7 @@ export default function SignUpPage() {
     cvc,
     role,
     addr,
-    menubar
+    menubar,
   ) => {
     const data = userDataForm(
       userId,
@@ -102,18 +102,18 @@ export default function SignUpPage() {
       cvc,
       role,
       addr,
-      menubar
+      menubar,
     );
     return setUserData(data);
   };
 
   const handleRadioButton = async (name) => {
     const menu = await LOCAL_STORAGE.get('role').role[name];
-    console.log(menu);
+
     setUserInfo({
       ...userInfo,
       role: name,
-      menubar : menu
+      menubar: menu,
     });
   };
 
