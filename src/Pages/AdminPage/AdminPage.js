@@ -3,14 +3,18 @@ import Modal from 'Modal';
 import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
-import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
+import styled from 'styled-components';
+// import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
-
+import Checkbox from 'Compnents/Checkbox/Checkbox'
 const properties = [
-  { label: 'Parents', value: 'Parents' },
-  { label: 'Teachers', value: 'Teachers' },
+  { label: 'menu1', value: 'menu1' },
+  { label: 'menu2', value: 'menu2' },
+  { label: 'menu3', value: 'menu3' },
+  { label: 'menu4', value: 'menu4' },
+  { label: 'menu5', value: 'menu5' },
 ];
 
 function AdminPage() {
@@ -27,15 +31,33 @@ function AdminPage() {
     setSearchValue(e.target.value);
   };
 
-  const onHandleButton = (page) => {
-    const currentIndex = checkedArray.indexOf(page);
-    const newChecked = [...checkedArray];
+  // const onHandleButton = (page) => {
+  //   console.log(page)
+  //   const currentIndex = checkedArray.indexOf(page);
+  //   const newChecked = [...checkedArray];
 
-    if (currentIndex === -1) newChecked.push(page);
-    else newChecked.splice(currentIndex, 1);
+  //   if (currentIndex === -1) newChecked.push(page);
+  //   else newChecked.splice(currentIndex, 1);
 
-    setCheckedArray(newChecked);
-  };
+  //   setCheckedArray(newChecked);
+  // };
+  
+  const onHandleChckBtn = (page)=>{
+    console.log(setCheckedArray)
+    const selectedIndex = checkedArray.indexOf(page);
+    let newSelected=[];
+    console.log(selectedIndex)
+    if(selectedIndex == -1){
+      newSelected = newSelected.concat(checkedArray,page);
+    }else{
+      console.log(selectedIndex)
+      newSelected = newSelected.splice(selectedIndex,1)
+    }
+    console.log(newSelected)
+    setCheckedArray(newSelected)
+
+  }
+  const isSelected = (name) => checkedArray.indexOf(name) !== -1;
 
   const onHandleButtonLeft = () => {
     const page = pages - 1;
@@ -75,7 +97,9 @@ function AdminPage() {
     setMaxPage(userInfo.maxPage);
   }, [pages, searchValue]);
 
+
   return (
+
     <div>
       <TableContainer>
         <TableTitleContainer>
@@ -118,16 +142,32 @@ function AdminPage() {
                   <Cell>{data.role}</Cell>
                   <Cell>{data.address}</Cell>
                   <Cell>
-                    {properties.map((property, index) => (
-                      <div key={index}>
-                        <CheckButton
-                          type="checkbox"
-                          id={index}
-                          onChange={() => onHandleButton(property.value)}
-                        />
+                    {properties.map((property, index) => {
+                      let isItemSelected = isSelected(property.value);
+                      // console.log(isItemSelected)
+                    return(
+                      <FormGroup key={index}>
+                        <FormControlLabel>
+                        <Checkbox
+                            type="checkbox"
+                            checked={isItemSelected}
+                            id={index}
+                            onClick={()=>onHandleChckBtn(property.value)}
+                            // onChange={() => onHandleButton(property.value)}
+                          />
+
                         <label>{property.label}</label>
-                      </div>
-                    ))}
+                  
+                        </FormControlLabel>
+
+                      </FormGroup>
+                     )
+
+                      
+                      
+                    }
+                      
+                   )} 
                   </Cell>
                 </tr>
               ))}
@@ -154,11 +194,23 @@ function AdminPage() {
   );
 }
 
+
+const FormGroup = styled.div`
+  display:flex;
+  flex-wrap:wrap;
+  flex-direction:column;
+`
+const FormControlLabel = styled.div`
+  display:inline-flex;
+  align-items:center;
+  vertical-align:middle;
+`
+
 export default AdminPage;
 
 const {
   Cell,
-  CheckButton,
+  // CheckButton,
   AccountAddButton,
   Searchbox,
   SearchContainer,
