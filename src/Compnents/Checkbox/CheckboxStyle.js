@@ -11,6 +11,7 @@ export const Icon = styled.svg`
 `
 
 export const CheckBox = styled.div`
+    cursor:pointer;
     display:inline-block;
     width:20px;
     height:20px;

@@ -3,8 +3,6 @@ import Modal from 'Modal';
 import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
-import styled from 'styled-components';
-// import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
@@ -21,7 +19,7 @@ function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [checkedArray, setCheckedArray] = useState([]);
+  const [checkedArray, setCheckedArray] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -41,23 +39,58 @@ function AdminPage() {
 
   //   setCheckedArray(newChecked);
   // };
-  
-  const onHandleChckBtn = (page)=>{
-    console.log(setCheckedArray)
-    const selectedIndex = checkedArray.indexOf(page);
-    let newSelected=[];
-    console.log(selectedIndex)
-    if(selectedIndex == -1){
-      newSelected = newSelected.concat(checkedArray,page);
+
+  useEffect(()=>{
+    console.log(checkedArray)
+  },[checkedArray])
+
+
+  const onHandleChckBtn = (page, tindex)=>{
+
+    const seletedInfo = Object.keys(checkedArray).includes(tindex.toString());
+    let obj = new Object();
+
+    if(seletedInfo === false){
+      let newSelected=[];
+      newSelected = newSelected.concat(page)
+
+      for(const [key, value] of Object.entries(checkedArray)){
+        obj[key] = value
+      }
+      obj[tindex] = newSelected
+      setCheckedArray(obj)
     }else{
-      console.log(selectedIndex)
-      newSelected = newSelected.splice(selectedIndex,1)
+
+      const selectedIndex = checkedArray[tindex].indexOf(page);
+      let newSelected = []
+      if(selectedIndex == -1){
+        newSelected = newSelected.concat(checkedArray[tindex],page)
+      }else{
+        newSelected = newSelected.concat(checkedArray[tindex]);
+        newSelected.splice(selectedIndex,1);
+      }
+
+      for(const [key, value] of Object.entries(checkedArray)){
+        obj[key] = value
+      }
+      obj[tindex] = newSelected
+      setCheckedArray(obj)
     }
-    console.log(newSelected)
-    setCheckedArray(newSelected)
+
+    
+  }
+  const isSelected = (name,indexs)=>{
+    // console.log(checkedArray[indexs])
+    if(Object.keys(checkedArray).length>0 && Object.keys(checkedArray).includes(indexs.toString())){
+
+      if(checkedArray[indexs].indexOf(name) == -1){
+        return false
+      }else{
+        return true
+      }
+    }
 
   }
-  const isSelected = (name) => checkedArray.indexOf(name) !== -1;
 
   const onHandleButtonLeft = () => {
     const page = pages - 1;
@@ -90,9 +123,9 @@ function AdminPage() {
   };
 
   useEffect(() => {
-    console.log(pages);
+    // console.log(pages,data);
     const userInfo = getUserInfo(pages, limit, searchValue);
-    console.log('userInfo', userInfo);
+    // console.log('userInfo', userInfo);
     setData(userInfo.userData);
     setMaxPage(userInfo.maxPage);
   }, [pages, searchValue]);
@@ -121,6 +154,7 @@ function AdminPage() {
             </GoRolePageButton>
           </SearchContainer>
         </TableTitleContainer>
+        
         <table>
           <thead>
             <tr>
@@ -129,13 +163,13 @@ function AdminPage() {
               <Cell>Age</Cell>
               <Cell>Role</Cell>
               <Cell>Address</Cell>
-              <Cell>Pages</Cell>
+              <Cell>Menu</Cell>
             </tr>
           </thead>
-          <tbody>
             {data &&
-              data.map((data, index) => (
-                <tr key={index}>
+              data.map((data, indexs) => (
+                <tbody key={indexs}>
+                <tr key={indexs}>
                   <Cell>{data.userId}</Cell>
                   <Cell>{data.name}</Cell>
                   <Cell>{data.age}</Cell>
@@ -143,35 +177,25 @@ function AdminPage() {
                   <Cell>{data.address}</Cell>
                   <Cell>
                     {properties.map((property, index) => {
-                      let isItemSelected = isSelected(property.value);
-                      // console.log(isItemSelected)
+                    let isItemSelected = isSelected(property.value,indexs);
+
                     return(
-                      <FormGroup key={index}>
-                        <FormControlLabel>
+                        <div key={index}>
                         <Checkbox
                             type="checkbox"
                             checked={isItemSelected}
                             id={index}
-                            onClick={()=>onHandleChckBtn(property.value)}
-                            // onChange={() => onHandleButton(property.value)}
+                            onClick={()=>onHandleChckBtn(property.value, indexs)}
                           />
-
                         <label>{property.label}</label>
-                  
-                        </FormControlLabel>
-
-                      </FormGroup>
-                     )
-
-                      
-                      
-                    }
-                      
-                   )} 
-                  </Cell>
-                </tr>
-              ))}
-          </tbody>
+                        </div>
+                    )
+                  }
+                )} 
+                </Cell>
+              </tr>
+              </tbody> 
+          ))}
         </table>
         <TableFooter>
           <div>
@@ -195,16 +219,7 @@ function AdminPage() {
 }
 
 
-const FormGroup = styled.div`
-  display:flex;
-  flex-wrap:wrap;
-  flex-direction:column;
-`
-const FormControlLabel = styled.div`
-  display:inline-flex;
-  align-items:center;
-  vertical-align:middle;
-`
+
 
 export default AdminPage;
 
