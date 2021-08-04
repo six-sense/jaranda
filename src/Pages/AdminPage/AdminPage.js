@@ -100,9 +100,9 @@ function AdminPage() {
         <table>
           <thead>
             <tr>
-              <Cell>userId</Cell>
+              <Cell>ID</Cell>
               <Cell>Name</Cell>
-              <Cell>age</Cell>
+              <Cell>Age</Cell>
               <Cell>Role</Cell>
               <Cell>Address</Cell>
               <Cell>Pages</Cell>
@@ -125,7 +125,7 @@ function AdminPage() {
                           id={index}
                           onChange={() => onHandleButton(property.value)}
                         />
-                        <span>{property.label}</span>
+                        <label>{property.label}</label>
                       </div>
                     ))}
                   </Cell>
@@ -135,8 +135,15 @@ function AdminPage() {
         </table>
         <TableFooter>
           <div>
-            <AiOutlineLeft onClick={onHandleButtonLeft} />
-            <AiOutlineRight onClick={onHandleButtonRight} />
+            <AiOutlineLeftStyle
+              pageEnd={pages === 1}
+              onClick={onHandleButtonLeft}
+            />
+            <div>{pages}</div>
+            <AiOutlineRightStyle
+              pageEnd={pages === maxPage}
+              onClick={onHandleButtonRight}
+            />
           </div>
         </TableFooter>
       </TableContainer>
@@ -162,4 +169,6 @@ const {
   TableTitle,
   TableTitleContainer,
   GoRolePageButton,
+  AiOutlineLeftStyle,
+  AiOutlineRightStyle,
 } = style;
