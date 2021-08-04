@@ -17,35 +17,35 @@ const UserNavbar = () => {
         </NavLink>
         <NavMenu>
           <NavLink
-            to="/parent"
+            to="/teacher"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >
             선생님보기
           </NavLink>
           <NavLink
-            to="/teacher"
+            to="/form"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >
             신청서작성하기
           </NavLink>
           <NavLink
-            to="/help"
+            to="/history"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >
             신청내역
           </NavLink>
           <NavLink
-            to="/signin"
+            to="/schedule"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >
             방문일정
           </NavLink>
           <NavLink
-            to="/signup"
+            to="/log"
             onClick={handleToggle}
             className={isActive ? null : 'active'}
           >
