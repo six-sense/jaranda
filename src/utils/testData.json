@@ -1,0 +1,62 @@
+[
+  {
+    "userId": "park",
+    "password": "",
+    "name": "박채연",
+    "age": 0,
+    "creditCard": {
+      "cardNumber": "0000-0000-0000-0000",
+      "name": "",
+      "expired": "0624",
+      "CVC": "000"
+    },
+    "role": "부모님",
+    "address": "",
+    "menubar": ["aaa", "bbbb", "cccc"]
+  },
+  {
+    "userId": "jung",
+    "password": "",
+    "name": "정유정",
+    "age": 0,
+    "creditCard": {
+      "cardNumber": "0000-0000-0000-0000",
+      "name": "",
+      "expired": "0624",
+      "CVC": "000"
+    },
+    "role": "학생",
+    "address": "",
+    "menubar": ["dddddd", "eee", "ff", "g", "h"]
+  },
+  {
+    "userId": "lee",
+    "password": "",
+    "name": "이주영",
+    "age": 0,
+    "creditCard": {
+      "cardNumber": "0000-0000-0000-0000",
+      "name": "",
+      "expired": "0624",
+      "CVC": "000"
+    },
+    "role": "선생님",
+    "address": "",
+    "menubar": ["aaa", "bbbb", "cccc"]
+  },
+  {
+    "userId": "kim",
+    "password": "",
+    "name": "김이수",
+    "age": 0,
+    "creditCard": {
+      "cardNumber": "0000-0000-0000-0000",
+      "name": "",
+      "expired": "0624",
+      "CVC": "000"
+    },
+    "role": "부모님",
+    "address": "",
+    "menubar": ["dddddd", "eee", "ff", "g", "h"]
+  }
+]

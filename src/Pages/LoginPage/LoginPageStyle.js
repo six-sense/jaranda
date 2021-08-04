@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -71,7 +72,8 @@ export const LoginButton = styled(Button)`
   background-color: #87bf44;
 `;
 
-export const SignButton = styled(Button)`
+export const SignButton = styled(Button.withComponent(Link))`
+  ${({ theme }) => theme.flexSet()};
   background-color: #3e82f8;
 `;
 
