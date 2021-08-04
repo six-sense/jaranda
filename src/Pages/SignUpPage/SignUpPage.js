@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
@@ -13,8 +13,32 @@ import { useHistory } from 'react-router-dom';
 
 export default function SignUpPage() {
   const history = useHistory();
+  const idInput = useRef();
+  const pwInput = useRef();
+  const pwConfirmInput = useRef();
+  const nameInput = useRef();
+  const ageInput = useRef();
   const [userPwconfirm, setUserPwConfirm] = useState('');
-  const { checkId, checkPasswordSignUp } = Validation;
+
+  const { checkIdSignUp, checkPasswordSignUp } = Validation;
+  const [inputChk, setInputChk] = useState({
+    userId: false,
+    password: false,
+    password_confirm: false,
+    name: false,
+    age: false,
+    creditCard: {
+      cardNumber: false,
+      holderName: false,
+      expired: false,
+      CVC: false,
+    },
+    role: false,
+    zcode: false,
+    roadAddr: false,
+    jibunAddr: false,
+  });
+
   const [userInfo, setUserInfo] = useState({
     userId: '',
     password: '',
@@ -33,6 +57,7 @@ export default function SignUpPage() {
     detailAddr: '',
     menubar: '',
   });
+
   const [toast, setToast] = useState({
     status: false,
     msg: '',
@@ -47,33 +72,336 @@ export default function SignUpPage() {
     }
   }, [toast]);
 
+  const inputCheck = (limit) => {
+    const { userId, password, password_confirm, name, age, zcode, creditCard } =
+      inputChk;
+    const { cardNumber } = creditCard;
+    for (let i = 0; i < limit; i++) {
+      if (i === 0 && !userId) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '중복 확인 버튼을 눌러주세요.',
+        });
+        return false;
+      } else if (i === 1 && !password) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '비밀번호를 다시 입력해주세요.',
+        });
+        return false;
+      } else if (i === 2 && !password_confirm) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '비밀번호 확인을 해주세요.',
+        });
+        return false;
+      } else if (i === 3 && !name) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '이름을 입력해주세요.',
+        });
+        return false;
+      } else if (i === 4 && !age) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '나이를 입력해주세요.',
+        });
+        return false;
+      } else if (i === 5 && !zcode) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '주소를 입력해주세요',
+        });
+        return false;
+      } else if (i === 6 && !cardNumber) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '카드를 등록해주세요.',
+        });
+        return false;
+      } else if (i === 7 && !password_confirm) {
+        setToast({
+          ...toast,
+          status: true,
+          msg: '비밀번호 확인을 해주세요.',
+        });
+        return false;
+      }
+    }
+  };
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleId = (e) => {
+    setUserInfo({
+      ...userInfo,
+      userId: e.target.value,
+    });
+  };
+
+  const handleIdValidate = async () => {
+    const checkValidId = checkIdSignUp(userInfo.userId);
+    let userData = LOCAL_STORAGE.get('userData');
+
+    const reduplication = userData.find(
+      (data) => data.userId === userInfo.userId,
+    );
+    if (checkValidId && reduplication === undefined) {
+      console.log('사용가능한 아이디입니다.');
+      setToast({ ...toast, status: true, msg: '사용가능한 아이디입니다.' });
+
+      setInputChk({
+        ...inputChk,
+        userId: true,
+      });
+      return;
+    } else if (!checkValidId) {
+      console.log('사용 가능하지 않은 아이디입니다.');
+      setToast({
+        ...toast,
+        status: true,
+        msg: '5자리 이상, 숫자 혹은 영문자만 사용해주시기 바랍니다.',
+      });
+      setInputChk({
+        ...inputChk,
+        userId: false,
+      });
+      return;
+    } else {
+      console.log('중복된 아이디입니다.');
+      setToast({ ...toast, status: true, msg: '중복된 아이디입니다.' });
+      setInputChk({
+        ...inputChk,
+        userId: false,
+      });
+    }
+  };
+
+  const onChangePW = (e) => {
+    inputCheck(1);
+
+    setUserInfo({
+      ...userInfo,
+      password: e.target.value,
+    });
+
+    HandleValidatePW(e.target.value);
+  };
+
+  const HandleValidatePW = (value) => {
+    const checkValidPw = checkPasswordSignUp(value);
+    let userData = LOCAL_STORAGE.get('userData');
+
+    if (!userData) {
+      userData = [];
+    }
+
+    if (checkValidPw) {
+      setToast({
+        ...toast,
+        status: true,
+        msg: '사용가능한 비밀번호입니다.',
+      });
+      setInputChk({
+        ...inputChk,
+        password: true,
+      });
+    } else if (!checkValidPw) {
+      setToast({
+        ...toast,
+        status: true,
+        msg: '사용할 수 없는 비밀번호입니다.',
+      });
+      setInputChk({
+        ...inputChk,
+        password: false,
+      });
+    }
+  };
+
+  const onChangePwconfirm = (e) => {
+    inputCheck(2);
+    setUserPwConfirm(e.target.value);
+    MatchPW(e.target.value);
+  };
+
+  const MatchPW = (value) => {
+    if (value !== userInfo.password) {
+      setToast({
+        ...toast,
+        status: true,
+        msg: '비밀번호가 일치하지 않습니다.',
+      });
+
+      setInputChk({
+        ...inputChk,
+        password_confirm: false,
+      });
+    } else if (value === userInfo.password) {
+      setToast({
+        ...toast,
+        status: true,
+        msg: '비밀번호가 일치합니다.',
+      });
+
+      setInputChk({
+        ...inputChk,
+        password_confirm: true,
+      });
+    }
+  };
+
+  const onChangeName = (e) => {
+    inputCheck(3);
+    setUserInfo({
+      ...userInfo,
+      name: e.target.value,
+    });
+    if (e.target.value === '' || !userInfo.name) {
+      setInputChk({
+        ...inputChk,
+        name: false,
+      });
+    } else {
+      setInputChk({
+        ...inputChk,
+        name: true,
+      });
+    }
+  };
+
+  const onChangeAge = (e) => {
+    inputCheck(4);
+    setUserInfo({
+      ...userInfo,
+      age: e.target.value,
+    });
+
+    if (e.target.value === '' || !userInfo.age) {
+      setInputChk({
+        ...inputChk,
+        age: false,
+      });
+    } else {
+      setInputChk({
+        ...inputChk,
+        age: true,
+      });
+    }
+  };
+
+  const addrBtnEvent = () => {
+    get_address(userInfo, setUserInfo);
+  };
+
+  useEffect(() => {
+    if (userInfo.zcode) {
+      setInputChk({
+        ...inputChk,
+        zcode: true,
+      });
+      setToast({
+        ...toast,
+        status: true,
+        msg: '주소가 등록되었습니다.',
+      });
+    }
+  }, [userInfo.zcode]);
+
+  const handleChange = (e) => {
+    setUserInfo({ ...userInfo, detailAddr: e.target.value });
+    inputCheck(5);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleCardInput = (cardInput) => {
+    setUserInfo({
+      ...userInfo,
+      creditCard: {
+        ...userInfo.creditCard,
+        cardNumber: cardInput.cardNumber,
+        holderName: cardInput.holderName,
+        expired: cardInput.expired,
+        CVC: cardInput.CVC,
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (userInfo.creditCard.cardNumber) {
+      setInputChk({
+        ...inputChk,
+        creditCard: {
+          cardNumber: true,
+        },
+      });
+      setToast({
+        ...toast,
+        status: true,
+        msg: '카드가 등록되었습니다.',
+      });
+    }
+  }, [userInfo.creditCard.cardNumber]);
+
   const signupBtnEvnt = () => {
     const { userId, password, name, age, role, menubar } = userInfo;
     const { cardNumber, holderName, expired, CVC } = userInfo.creditCard;
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
 
-    const uploadData = inputData(
-      userId,
-      password,
-      name,
-      age,
-      cardNumber,
-      holderName,
-      expired,
-      CVC,
-      role,
-      userAddr,
-      menubar,
-    );
-    if (uploadData) {
-      console.log('회원가입 가능');
-      setToast({ ...toast, status: true, msg: '회원가입이 완료되었습니다!' });
+    const check = inputCheck(7);
+
+    if (check) {
+      setToast({ ...toast, status: true, msg: '회원 가입이 완료되었습니다!' });
+      inputData(
+        userId,
+        password,
+        name,
+        age,
+        cardNumber,
+        holderName,
+        expired,
+        CVC,
+        role,
+        userAddr,
+        menubar,
+      );
       setTimeout(() => {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
-      console.log('회원가입이 불가합니다.');
+      const { userId, password, password_confirm, name, age } =
+      inputChk;
+
+      if(!userId) {
+        idInput.current.focus();
+      }
+      else if(!password){
+        pwInput.current.focus();
+      }
+      else if(!password_confirm){
+        pwConfirmInput.current.focus();
+      }
+      else if(!name){
+        nameInput.current.focus();
+      }
+      else if(!age){
+        ageInput.current.focus();
+      }
     }
   };
 
@@ -107,174 +435,35 @@ export default function SignUpPage() {
     return setUserData(data);
   };
 
-  const handleRadioButton = async (name) => {
-    const menu = await LOCAL_STORAGE.get('role').role[name];
-
-    setUserInfo({
-      ...userInfo,
-      role: name,
-      menubar: menu,
-    });
-  };
-
-  const [showModal, setShowModal] = useState(false);
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
-
-  const addrBtnEvent = () => {
-    get_address(userInfo, setUserInfo);
-  };
-
-  const handleChange = (e) => {
-    setUserInfo({ ...userInfo, detailAddr: e.target.value });
-  };
-
-  const handleCardInput = (cardInput) => {
-    setUserInfo({
-      ...userInfo,
-      creditCard: {
-        ...userInfo.creditCard,
-        cardNumber: cardInput.cardNumber,
-        holderName: cardInput.holderName,
-        expired: cardInput.expired,
-        CVC: cardInput.CVC,
-      },
-    });
-  };
-
-  const handleId = (e) => {
-    setUserInfo({
-      ...userInfo,
-      userId: e.target.value,
-    });
-  };
-
-  const handleIdValidate = async () => {
-    const checkValidId = checkId(userInfo.userId);
-    let userData = LOCAL_STORAGE.get('userData');
-    if (!userData) {
-      userData = [];
-    }
-    const reduplication = userData.find(
-      (data) => data.userId === userInfo.userId,
-    );
-    if (checkValidId && reduplication === undefined) {
-      console.log('사용가능한 아이디입니다.');
-      setToast({ ...toast, status: true, msg: '사용가능한 아이디입니다.' });
-      return;
-    } else if (!checkValidId) {
-      console.log('사용 가능하지 않은 아이디입니다.');
-      setToast({
-        ...toast,
-        status: true,
-        msg: '사용 가능하지 않은 아이디입니다.',
-      });
-      return;
-    } else {
-      console.log('중복된 아이디입니다.');
-      setToast({ ...toast, status: true, msg: '중복된 아이디입니다.' });
-    }
-  };
-
-  const onChangePW = (e) => {
-    setUserInfo({
-      ...userInfo,
-      password: e.target.value,
-    });
-    HandleValidatePW(e.target.value);
-  };
-
-  const HandleValidatePW = (value) => {
-    const checkValidPw = checkPasswordSignUp(value);
-    let userData = LOCAL_STORAGE.get('userData');
-
-    if (!userData) {
-      userData = [];
-    }
-
-    if (checkValidPw) {
-      console.log('사용가능한 비밀번호입니다.');
-    } else if (!checkValidPw) {
-      console.log('사용할 수 없는 비밀번호 입니다.');
-    }
-  };
-
-  const onChangePwconfirm = (e) => {
-    setUserPwConfirm(e.target.value);
-    MatchPW(e.target.value);
-  };
-
-  const MatchPW = (value) => {
-    if (value !== userInfo.password) {
-      console.log('비밀번호가 일치하지 않습니다.');
-    } else if (value === userInfo.password) {
-      console.log('비밀번호가 일치합니다.');
-    }
-  };
-
-  const onChangeName = (e) => {
-    setUserInfo({
-      ...userInfo,
-      name: e.target.value,
-    });
-  };
-
-  const onChangeAge = (e) => {
-    setUserInfo({
-      ...userInfo,
-      age: e.target.value,
-    });
-  };
-
   return (
     <>
       <Container>
         <Wrap>
           <Title>
-            10초 만에 가입하고
+            10초 만에
             <br />
-            원하는 역할로 가입해보세요
+            원하는 역할로 가입해보세요 <br />
+            <br />
+            예리님.
           </Title>
-          <Wrapper_Radio>
-            <label htmlFor="radio">
-              <Input_Radio
-                type="radio"
-                id="teacherRadio"
-                name="teacher"
-                value="teacherRadio"
-                checked={userInfo.role === 'teacher'}
-                onClick={() => handleRadioButton('teacher')}
-                readOnly
-              />
-              teacher
-            </label>
-            <label htmlFor="radio">
-              <Input_Radio
-                type="radio"
-                id="parentRadio"
-                name="parent"
-                value="parentRadio"
-                checked={userInfo.role === 'parent'}
-                onClick={() => handleRadioButton('parent')}
-                readOnly
-              />
-              parent
-            </label>
-          </Wrapper_Radio>
+
           <Wrapper_ID>
-            <Input_ID placeholder="ID" maxLength="30" onChange={handleId} />
+            <Input_ID
+              placeholder="ID"
+              maxLength="30"
+              onChange={handleId}
+              ref={idInput}
+            />
             <Submit_ID_btn onClick={handleIdValidate}>
               {' '}
               아이디 중복 확인{' '}
             </Submit_ID_btn>
           </Wrapper_ID>
-          <Input_PW onChange={onChangePW} value={userInfo.password} />
+          <Input_PW
+            onChange={onChangePW}
+            value={userInfo.password}
+            ref={pwInput}
+          />
 
           <PW_policy_container>
             <PW_poclicy_item>
@@ -302,9 +491,18 @@ export default function SignUpPage() {
           <Input_PW_confirm
             onChange={onChangePwconfirm}
             value={userPwconfirm}
+            ref={pwConfirmInput}
           />
-          <Input_name onChange={onChangeName} />
-          <Input_age onChange={onChangeAge} />
+          <Input_name
+            onChange={onChangeName}
+            value={userInfo.name}
+            ref={nameInput}
+          />
+          <Input_age
+            onChange={onChangeAge}
+            value={userInfo.age}
+            ref={ageInput}
+          />
 
           <Address_container>
             <Address_title>주소</Address_title>
@@ -351,7 +549,7 @@ const {
   Container,
   Wrap,
   Title,
-  Wrapper_Radio,
+  // Wrapper_Radio,
   Wrapper_ID,
   Input_ID,
   Submit_ID_btn,
@@ -372,6 +570,6 @@ const {
   Street_addr,
   Lot_addr,
   Detailed_addr,
-  Input_Radio,
+  // Input_Radio,
   // Note_addr,
 } = style;
