@@ -29,17 +29,7 @@ export default function CreditCardForm({
     expired: addSeparatorBetweenNumber(expired, 2, '/'),
     CVC,
   });
-  // const [flag, setFlag] = useState(false)
-  // useEffect(()=>{
 
-  // },[flag])
-
-  // const onClose = (bool) => {
-  //   // let stuts=false
-  //   bool ? (bool = true) : (bool = false);
-
-  //   closeModal(bool);
-  // };
   const [toast, setToast] = useState({
     status: false,
     msg: '',
