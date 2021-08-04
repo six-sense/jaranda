@@ -99,6 +99,7 @@ export default function SignUpPage() {
       role: name,
     });
   };
+
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
