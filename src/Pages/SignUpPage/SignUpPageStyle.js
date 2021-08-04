@@ -18,11 +18,18 @@ export const Title = styled.div`
   text-align: center;
 `;
 
+export const Wrapper_Radio = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
 export const Wrapper_ID = styled.div`
   display: flex;
   width: 100%;
   line-height: 1;
 `;
+
+export const Input_Radio = styled('input')``;
 
 export const Input = styled.input`
   margin: 0 auto;
@@ -50,12 +57,12 @@ export const Input_ID = styled(Input).attrs({
 })``;
 
 export const Input_PW = styled(Input).attrs({
-  type: 'text',
+  type: 'password',
   placeholder: '비밀번호',
 })``;
 
 export const Input_PW_confirm = styled(Input).attrs({
-  type: 'text',
+  type: 'password',
   placeholder: '비밀번호 확인',
 })``;
 
@@ -199,4 +206,6 @@ export const style = {
   Lot_addr,
   Detailed_addr,
   Note_addr,
+  Wrapper_Radio,
+  Input_Radio,
 };
