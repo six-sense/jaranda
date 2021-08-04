@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { style } from './CreditCardFormStyle';
 import PropTypes from 'prop-types';
 import {
@@ -7,6 +7,7 @@ import {
   limitLength,
   validateExpiration,
 } from './creditCardUtils';
+import ToastForm from 'Compnents/ToastForm/ToastForm';
 
 const INPUT_NAMES = {
   CARD_NUMBER: 'cardNumber',
@@ -28,17 +29,20 @@ export default function CreditCardForm({
     expired: addSeparatorBetweenNumber(expired, 2, '/'),
     CVC,
   });
-  // const [flag, setFlag] = useState(false)
-  // useEffect(()=>{
 
-  // },[flag])
+  const [toast, setToast] = useState({
+    status: false,
+    msg: '',
+  });
 
-  // const onClose = (bool) => {
-  //   // let stuts=false
-  //   bool ? (bool = true) : (bool = false);
-
-  //   closeModal(bool);
-  // };
+  useEffect(() => {
+    if (toast.status) {
+      const timeInterver = setTimeout(() => {
+        setToast({ ...toast, status: false });
+      }, 2000);
+      return () => clearTimeout(timeInterver);
+    }
+  }, [toast]);
 
   const onChange = (e) => {
     switch (e.target.name) {
@@ -78,18 +82,33 @@ export default function CreditCardForm({
   const onSubmit = () => {
     const { cardNumber, holderName, expired, CVC } = cardInput;
 
-    // To Do : toast message
     if (cardNumber.length < 19) {
-      console.log('유효한 카드 번호를 입력해주세요');
+      setToast({
+        ...toast,
+        status: true,
+        msg: '유효한 카드 번호를 입력해주세요.',
+      });
       return;
     } else if (holderName.length < 1) {
-      console.log('이름을 입력해주세요.');
+      setToast({
+        ...toast,
+        status: true,
+        msg: '이름을 입력해주세요.',
+      });
       return;
     } else if (!(expired.length === 5 && validateExpiration(expired))) {
-      console.log('유효한 카드 유효기간을 입력해주세요');
+      setToast({
+        ...toast,
+        status: true,
+        msg: '유효한 카드 유효기간을 입력해주세요.',
+      });
       return;
     } else if (CVC.length < 3) {
-      console.log('유효한 CVC를 입력해주세요.');
+      setToast({
+        ...toast,
+        status: true,
+        msg: '유효한 CVC를 입력해주세요.',
+      });
       return;
     }
 
@@ -139,6 +158,7 @@ export default function CreditCardForm({
           <CreditButton onClick={onSubmit}>등록</CreditButton>
         </Row>
       </Wrap>
+      <ToastForm show={toast.status} contents={toast.msg} />
     </Container>
   );
 }
