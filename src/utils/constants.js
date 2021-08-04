@@ -15,18 +15,41 @@ export const LOCAL_STORAGE = storage(localStorage);
 
 export const ROUTES = {
   MAIN: '/',
-  WATCH: '/watch',
+  SIGN_IN: '/account/signin',
+  SIGN_UP: '/account/signup',
   SUPPORT: '/support',
   HELP: '/help',
-  SIGN_IN: '/signin',
-  SIGN_UP: '/signup',
   ADMIN: '/admin',
   ROLE_MANAGEMENT: '/role-management',
+  WATCH: '/watch',
   FORM: '/form',
   HISTORY: '/history',
-  LOG: '/log',
   SCHEDULE: '/schedule',
+  LOG: '/log',
 };
+
+export const MENUS = [
+  {
+    name: '선생님 보기',
+    path: ROUTES.WATCH,
+  },
+  {
+    name: '신청서 작성하기',
+    path: ROUTES.FORM,
+  },
+  {
+    name: '신청 내역',
+    path: ROUTES.HISTORY,
+  },
+  {
+    name: '방문일정',
+    path: ROUTES.SCHEDULE,
+  },
+  {
+    name: '방문일지',
+    path: ROUTES.LOG,
+  },
+];
 
 export const ROLES = {
   ADMIN: 'admin',
