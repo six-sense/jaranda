@@ -1,9 +1,9 @@
 {
-    "allMenu" : ["PARENT", "TEACHER", "HELP", "ADMIN", "ROLE_MANAGEMENT"],
+    "allMenu" : ["PARENT", "TEACHER", "HELP", "ADMIN", "ROLE_MANAGEMENT", "FORM", "HISTORY", "SCHEDULE", "LOG"],
     "default" : ["PARENT", "TEACHER","HELP"],
     "role" : {
         "teacher" : ["TEACHER", "HELP"],
         "parent" : ["PARENT", "HELP"],
-        "admin" : ["PARENT", "TEACHER", "HELP", "ADMIN", "ROLE_MANAGEMENT"]
+        "admin" : ["PARENT", "TEACHER", "HELP", "ADMIN", "ROLE_MANAGEMENT", "FORM", "HISTORY", "SCHEDULE", "LOG"]
     }
 }

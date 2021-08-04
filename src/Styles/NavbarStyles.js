@@ -22,6 +22,11 @@ export const NavLink = styled(Link)`
     color: #87bf44;
     font-weight: 500;
   }
+
+  &.active {
+    color: #87bf44;
+    font-weight: 500;
+  }
 `;
 
 export const NavMenu = styled.div`
