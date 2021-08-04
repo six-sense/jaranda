@@ -6,7 +6,14 @@ function checkId(id) {
 
 // 비밀번호 유효성 검사
 function checkPassword(password) {
-  const pwValid = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{0,16}$/;
+  const pwValid = /^[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}$/;
+  return password.match(pwValid);
+}
+
+// 비밀번호 유효성 검사 (8자리 이상/ 숫자,알파벳,특수문자 필수 포함)
+function checkPasswordSignUp(password) {
+  const pwValid =
+  /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
   return password.match(pwValid);
 }
 
@@ -17,4 +24,4 @@ function checkEmail(email) {
   return email.match(emailValid);
 }
 
-export const Validation = { checkPassword, checkId, checkEmail };
+export const Validation = { checkPassword, checkId, checkEmail, checkPasswordSignUp };
