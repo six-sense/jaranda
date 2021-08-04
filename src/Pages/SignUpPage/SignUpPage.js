@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
@@ -8,6 +8,7 @@ import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
+import ToastForm from 'Compnents/ToastForm/ToastForm';
 
 export default function SignUpPage() {
   const [userPwconfirm, setUserPwConfirm] = useState('');
@@ -30,17 +31,65 @@ export default function SignUpPage() {
     detailAddr: '',
     // menubar:'',
   });
+  const [toast, setToast] = useState({
+    status: false,
+    msg: '',
+  });
+  useEffect(() => {
+    if (toast.status) {
+      const timeInterver = setTimeout(() => {
+        setToast({ ...toast, status: false });
+      }, 2000);
+      return () => clearTimeout(timeInterver);
+    }
+  }, [toast]);
 
   const signupBtnEvnt = () => {
     const { userId, password, name, age, role } = userInfo;
-
+    const { cardNumber, holderName, expired, CVC } = userInfo.creditCard;
     const userAddr =
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
-    inputData(userId, password, name, age, role, userAddr);
+
+    inputData(
+      userId,
+      password,
+      name,
+      age,
+      cardNumber,
+      holderName,
+      expired,
+      CVC,
+      role,
+      userAddr,
+    );
+    setToast({ ...toast, status: true, msg: 'test' });
   };
+
   // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-  const inputData = (userId, pw, name, age, role, addr) => {
-    const data = userDataForm(userId, pw, name, age, role, addr);
+  const inputData = (
+    userId,
+    pw,
+    name,
+    age,
+    cardNumber,
+    holderName,
+    expired,
+    cvc,
+    role,
+    addr,
+  ) => {
+    const data = userDataForm(
+      userId,
+      pw,
+      name,
+      age,
+      cardNumber,
+      holderName,
+      expired,
+      cvc,
+      role,
+      addr,
+    );
     setUserData(data);
   };
 
@@ -51,25 +100,14 @@ export default function SignUpPage() {
     });
   };
   const [showModal, setShowModal] = useState(false);
-  const [flag, setFlag] = useState(false);
 
   const openModal = () => {
     setShowModal(true);
   };
 
-  const closeModal = (status) => {
-    console.log(flag);
-    if (status === false) {
-      setFlag(false);
-    } else {
-      setFlag(true);
-    }
+  const closeModal = () => {
     setShowModal(false);
   };
-
-  // const closeBtnStatus = ()=>{
-
-  // }
 
   const addrBtnEvent = () => {
     get_address(userInfo, setUserInfo);
@@ -110,12 +148,19 @@ export default function SignUpPage() {
     );
     if (checkValidId && reduplication === undefined) {
       console.log('사용가능한 아이디입니다.');
+      setToast({ ...toast, status: true, msg: '사용가능한 아이디입니다.' });
       return;
     } else if (!checkValidId) {
       console.log('사용 가능하지 않은 아이디입니다.');
+      setToast({
+        ...toast,
+        status: true,
+        msg: '사용 가능하지 않은 아이디입니다.',
+      });
       return;
     } else {
       console.log('중복된 아이디입니다.');
+      setToast({ ...toast, status: true, msg: '중복된 아이디입니다.' });
     }
   };
 
@@ -278,6 +323,8 @@ export default function SignUpPage() {
           handleCardInput={handleCardInput}
         />
       </Modal>
+
+      <ToastForm show={toast.status} contents={toast.msg} />
     </>
   );
 }
