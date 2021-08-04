@@ -59,7 +59,9 @@ function AdminPage() {
         <table>
           <thead>
             <tr>
+              <Cell>userId</Cell>
               <Cell>Name</Cell>
+              <Cell>age</Cell>
               <Cell>Role</Cell>
               <Cell>Address</Cell>
               <Cell>Pages</Cell>
@@ -68,9 +70,12 @@ function AdminPage() {
           <tbody>
             {datas.map((data, index) => (
               <tr key={index}>
+                <Cell>{data.userId}</Cell>
                 <Cell>{data.name}</Cell>
                 <Cell>{data.age}</Cell>
+                <Cell>{data.role}</Cell>
                 <Cell>{data.address}</Cell>
+
                 <Cell>
                   {properties.map((property, index) => (
                     <div key={index}>
