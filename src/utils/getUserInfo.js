@@ -76,6 +76,10 @@ export const getUserData = (userId) => {
   return allUserData.find((user) => user.userId === userId);
 };
 
+export const checkIsLoggedIn = () => {
+  return Boolean(getCurrentUser());
+};
+
 export const checkIsAdmin = () => {
   const currentUser = getCurrentUser();
   return currentUser.role === ROLES.ADMIN;
