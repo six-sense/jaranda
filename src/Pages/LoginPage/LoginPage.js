@@ -46,13 +46,13 @@ export default function Login({ handleLogin }) {
   };
 
   const checkLogin = async () => {
-    const validLogin = sendLogin(inputIdValue, inputPwValue);
     if (
       checkId(inputIdValue) &&
       checkPassword(inputPwValue) &&
       inputIdValue !== '' &&
       inputPwValue !== ''
     ) {
+      const validLogin = sendLogin(inputIdValue, inputPwValue);
       if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {
