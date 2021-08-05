@@ -480,7 +480,7 @@ export default function SignUpPage({ accountPlus }) {
             <Title>환상적인 회원가입을 경험해보세요.</Title>
           ) : (
             <>
-              <Title>계정 추가 해보세요.</Title>
+              <Title>간편하게 계정 추가 해보세요.</Title>
               <Wrapper_CheckBox>
                 <label htmlFor="radio">
                   <Input_Radio

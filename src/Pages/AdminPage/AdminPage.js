@@ -14,6 +14,7 @@ function AdminPage() {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
+  const [modalStyle, setModalStyle] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -107,10 +108,12 @@ function AdminPage() {
 
   const openModal = () => {
     setShowModal(true);
+    setModalStyle(!modalStyle);
   };
 
   const closeModal = () => {
     setShowModal(false);
+    setModalStyle(!modalStyle);
   };
 
   useEffect(() => {
@@ -210,8 +213,12 @@ function AdminPage() {
           </div>
         </TableFooter>
       </TableContainer>
-      <Modal show={showModal} onClose={() => closeModal()}>
-        <SignUpPage />
+      <Modal
+        show={showModal}
+        onClose={() => closeModal()}
+        accountStyle={modalStyle}
+      >
+        <SignUpPage accountPlus={modalStyle} />
       </Modal>
     </Layout>
   );
