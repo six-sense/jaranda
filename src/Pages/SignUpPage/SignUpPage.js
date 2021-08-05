@@ -188,9 +188,6 @@ export default function SignUpPage() {
     }
   };
 
-  // const regex1 = (pw) => {
-
-  // }
   const onChangePW = (e) => {
     inputCheck(1);
 
@@ -221,8 +218,6 @@ export default function SignUpPage() {
       setIsLength(false);
     }
 
-
-
     setUserInfo({
       ...userInfo,
       password: e.target.value,
@@ -235,21 +230,11 @@ export default function SignUpPage() {
     const checkValidPw = checkPasswordSignUp(value);
 
     if (checkValidPw) {
-      setToast({
-        ...toast,
-        status: true,
-        msg: '사용가능한 비밀번호입니다.',
-      });
       setInputChk({
         ...inputChk,
         password: true,
       });
     } else if (!checkValidPw) {
-      setToast({
-        ...toast,
-        status: true,
-        msg: '사용할 수 없는 비밀번호입니다.',
-      });
       setInputChk({
         ...inputChk,
         password: false,
