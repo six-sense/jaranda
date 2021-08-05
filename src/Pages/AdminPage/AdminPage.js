@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import { ROUTES, MENUS } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
+import Layout from 'Compnents/Layout';
 
 function AdminPage() {
   const history = useHistory();
@@ -122,7 +123,7 @@ function AdminPage() {
   }, [pages, searchValue, clickCheck]);
 
   return (
-    <div>
+    <Layout>
       <TableContainer>
         <TableTitleContainer>
           <TableTitleBox>
@@ -212,7 +213,7 @@ function AdminPage() {
       <Modal show={showModal} onClose={() => closeModal()}>
         <SignUpPage />
       </Modal>
-    </div>
+    </Layout>
   );
 }
 
