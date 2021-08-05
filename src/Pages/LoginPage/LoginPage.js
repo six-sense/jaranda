@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
+import { checkIsAdmin } from 'utils/getUserInfo';
 
 export default function Login({ handleLogin }) {
   const [isValid, setIsValid] = useState(false);
@@ -33,20 +34,25 @@ export default function Login({ handleLogin }) {
         userId: test.userId,
         role: test.role,
       });
+
       handleLogin();
+      if (checkIsAdmin()) {
+        history.push(ROUTES.ADMIN);
+      }
+
       return true;
     }
     return false;
   };
 
   const checkLogin = async () => {
-    const validLogin = sendLogin(inputIdValue, inputPwValue);
     if (
       checkId(inputIdValue) &&
       checkPassword(inputPwValue) &&
       inputIdValue !== '' &&
       inputPwValue !== ''
     ) {
+      const validLogin = sendLogin(inputIdValue, inputPwValue);
       if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {

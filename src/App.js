@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ROUTES, LOCAL_STORAGE, ROLES, PUBLIC_MENUS } from 'utils/constants';
+import { Switch } from 'react-router-dom';
 import Navbar from 'Compnents/Navbar';
 import LandingPage from 'Pages/LandingPage';
+import Support from 'Pages/Support';
+import Help from 'Pages/Help';
 import LoginPage from 'Pages/LoginPage';
 import SignUpPage from 'Pages/SignUpPage/SignUpPage';
+import Watch from 'Pages/Watch';
+import Form from 'Pages/Form';
+import History from 'Pages/History';
+import Schedule from 'Pages/Schedule';
+import Log from 'Pages/Log';
 import AdminPage from 'Pages/AdminPage';
-import Help from 'Pages/Help';
 import RoleManagement from 'Pages/RoleManagementPage';
 import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
-// import { MenuBasedRoutes } from 'routes';
+import { ROUTES, LOCAL_STORAGE, PUBLIC_MENUS } from 'utils/constants';
+import { checkIsAdmin, getCurrentUser, getUserMenu } from 'utils/getUserInfo';
+import { PrivateRoute, PublicRoute } from 'utils/routes';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
@@ -31,27 +38,25 @@ function App() {
   }, [isLoggedIn]);
 
   const handleLogin = () => {
-    const CURRENT_USER = LOCAL_STORAGE.get('token');
-    const USER_LIST = LOCAL_STORAGE.get('userData');
-    if (CURRENT_USER) {
-      const USER_DATA = USER_LIST.find(
-        (user) => user.userId === CURRENT_USER.userId,
-      );
+    if (getCurrentUser()) {
       setIsLoggedIn(true);
-      setUserMenu(USER_DATA.menubar);
-      setIsAdmin(CURRENT_USER.role === ROLES.ADMIN);
+      setUserMenu(getUserMenu());
+      setIsAdmin(checkIsAdmin());
     }
   };
 
   const handleLogout = () => {
     LOCAL_STORAGE.remove('token');
+
     setIsLoggedIn(false);
     setUserMenu(PUBLIC_MENUS);
     setIsAdmin(false);
   };
 
+  console.log('App', isLoggedIn, isAdmin);
+
   return (
-    <Router>
+    <>
       <Navbar
         isLoggedIn={isLoggedIn}
         userMenu={isLoggedIn ? userMenu : PUBLIC_MENUS}
@@ -59,16 +64,49 @@ function App() {
         handleLogout={handleLogout}
       />
       <Switch>
-        <Route exact path={ROUTES.MAIN} component={LandingPage} />
-        <Route path={ROUTES.HELP} component={Help} />
-        <Route path={ROUTES.SIGN_IN}>
+        {/* public */}
+        <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
+          <LandingPage />
+        </PublicRoute>
+        <PublicRoute path={ROUTES.SUPPORT} restricted={false}>
+          <Support />
+        </PublicRoute>
+        <PublicRoute path={ROUTES.HELP} restricted={false}>
+          <Help />
+        </PublicRoute>
+        <PublicRoute path={ROUTES.SIGN_IN} restricted={true}>
           <LoginPage handleLogin={handleLogin} />
-        </Route>
-        <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-        <Route path={ROUTES.ADMIN} component={AdminPage} />
-        <Route path={ROUTES.ROLE_MANAGEMENT} component={RoleManagement} />
+        </PublicRoute>
+        <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
+          <SignUpPage />
+        </PublicRoute>
+
+        {/* logged in user */}
+        <PrivateRoute path={ROUTES.WATCH} restricted={isLoggedIn}>
+          <Watch />
+        </PrivateRoute>
+        <PrivateRoute path={ROUTES.FORM} restricted={isLoggedIn}>
+          <Form />
+        </PrivateRoute>
+        <PrivateRoute path={ROUTES.HISTORY} restricted={isLoggedIn}>
+          <History />
+        </PrivateRoute>
+        <PrivateRoute path={ROUTES.SCHEDULE} restricted={isLoggedIn}>
+          <Schedule />
+        </PrivateRoute>
+        <PrivateRoute path={ROUTES.LOG} restricted={isLoggedIn}>
+          <Log />
+        </PrivateRoute>
+
+        {/* admin */}
+        <PrivateRoute path={ROUTES.ADMIN} restricted={isAdmin}>
+          <AdminPage />
+        </PrivateRoute>
+        <PrivateRoute path={ROUTES.ROLE_MANAGEMENT} restricted={isAdmin}>
+          <RoleManagement />
+        </PrivateRoute>
       </Switch>
-    </Router>
+    </>
   );
 }
 
