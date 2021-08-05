@@ -6,17 +6,20 @@ import { style } from './AdminPageStyle';
 import { useHistory } from 'react-router-dom';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
-
-// const properties = [
-//   { label: 'Parents', value: 'Parents' },
-//   { label: 'Teachers', value: 'Teachers' },
-// ];
+import Checkbox from 'Compnents/Checkbox/Checkbox';
+const properties = [
+  { label: 'menu1', value: 'menu1' },
+  { label: 'menu2', value: 'menu2' },
+  { label: 'menu3', value: 'menu3' },
+  { label: 'menu4', value: 'menu4' },
+  { label: 'menu5', value: 'menu5' },
+];
 
 function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  // const [checkedArray, setCheckedArray] = useState([]);
+  const [checkedArray, setCheckedArray] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -28,45 +31,63 @@ function AdminPage() {
     setSearchValue(e.target.value);
   };
 
-  const onHandleChecked = (data, menu) => {
-    if (data.menubar.indexOf(menu) >= 0) {
-      return true;
-    }
-    return false;
-  };
+  // const onHandleButton = (page) => {
+  //   console.log(page)
+  //   const currentIndex = checkedArray.indexOf(page);
+  //   const newChecked = [...checkedArray];
 
-  const onHandleCheck = async (data, menu) => {
-    const temp = data;
-    // console.log(temp);
-    const userData = await LOCAL_STORAGE.get('userData');
-    const userIdx = userData.findIndex((user) => user.userId === temp.userId);
-    if (!temp.menubar.find((dataMenu) => dataMenu === menu)) {
-      const newUserData = userData
-        .slice(0, userIdx)
-        .concat([{ ...temp, menubar: temp.menubar.concat([menu]) }])
-        .concat(userData.slice(userIdx + 1));
-      // console.log('good', newUserData);
-      await LOCAL_STORAGE.set('userData', newUserData);
+  //   if (currentIndex === -1) newChecked.push(page);
+  //   else newChecked.splice(currentIndex, 1);
+
+  //   setCheckedArray(newChecked);
+  // };
+
+  useEffect(() => {
+    console.log(checkedArray);
+  }, [checkedArray]);
+
+  const onHandleChckBtn = (page, tindex) => {
+    const seletedInfo = Object.keys(checkedArray).includes(tindex.toString());
+    let obj = new Object();
+
+    if (seletedInfo === false) {
+      let newSelected = [];
+      newSelected = newSelected.concat(page);
+
+      for (const [key, value] of Object.entries(checkedArray)) {
+        obj[key] = value;
+      }
+      obj[tindex] = newSelected;
+      setCheckedArray(obj);
     } else {
-      const menuIdx = temp.menubar.indexOf(menu);
-      // console.log(
-      //   temp.menubar.slice(0, menuIdx).concat(temp.menubar.slice(menuIdx + 1)),
-      // );
-      const newUserData = userData
-        .slice(0, userIdx)
-        .concat([
-          {
-            ...temp,
-            menubar: temp.menubar
-              .slice(0, menuIdx)
-              .concat(temp.menubar.slice(menuIdx + 1)),
-          },
-        ])
-        .concat(userData.slice(userIdx + 1));
-      // console.log('bad', newUserData);
-      await LOCAL_STORAGE.set('userData', newUserData);
+      const selectedIndex = checkedArray[tindex].indexOf(page);
+      let newSelected = [];
+      if (selectedIndex == -1) {
+        newSelected = newSelected.concat(checkedArray[tindex], page);
+      } else {
+        newSelected = newSelected.concat(checkedArray[tindex]);
+        newSelected.splice(selectedIndex, 1);
+      }
+
+      for (const [key, value] of Object.entries(checkedArray)) {
+        obj[key] = value;
+      }
+      obj[tindex] = newSelected;
+      setCheckedArray(obj);
     }
-    setClickCheck(true);
+  };
+  const isSelected = (name, indexs) => {
+    // console.log(checkedArray[indexs])
+    if (
+      Object.keys(checkedArray).length > 0 &&
+      Object.keys(checkedArray).includes(indexs.toString())
+    ) {
+      if (checkedArray[indexs].indexOf(name) == -1) {
+        return false;
+      } else {
+        return true;
+      }
+    }
   };
 
   const onHandleButtonLeft = () => {
@@ -100,7 +121,9 @@ function AdminPage() {
   };
 
   useEffect(() => {
+    // console.log(pages,data);
     const userInfo = getUserInfo(pages, limit, searchValue);
+    // console.log('userInfo', userInfo);
     setData(userInfo.userData);
     setMaxPage(userInfo.maxPage);
     setClickCheck(false);
@@ -128,6 +151,7 @@ function AdminPage() {
             </GoRolePageButton>
           </SearchContainer>
         </TableTitleContainer>
+
         <table>
           <thead>
             <tr>
@@ -136,38 +160,40 @@ function AdminPage() {
               <Cell>Age</Cell>
               <Cell>Role</Cell>
               <Cell>Address</Cell>
-              <Cell>Pages</Cell>
+              <Cell>Menu</Cell>
             </tr>
           </thead>
-          <tbody>
-            {data &&
-              data.map((data, index) => {
-                return (
-                  <tr key={index}>
-                    <Cell>{data.userId}</Cell>
-                    <Cell>{data.name}</Cell>
-                    <Cell>{data.age}</Cell>
-                    <Cell>{data.role}</Cell>
-                    <Cell>{data.address}</Cell>
-                    <Cell>
-                      {menuList.map((menu, index) => {
-                        return (
-                          <div key={index}>
-                            <CheckButton
-                              type="checkbox"
-                              id={index}
-                              checked={onHandleChecked(data, menu)}
-                              onChange={() => onHandleCheck(data, menu)}
-                            />
-                            <label>{menu}</label>
-                          </div>
-                        );
-                      })}
-                    </Cell>
-                  </tr>
-                );
-              })}
-          </tbody>
+          {data &&
+            data.map((data, indexs) => (
+              <tbody key={indexs}>
+                <tr key={indexs}>
+                  <Cell>{data.userId}</Cell>
+                  <Cell>{data.name}</Cell>
+                  <Cell>{data.age}</Cell>
+                  <Cell>{data.role}</Cell>
+                  <Cell>{data.address}</Cell>
+                  <Cell>
+                    {properties.map((property, index) => {
+                      let isItemSelected = isSelected(property.value, indexs);
+
+                      return (
+                        <div key={index}>
+                          <Checkbox
+                            type="checkbox"
+                            checked={isItemSelected}
+                            id={index}
+                            onClick={() =>
+                              onHandleChckBtn(property.value, indexs)
+                            }
+                          />
+                          <label>{property.label}</label>
+                        </div>
+                      );
+                    })}
+                  </Cell>
+                </tr>
+              </tbody>
+            ))}
         </table>
         <TableFooter>
           <div>
@@ -194,7 +220,7 @@ export default AdminPage;
 
 const {
   Cell,
-  CheckButton,
+  // CheckButton,
   AccountAddButton,
   Searchbox,
   SearchContainer,
