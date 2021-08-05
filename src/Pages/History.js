@@ -1,18 +1,17 @@
 import React from 'react';
+import Layout from 'Compnents/Layout';
 
 function History() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '40px',
-        height: '90vh',
-      }}
-    >
-      History Page
-    </div>
+    <Layout>
+      <div
+        style={{
+          fontSize: '40px',
+        }}
+      >
+        History Page
+      </div>
+    </Layout>
   );
 }
 

@@ -1,18 +1,17 @@
 import React from 'react';
+import Layout from 'Compnents/Layout';
 
 function Support() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '40px',
-        height: '90vh',
-      }}
-    >
-      Support Page
-    </div>
+    <Layout>
+      <div
+        style={{
+          fontSize: '40px',
+        }}
+      >
+        Support Page
+      </div>
+    </Layout>
   );
 }
 

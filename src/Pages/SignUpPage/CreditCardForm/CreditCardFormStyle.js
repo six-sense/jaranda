@@ -4,7 +4,7 @@ export const Container = styled.div`
   ${({ theme }) => theme.flexSet()};
 `;
 
-export const Wrap = styled.div`
+export const Wrap = styled.form`
   ${({ theme }) => theme.flexSet('center', 'center', 'column')};
 `;
 
@@ -70,12 +70,16 @@ export const Button = styled.button`
   cursor: pointer;
 `;
 
-export const CancelButton = styled(Button)`
+export const CancelButton = styled(Button).attrs({
+  type: 'button',
+})`
   margin-left: auto;
   background-color: #9a9a9a;
 `;
 
-export const CreditButton = styled(Button)`
+export const CreditButton = styled(Button).attrs({
+  type: 'button',
+})`
   margin-left: 1em;
   background-color: darkorange;
 `;

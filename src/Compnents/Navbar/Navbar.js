@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   NavbarContainer,
@@ -7,9 +7,33 @@ import {
   NavMenu,
 } from 'Styles/NavbarStyles';
 import jaranda from 'Assets/jarandalogo.png';
-import { ROUTES } from 'utils/constants';
+import { LOCAL_STORAGE, PUBLIC_MENUS, ROUTES } from 'utils/constants';
+import { checkIsAdmin, checkIsLoggedIn, getUserMenu } from 'utils/getUserInfo';
 
-const Navbar = ({ isLoggedIn, userMenu, isAdmin, handleLogout }) => {
+const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [userMenu, setUserMenu] = useState([]);
+
+  const handleLogout = () => {
+    LOCAL_STORAGE.remove('token');
+    setIsLoggedIn(checkIsLoggedIn());
+  };
+
+  useEffect(() => {
+    setIsLoggedIn(checkIsLoggedIn());
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setIsAdmin(checkIsAdmin());
+      setUserMenu(getUserMenu());
+    } else {
+      setUserMenu(PUBLIC_MENUS);
+      setIsAdmin(false);
+    }
+  }, [isLoggedIn]);
+
   return (
     <NavbarContainer>
       <NavbarInnerContainer>

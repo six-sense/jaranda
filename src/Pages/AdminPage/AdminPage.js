@@ -18,7 +18,7 @@ function AdminPage() {
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
   const limit = 10;
-  const menuList = ['PARENT', 'HELP', 'LOG'];
+  // const menuList = ['PARENT', 'HELP', 'LOG'];
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
