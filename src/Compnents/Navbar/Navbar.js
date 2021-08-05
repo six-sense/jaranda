@@ -8,8 +8,8 @@ import {
 } from 'Styles/NavbarStyles';
 import jaranda from 'Assets/jarandalogo.png';
 import { PUBLIC_MENUS, ROUTES } from 'utils/constants';
-import { checkIsAdmin, checkIsLoggedIn, getUserMenu } from 'Services/user';
-import { logout } from 'Services/auth';
+import { getUserMenu } from 'Services/user';
+import { checkIsAdmin, checkIsLoggedIn, logout } from 'Services/auth';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
