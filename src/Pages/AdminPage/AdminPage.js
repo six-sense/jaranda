@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
+import Layout from 'Compnents/Layout';
 const properties = [
   { label: 'menu1', value: 'menu1' },
   { label: 'menu2', value: 'menu2' },
@@ -131,7 +132,7 @@ function AdminPage() {
   }, [pages, searchValue]);
 
   return (
-    <div>
+    <Layout>
       <TableContainer>
         <TableTitleContainer>
           <TableTitleBox>
@@ -217,7 +218,10 @@ function AdminPage() {
           <SignUpPage accountPlus={modalStyle} />
         </Modal>
       </TableContainer>
-    </div>
+      <Modal show={showModal} onClose={() => closeModal()}>
+        <SignUpPage />
+      </Modal>
+    </Layout>
   );
 }
 

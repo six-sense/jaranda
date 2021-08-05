@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Switch } from 'react-router-dom';
-import Navbar from 'Compnents/Navbar';
 import LandingPage from 'Pages/LandingPage';
 import Support from 'Pages/Support';
 import Help from 'Pages/Help';
@@ -15,9 +14,9 @@ import AdminPage from 'Pages/AdminPage';
 import RoleManagement from 'Pages/RoleManagementPage';
 import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
-import { ROUTES, LOCAL_STORAGE, PUBLIC_MENUS } from 'utils/constants';
-import { checkIsAdmin, getCurrentUser, getUserMenu } from 'utils/getUserInfo';
-import { PrivateRoute, PublicRoute } from 'utils/routes';
+import { ROUTES, LOCAL_STORAGE } from 'utils/constants';
+import { PrivateRoute, PublicRoute } from 'routes';
+import { isUserMenu } from 'utils/getUserInfo';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
@@ -27,42 +26,8 @@ if (!LOCAL_STORAGE.get('role')) {
 }
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userMenu, setUserMenu] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      handleLogin();
-    }
-  }, [isLoggedIn]);
-
-  const handleLogin = () => {
-    if (getCurrentUser()) {
-      setIsLoggedIn(true);
-      setUserMenu(getUserMenu());
-      setIsAdmin(checkIsAdmin());
-    }
-  };
-
-  const handleLogout = () => {
-    LOCAL_STORAGE.remove('token');
-
-    setIsLoggedIn(false);
-    setUserMenu(PUBLIC_MENUS);
-    setIsAdmin(false);
-  };
-
-  console.log('App', isLoggedIn, isAdmin);
-
   return (
     <>
-      <Navbar
-        isLoggedIn={isLoggedIn}
-        userMenu={isLoggedIn ? userMenu : PUBLIC_MENUS}
-        isAdmin={isAdmin}
-        handleLogout={handleLogout}
-      />
       <Switch>
         {/* public */}
         <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
@@ -75,34 +40,40 @@ function App() {
           <Help />
         </PublicRoute>
         <PublicRoute path={ROUTES.SIGN_IN} restricted={true}>
-          <LoginPage handleLogin={handleLogin} />
+          <LoginPage />
         </PublicRoute>
         <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
           <SignUpPage />
         </PublicRoute>
 
         {/* logged in user */}
-        <PrivateRoute path={ROUTES.WATCH} restricted={isLoggedIn}>
+        <PrivateRoute path={ROUTES.WATCH} restricted={isUserMenu(ROUTES.WATCH)}>
           <Watch />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.FORM} restricted={isLoggedIn}>
+        <PrivateRoute path={ROUTES.FORM} restricted={isUserMenu(ROUTES.FORM)}>
           <Form />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.HISTORY} restricted={isLoggedIn}>
+        <PrivateRoute
+          path={ROUTES.HISTORY}
+          restricted={isUserMenu(ROUTES.HISTORY)}
+        >
           <History />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.SCHEDULE} restricted={isLoggedIn}>
+        <PrivateRoute
+          path={ROUTES.SCHEDULE}
+          restricted={isUserMenu(ROUTES.SCHEDULE)}
+        >
           <Schedule />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.LOG} restricted={isLoggedIn}>
+        <PrivateRoute path={ROUTES.LOG} restricted={isUserMenu(ROUTES.LOG)}>
           <Log />
         </PrivateRoute>
 
         {/* admin */}
-        <PrivateRoute path={ROUTES.ADMIN} restricted={isAdmin}>
+        <PrivateRoute path={ROUTES.ADMIN}>
           <AdminPage />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.ROLE_MANAGEMENT} restricted={isAdmin}>
+        <PrivateRoute path={ROUTES.ROLE_MANAGEMENT}>
           <RoleManagement />
         </PrivateRoute>
       </Switch>

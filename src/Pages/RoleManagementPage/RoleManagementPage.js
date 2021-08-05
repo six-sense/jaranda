@@ -4,6 +4,7 @@ import { style } from './RoleManagementPageStyle';
 import { FaRegUser } from 'react-icons/fa';
 import { useHistory } from 'react-router-dom';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
+import Layout from 'Compnents/Layout';
 
 const properties = [
   { label: '부모님만 이용 가능 페이지', value: '부모님만 이용 가능 페이지' },
@@ -36,7 +37,7 @@ function RoleManagementPage() {
   };
 
   return (
-    <div>
+    <Layout>
       <TableContainer>
         <TableHeader>
           <TableTitle>역할 별 전체 권한 설정</TableTitle>
@@ -86,7 +87,7 @@ function RoleManagementPage() {
           </div>
         </TableFooter>
       </TableContainer>
-    </div>
+    </Layout>
   );
 }
 

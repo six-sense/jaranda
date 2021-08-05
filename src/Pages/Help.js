@@ -1,24 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import Layout from 'Compnents/Layout';
 
 function Help() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '40px',
-        height: '90vh',
-      }}
-    >
-      Help Page
-    </div>
+    <Layout>
+      <div
+        style={{
+          fontSize: '40px',
+        }}
+      >
+        Help Page
+      </div>
+    </Layout>
   );
 }
 
 export default Help;
-
-Help.propTypes = {
-  openModal: PropTypes.func,
-};

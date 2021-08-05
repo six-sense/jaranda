@@ -11,6 +11,7 @@ import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
 import { useHistory } from 'react-router-dom';
+import Layout from 'Compnents/Layout';
 
 export default function SignUpPage({ accountPlus }) {
   const history = useHistory();
@@ -463,7 +464,7 @@ export default function SignUpPage({ accountPlus }) {
   };
 
   return (
-    <>
+    <Layout>
       <Container>
         <Wrap>
           {!accountPlus ? (
@@ -599,7 +600,7 @@ export default function SignUpPage({ accountPlus }) {
       </Modal>
 
       <ToastForm show={toast.status} contents={toast.msg} />
-    </>
+    </Layout>
   );
 }
 
