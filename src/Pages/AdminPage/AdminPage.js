@@ -3,7 +3,6 @@ import Modal from 'Modal';
 import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
-//import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
