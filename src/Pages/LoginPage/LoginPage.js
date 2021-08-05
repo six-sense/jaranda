@@ -47,7 +47,8 @@ export default function Login() {
       inputIdValue !== '' &&
       inputPwValue !== ''
     ) {
-      const validLogin = sendLogin(inputIdValue, inputPwValue);
+      const validLogin = await sendLogin(inputIdValue, inputPwValue);
+      console.log(validLogin);
       if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {
