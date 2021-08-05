@@ -24,8 +24,14 @@ function AdminPage() {
     setSearchValue(e.target.value);
   };
 
+  useEffect(() => {
+    console.log(checkedArray);
+  }, [checkedArray]);
+
+  const checkedKeys = Object.keys(checkedArray);
+
   const onHandleChckBtn = (page, path, userId) => {
-    const seletedInfo = Object.keys(checkedArray).includes(userId);
+    const seletedInfo = checkedKeys.includes(userId);
     let obj = new Object();
     let newSelected = [];
 
@@ -34,7 +40,7 @@ function AdminPage() {
     innerObj['path'] = path;
 
     if (seletedInfo === false || checkedArray[userId].length <= 0) {
-      newSelected = newSelected.concat(innerObj);
+      newSelected.push(innerObj);
     } else {
       let selectedIndex = true;
       for (const key in checkedArray[userId]) {
@@ -64,10 +70,7 @@ function AdminPage() {
     setCheckedArray(obj);
   };
   const isSelected = (name, userId) => {
-    if (
-      Object.keys(checkedArray).length > 0 &&
-      Object.keys(checkedArray).includes(userId.toString())
-    ) {
+    if (checkedKeys.length > 0 && checkedKeys.includes(userId.toString())) {
       for (const [key] of Object.entries(checkedArray[userId])) {
         if (checkedArray[userId][Number(key)].name === name) {
           return true;
