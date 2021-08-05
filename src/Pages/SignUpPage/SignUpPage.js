@@ -19,6 +19,10 @@ export default function SignUpPage() {
   const nameInput = useRef();
   const ageInput = useRef();
   const [userPwconfirm, setUserPwConfirm] = useState('');
+  const [isNumber, setIsNumber] = useState(false);
+  const [isEnglish, setIsEnglish] = useState(false);
+  const [isSpecial, setIsSpecial] = useState(false);
+  const [isLength, setIsLength] = useState(false);
 
   const { checkIdSignUp, checkPasswordSignUp } = Validation;
   const [inputChk, setInputChk] = useState({
@@ -184,8 +188,40 @@ export default function SignUpPage() {
     }
   };
 
+  // const regex1 = (pw) => {
+
+  // }
   const onChangePW = (e) => {
     inputCheck(1);
+
+    const pw = e.target.value;
+    const regex1 = /[A-Za-z]+/;
+    const regex2 = /[0-9]+/;
+    const regex3 = /[!@#$%^*+=-]+/;
+
+    if(regex1.test(pw)){
+      setIsEnglish(true);
+    }else {
+      setIsEnglish(false);
+    }
+    if(regex2.test(pw)){
+      setIsNumber(true);
+    }else {
+      setIsNumber(false);
+    }
+    if(regex3.test(pw)){
+      setIsSpecial(true);
+    }else {
+      setIsSpecial(false);
+    }
+    if(pw.length >= 8) {
+      setIsLength(true);
+    }
+    else {
+      setIsLength(false);
+    }
+
+
 
     setUserInfo({
       ...userInfo,
@@ -197,11 +233,6 @@ export default function SignUpPage() {
 
   const HandleValidatePW = (value) => {
     const checkValidPw = checkPasswordSignUp(value);
-    let userData = LOCAL_STORAGE.get('userData');
-
-    if (!userData) {
-      userData = [];
-    }
 
     if (checkValidPw) {
       setToast({
@@ -384,22 +415,17 @@ export default function SignUpPage() {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
-      const { userId, password, password_confirm, name, age } =
-      inputChk;
+      const { userId, password, password_confirm, name, age } = inputChk;
 
-      if(!userId) {
+      if (!userId) {
         idInput.current.focus();
-      }
-      else if(!password){
+      } else if (!password) {
         pwInput.current.focus();
-      }
-      else if(!password_confirm){
+      } else if (!password_confirm) {
         pwConfirmInput.current.focus();
-      }
-      else if(!name){
+      } else if (!name) {
         nameInput.current.focus();
-      }
-      else if(!age){
+      } else if (!age) {
         ageInput.current.focus();
       }
     }
@@ -468,22 +494,38 @@ export default function SignUpPage() {
           <PW_policy_container>
             <PW_poclicy_item>
               <span>
-                <FiCheck /> 숫자
+                <FiCheck
+                  size="1rem"
+                  color={isNumber ? 'blue' : 'red'}
+                />{' '}
+                숫자
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck /> 특수문자
+                <FiCheck
+                  size="1rem"
+                  color={isSpecial ? 'blue' : 'red'}
+                />{' '}
+                특수문자
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck /> 영문
+                <FiCheck
+                  size="1rem"
+                  color={isEnglish ? 'blue' : 'red'}
+                />{' '}
+                영문
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck /> 8자리 이상
+                <FiCheck
+                  size="1rem"
+                  color={isLength ? 'blue' : 'red'}
+                />{' '}
+                8자리 이상
               </span>
             </PW_poclicy_item>
           </PW_policy_container>
