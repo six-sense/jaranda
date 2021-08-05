@@ -6,7 +6,7 @@ import {
   getOnlyNumber,
   limitLength,
   validateExpiration,
-} from './creditCardUtils';
+} from './utils/cardValidation';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
 
 const INPUT_NAMES = {
