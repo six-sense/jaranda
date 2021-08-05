@@ -18,9 +18,19 @@ export const Title = styled.div`
   text-align: center;
 `;
 
-export const Wrapper_Radio = styled.div`
+export const Wrapper_CheckBox = styled.div`
   display: flex;
   width: 100%;
+  margin-bottom: 20px;
+  padding-left: 8px;
+
+  label {
+    display: flex;
+  }
+
+  span {
+    padding-left: 5px;
+  }
 `;
 
 export const Wrapper_ID = styled.div`
@@ -44,7 +54,8 @@ export const Input = styled.input`
   -webkit-appearance: none !important;
   outline: none;
   opacity: 1 !important;
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     color: #6dc043;
     border: solid 1px #a5d25f;
     background-color: rgba(165, 210, 95, 0.1);
@@ -206,6 +217,6 @@ export const style = {
   Lot_addr,
   Detailed_addr,
   Note_addr,
-  Wrapper_Radio,
+  Wrapper_CheckBox,
   Input_Radio,
 };
