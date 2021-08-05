@@ -130,8 +130,9 @@ export default function SignUpPage({ accountPlus }) {
         });
         result = false;
       }
-      return result;
+      if (!result) break;
     }
+    return result;
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -350,7 +351,6 @@ export default function SignUpPage({ accountPlus }) {
           role: 'user',
         });
   };
-  console.log(userInfo);
 
   const openModal = () => {
     setShowModal(true);
@@ -416,7 +416,6 @@ export default function SignUpPage({ accountPlus }) {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
-      console.log('들어옴');
       const { userId, password, password_confirm, name, age } = inputChk;
 
       if (!userId) {
