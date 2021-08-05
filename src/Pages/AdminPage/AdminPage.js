@@ -218,9 +218,6 @@ function AdminPage() {
           <SignUpPage accountPlus={modalStyle} />
         </Modal>
       </TableContainer>
-      <Modal show={showModal} onClose={() => closeModal()}>
-        <SignUpPage />
-      </Modal>
     </Layout>
   );
 }

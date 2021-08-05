@@ -8,7 +8,7 @@ import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES, MENUS } from 'utils/constants';
 import Modal from 'Modal';
-import CreditCardForm from 'Compnents/CreditCardForm';
+import CreditCardForm from './CreditCardForm';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
 import { useHistory } from 'react-router-dom';
 import Layout from 'Compnents/Layout';
