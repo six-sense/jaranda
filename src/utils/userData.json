@@ -1,7 +1,7 @@
 [
   {
     "userId": "park",
-    "password": "",
+    "password": "!codus1234",
     "name": "박채연",
     "age": 0,
     "creditCard": {
@@ -12,11 +12,11 @@
     },
     "role": "admin",
     "address": "",
-    "menubar": ["aaa", "bbbb", "cccc"]
+    "menubar": []
   },
   {
     "userId": "jung",
-    "password": "",
+    "password": "!codus5678",
     "name": "정유정",
     "age": 0,
     "creditCard": {
@@ -27,7 +27,28 @@
     },
     "role": "user",
     "address": "",
-    "menubar": ["dddddd", "eee", "ff", "g", "h"]
+    "menubar": [
+      {
+        "name": "선생님 보기",
+        "path": "/watch"
+      },
+      {
+        "name": "신청서 작성하기",
+        "path": "/form"
+      },
+      {
+        "name": "신청 내역",
+        "path": "/history"
+      },
+      {
+        "name": "방문일정",
+        "path": "/schedule"
+      },
+      {
+        "name": "방문일지",
+        "path": "/log"
+      }
+    ]
   },
   {
     "userId": "lee",

@@ -1,10 +1,12 @@
 import React, { useState } from 'react'; // , { useState }
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
+import { checkIsAdmin } from 'utils/getUserInfo';
 
-export default function Login() {
+export default function Login({ handleLogin }) {
   const [isValid, setIsValid] = useState(false);
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
@@ -32,6 +34,11 @@ export default function Login() {
         userId: test.userId,
         role: test.role,
       });
+
+      handleLogin();
+      if (checkIsAdmin()) {
+        history.push(ROUTES.ADMIN);
+      }
 
       return true;
     }
@@ -90,3 +97,7 @@ const {
   Bar,
   SignButton,
 } = style;
+
+Login.propTypes = {
+  handleLogin: PropTypes.func,
+};

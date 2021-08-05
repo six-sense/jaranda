@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Parent() {
+function Watch() {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ function Parent() {
         height: '90vh',
       }}
     >
-      Parent Page
+      Watch Page
     </div>
   );
 }
 
-export default Parent;
+export default Watch;
