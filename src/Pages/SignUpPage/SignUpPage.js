@@ -173,7 +173,6 @@ export default function SignUpPage() {
       (data) => data.userId === userInfo.userId,
     );
     if (checkValidId && reduplication === undefined) {
-      console.log('사용가능한 아이디입니다.');
       setToast({ ...toast, status: true, msg: '사용가능한 아이디입니다.' });
 
       setInputChk({
@@ -182,7 +181,6 @@ export default function SignUpPage() {
       });
       return;
     } else if (!checkValidId) {
-      console.log('사용 가능하지 않은 아이디입니다.');
       setToast({
         ...toast,
         status: true,
@@ -194,7 +192,6 @@ export default function SignUpPage() {
       });
       return;
     } else {
-      console.log('중복된 아이디입니다.');
       setToast({ ...toast, status: true, msg: '중복된 아이디입니다.' });
       setInputChk({
         ...inputChk,
