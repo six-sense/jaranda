@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Teacher() {
+function Support() {
   return (
     <div
       style={{
@@ -11,9 +11,9 @@ function Teacher() {
         height: '90vh',
       }}
     >
-      Teacher Page
+      Support Page
     </div>
   );
 }
 
-export default Teacher;
+export default Support;

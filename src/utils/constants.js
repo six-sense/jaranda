@@ -15,10 +15,10 @@ export const LOCAL_STORAGE = storage(localStorage);
 
 export const ROUTES = {
   MAIN: '/',
-  SIGN_IN: '/account/signin',
-  SIGN_UP: '/account/signup',
   SUPPORT: '/support',
   HELP: '/help',
+  SIGN_IN: '/account/signin',
+  SIGN_UP: '/account/signup',
   ADMIN: '/admin',
   ROLE_MANAGEMENT: '/role-management',
   WATCH: '/watch',
@@ -27,6 +27,21 @@ export const ROUTES = {
   SCHEDULE: '/schedule',
   LOG: '/log',
 };
+
+export const PUBLIC_MENUS = [
+  {
+    name: '선생님 지원하기',
+    path: ROUTES.SUPPORT,
+  },
+  {
+    name: '이용안내',
+    path: ROUTES.HELP,
+  },
+  {
+    name: '로그인/회원가입',
+    path: ROUTES.SIGN_IN,
+  },
+];
 
 export const MENUS = [
   {
