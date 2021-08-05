@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE, ROLES } from 'utils/constants';
+import { LOCAL_STORAGE } from 'utils/constants';
 
 export const getCurrentUser = () => {
   return LOCAL_STORAGE.get('token');
@@ -7,15 +7,6 @@ export const getCurrentUser = () => {
 export const getUserData = (userId) => {
   const allUserData = LOCAL_STORAGE.get('userData');
   return allUserData.find((user) => user.userId === userId);
-};
-
-export const checkIsLoggedIn = () => {
-  return Boolean(getCurrentUser());
-};
-
-export const checkIsAdmin = () => {
-  const currentUser = getCurrentUser();
-  return currentUser.role === ROLES.ADMIN;
 };
 
 export const getUserMenu = () => {
