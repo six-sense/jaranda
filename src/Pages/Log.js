@@ -1,18 +1,17 @@
 import React from 'react';
+import Layout from 'Compnents/Layout';
 
 function Log() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '40px',
-        height: '90vh',
-      }}
-    >
-      Log Page
-    </div>
+    <Layout>
+      <div
+        style={{
+          fontSize: '40px',
+        }}
+      >
+        Log Page
+      </div>
+    </Layout>
   );
 }
 

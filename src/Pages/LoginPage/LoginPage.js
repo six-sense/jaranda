@@ -1,12 +1,12 @@
-import React, { useState } from 'react'; // , { useState }
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
-import { checkIsAdmin } from 'utils/getUserInfo';
+import Layout from 'Compnents/Layout';
 
-export default function Login({ handleLogin }) {
+export default function Login() {
   const [isValid, setIsValid] = useState(false);
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
@@ -35,11 +35,6 @@ export default function Login({ handleLogin }) {
         role: test.role,
       });
 
-      handleLogin();
-      if (checkIsAdmin()) {
-        history.push(ROUTES.ADMIN);
-      }
-
       return true;
     }
     return false;
@@ -67,22 +62,24 @@ export default function Login({ handleLogin }) {
   };
 
   return (
-    <Container>
-      <Wrap>
-        <Title>로그인</Title>
-        {isValid && (
-          <VaildMessage>
-            유효한 아이디 또는 비밀번호를 입력해주세요
-          </VaildMessage>
-        )}
+    <Layout>
+      <Container>
+        <Wrap>
+          <Title>로그인</Title>
+          {isValid && (
+            <VaildMessage>
+              유효한 아이디 또는 비밀번호를 입력해주세요
+            </VaildMessage>
+          )}
 
-        <IdInput onChange={(e) => handleIdInput(e)} />
-        <PasswordInput onChange={(e) => handlePwInput(e)} />
-        <LoginButton onClick={checkLogin}>로그인</LoginButton>
-        <Bar />
-        <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>
-      </Wrap>
-    </Container>
+          <IdInput onChange={(e) => handleIdInput(e)} />
+          <PasswordInput onChange={(e) => handlePwInput(e)} />
+          <LoginButton onClick={checkLogin}>로그인</LoginButton>
+          <Bar />
+          <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>
+        </Wrap>
+      </Container>
+    </Layout>
   );
 }
 

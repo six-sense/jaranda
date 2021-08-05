@@ -10,6 +10,7 @@ import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
 import { useHistory } from 'react-router-dom';
+import Layout from 'Compnents/Layout';
 
 export default function SignUpPage() {
   const history = useHistory();
@@ -379,9 +380,8 @@ export default function SignUpPage() {
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
 
     const check = inputCheck(7);
-    
-    if (check) {
 
+    if (check) {
       setToast({ ...toast, status: true, msg: '회원 가입이 완료되었습니다!' });
       inputData(
         userId,
@@ -400,7 +400,7 @@ export default function SignUpPage() {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
-      console.log("들어옴");
+      console.log('들어옴');
       const { userId, password, password_confirm, name, age } = inputChk;
 
       if (!userId) {
@@ -448,7 +448,7 @@ export default function SignUpPage() {
   };
 
   return (
-    <>
+    <Layout>
       <Container>
         <Wrap>
           <Title>
@@ -568,7 +568,7 @@ export default function SignUpPage() {
       </Modal>
 
       <ToastForm show={toast.status} contents={toast.msg} />
-    </>
+    </Layout>
   );
 }
 

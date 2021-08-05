@@ -1,18 +1,17 @@
 import React from 'react';
+import Layout from 'Compnents/Layout';
 
 function Watch() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: '40px',
-        height: '90vh',
-      }}
-    >
-      Watch Page
-    </div>
+    <Layout>
+      <div
+        style={{
+          fontSize: '40px',
+        }}
+      >
+        Watch Page
+      </div>
+    </Layout>
   );
 }
 

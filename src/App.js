@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Switch } from 'react-router-dom';
-import Navbar from 'Compnents/Navbar';
 import LandingPage from 'Pages/LandingPage';
 import Support from 'Pages/Support';
 import Help from 'Pages/Help';
@@ -15,14 +14,9 @@ import AdminPage from 'Pages/AdminPage';
 import RoleManagement from 'Pages/RoleManagementPage';
 import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
-import { ROUTES, LOCAL_STORAGE, PUBLIC_MENUS } from 'utils/constants';
+import { ROUTES, LOCAL_STORAGE } from 'utils/constants';
 import { PrivateRoute, PublicRoute } from 'routes';
-import {
-  checkIsAdmin,
-  getCurrentUser,
-  getUserMenu,
-  isUserMenu,
-} from 'utils/getUserInfo';
+import { isUserMenu } from 'utils/getUserInfo';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
@@ -32,40 +26,8 @@ if (!LOCAL_STORAGE.get('role')) {
 }
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userMenu, setUserMenu] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      handleLogin();
-    }
-  }, [isLoggedIn]);
-
-  const handleLogin = () => {
-    if (getCurrentUser()) {
-      setIsLoggedIn(true);
-      setUserMenu(getUserMenu());
-      setIsAdmin(checkIsAdmin());
-    }
-  };
-
-  const handleLogout = () => {
-    LOCAL_STORAGE.remove('token');
-
-    setIsLoggedIn(false);
-    setUserMenu(PUBLIC_MENUS);
-    setIsAdmin(false);
-  };
-
   return (
     <>
-      <Navbar
-        isLoggedIn={isLoggedIn}
-        userMenu={isLoggedIn ? userMenu : PUBLIC_MENUS}
-        isAdmin={isAdmin}
-        handleLogout={handleLogout}
-      />
       <Switch>
         {/* public */}
         <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
@@ -78,7 +40,7 @@ function App() {
           <Help />
         </PublicRoute>
         <PublicRoute path={ROUTES.SIGN_IN} restricted={true}>
-          <LoginPage handleLogin={handleLogin} />
+          <LoginPage />
         </PublicRoute>
         <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
           <SignUpPage />
