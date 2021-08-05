@@ -23,6 +23,8 @@ export default function SignUpPage() {
   const [isEnglish, setIsEnglish] = useState(false);
   const [isSpecial, setIsSpecial] = useState(false);
   const [isLength, setIsLength] = useState(false);
+  const [isEngNum, setIsEngNum] = useState(false);
+  const [isLenId, setIsLenId] = useState(false);
 
   const { checkIdSignUp, checkPasswordSignUp } = Validation;
   const [inputChk, setInputChk] = useState({
@@ -144,6 +146,19 @@ export default function SignUpPage() {
   const [showModal, setShowModal] = useState(false);
 
   const handleId = (e) => {
+
+    const id = e.target.value;
+    const regex1 = /[A-Za-z0-9]+/;
+    if(regex1.test(id)){
+      setIsEngNum(true);
+    }else {
+      setIsEngNum(false);
+    }
+    if(id.length >= 4){
+      setIsLenId(true);
+    }else {
+      setIsLenId(false);
+    }
     setUserInfo({
       ...userInfo,
       userId: e.target.value,
@@ -171,7 +186,7 @@ export default function SignUpPage() {
       setToast({
         ...toast,
         status: true,
-        msg: '5자리 이상, 숫자 혹은 영문자만 사용해주시기 바랍니다.',
+        msg: '4자리 이상, 숫자 혹은 영문자만 사용해주시기 바랍니다.',
       });
       setInputChk({
         ...inputChk,
@@ -470,6 +485,26 @@ export default function SignUpPage() {
               아이디 중복 확인{' '}
             </Submit_ID_btn>
           </Wrapper_ID>
+          <PW_policy_container>
+          <PW_poclicy_item>
+              <span>
+                <FiCheck
+                  size="1rem"
+                  color={isLenId ? 'blue' : 'red'}
+                />{' '}
+                4자리 이상
+              </span>
+            </PW_poclicy_item>
+            <PW_poclicy_item>
+              <span>
+                <FiCheck
+                  size="1rem"
+                  color={isEngNum ? 'blue' : 'red'}
+                />{' '}
+                숫자 혹은 영문자
+              </span>
+            </PW_poclicy_item>
+          </PW_policy_container>
           <Input_PW
             onChange={onChangePW}
             value={userInfo.password}
