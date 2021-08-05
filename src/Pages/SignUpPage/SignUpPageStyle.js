@@ -44,7 +44,7 @@ export const Input = styled.input`
   -webkit-appearance: none !important;
   outline: none;
   opacity: 1 !important;
-  &:focus {
+  &:focus, &:hover {
     color: #6dc043;
     border: solid 1px #a5d25f;
     background-color: rgba(165, 210, 95, 0.1);

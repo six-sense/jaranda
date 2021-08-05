@@ -4,16 +4,9 @@ import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { useHistory } from 'react-router-dom';
-import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
+import { ROUTES,MENUS } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
-import Checkbox from 'Compnents/Checkbox/Checkbox';
-const properties = [
-  { label: 'menu1', value: 'menu1' },
-  { label: 'menu2', value: 'menu2' },
-  { label: 'menu3', value: 'menu3' },
-  { label: 'menu4', value: 'menu4' },
-  { label: 'menu5', value: 'menu5' },
-];
+import Checkbox from 'Compnents/Checkbox/Checkbox'
 
 function AdminPage() {
   const history = useHistory();
@@ -31,62 +24,60 @@ function AdminPage() {
     setSearchValue(e.target.value);
   };
 
-  // const onHandleButton = (page) => {
-  //   console.log(page)
-  //   const currentIndex = checkedArray.indexOf(page);
-  //   const newChecked = [...checkedArray];
-
-  //   if (currentIndex === -1) newChecked.push(page);
-  //   else newChecked.splice(currentIndex, 1);
-
-  //   setCheckedArray(newChecked);
-  // };
-
-  useEffect(() => {
-    console.log(checkedArray);
-  }, [checkedArray]);
-
-  const onHandleChckBtn = (page, tindex) => {
-    const seletedInfo = Object.keys(checkedArray).includes(tindex.toString());
+  const onHandleChckBtn = (page, path, userId)=>{
+    const seletedInfo = Object.keys(checkedArray).includes(userId); 
     let obj = new Object();
+    let newSelected=[];
 
-    if (seletedInfo === false) {
-      let newSelected = [];
-      newSelected = newSelected.concat(page);
+    let innerObj = new Object();
+    innerObj['name'] = page;
+    innerObj['path'] = path;
 
-      for (const [key, value] of Object.entries(checkedArray)) {
-        obj[key] = value;
-      }
-      obj[tindex] = newSelected;
-      setCheckedArray(obj);
-    } else {
-      const selectedIndex = checkedArray[tindex].indexOf(page);
-      let newSelected = [];
-      if (selectedIndex == -1) {
-        newSelected = newSelected.concat(checkedArray[tindex], page);
-      } else {
-        newSelected = newSelected.concat(checkedArray[tindex]);
-        newSelected.splice(selectedIndex, 1);
-      }
-
-      for (const [key, value] of Object.entries(checkedArray)) {
-        obj[key] = value;
-      }
-      obj[tindex] = newSelected;
-      setCheckedArray(obj);
+    if(seletedInfo === false || checkedArray[userId].length <=0 ){
+      newSelected = newSelected.concat(innerObj)
     }
-  };
-  const isSelected = (name, indexs) => {
-    // console.log(checkedArray[indexs])
-    if (
-      Object.keys(checkedArray).length > 0 &&
-      Object.keys(checkedArray).includes(indexs.toString())
-    ) {
-      if (checkedArray[indexs].indexOf(name) == -1) {
-        return false;
-      } else {
-        return true;
+
+    else{
+      let selectedIndex = true;
+      for(const key in checkedArray[userId]){
+        if(checkedArray[userId][key].name !== innerObj.name){
+          selectedIndex = false
+        }else{
+          selectedIndex = true
+          break
+        }
       }
+
+      if(selectedIndex === false){
+        newSelected = newSelected.concat(checkedArray[userId],innerObj)
+      }else{
+        newSelected = newSelected.concat(checkedArray[userId]);
+        const rmvFindIndx = newSelected.indexOf(newSelected.find(elem=> elem.name === innerObj.name));
+        newSelected.splice(rmvFindIndx,1);
+
+      }
+    }
+
+    for(const [key, value] of Object.entries(checkedArray)){
+      obj[key] = value
+    }
+    obj[userId] = newSelected
+    setCheckedArray(obj)
+
+    
+  }
+  const isSelected = (name, userId)=>{
+    if(Object.keys(checkedArray).length>0 && Object.keys(checkedArray).includes(userId.toString())){
+      for(const [key] of Object.entries(checkedArray[userId])){
+        if(checkedArray[userId][Number(key)].name === name){
+          return true
+        }
+
+      }
+      return false
+
+    }else{
+      return false
     }
   };
 
@@ -173,8 +164,10 @@ function AdminPage() {
                   <Cell>{data.role}</Cell>
                   <Cell>{data.address}</Cell>
                   <Cell>
-                    {properties.map((property, index) => {
-                      let isItemSelected = isSelected(property.value, indexs);
+                    {MENUS.map((property, index) => {
+                      // console.log(property.name, index)
+                    let isItemSelected = isSelected(property.name, data.userId);
+>>>>>>> 8ff68ea7fa3f2e48b7506d84f5c785a2ce5ae7d1
 
                       return (
                         <div key={index}>
@@ -182,11 +175,10 @@ function AdminPage() {
                             type="checkbox"
                             checked={isItemSelected}
                             id={index}
-                            onClick={() =>
-                              onHandleChckBtn(property.value, indexs)
-                            }
+
+                            onClick={()=>onHandleChckBtn(property.name, property.path, data.userId)}
                           />
-                          <label>{property.label}</label>
+                        <label>{property.name}</label>
                         </div>
                       );
                     })}
