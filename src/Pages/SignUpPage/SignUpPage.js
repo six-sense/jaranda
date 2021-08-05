@@ -5,7 +5,7 @@ import get_address from './get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
-import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
+import { LOCAL_STORAGE, ROUTES, MENUS } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from 'Compnents/CreditCardForm';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
@@ -35,14 +35,8 @@ export default function SignUpPage() {
     age: false,
     creditCard: {
       cardNumber: false,
-      holderName: false,
-      expired: false,
-      CVC: false,
     },
-    role: false,
     zcode: false,
-    roadAddr: false,
-    jibunAddr: false,
   });
 
   const [userInfo, setUserInfo] = useState({
@@ -56,12 +50,12 @@ export default function SignUpPage() {
       expired: '',
       CVC: '',
     },
-    role: '',
+    role: 'user',
     zcode: '',
     roadAddr: '',
     jibunAddr: '',
     detailAddr: '',
-    menubar: '',
+    menubar: MENUS,
   });
 
   const [toast, setToast] = useState({
@@ -82,6 +76,7 @@ export default function SignUpPage() {
     const { userId, password, password_confirm, name, age, zcode, creditCard } =
       inputChk;
     const { cardNumber } = creditCard;
+    let result = true;
     for (let i = 0; i < limit; i++) {
       if (i === 0 && !userId) {
         setToast({
@@ -89,74 +84,67 @@ export default function SignUpPage() {
           status: true,
           msg: '중복 확인 버튼을 눌러주세요.',
         });
-        return false;
+        result = false;
       } else if (i === 1 && !password) {
         setToast({
           ...toast,
           status: true,
           msg: '비밀번호를 다시 입력해주세요.',
         });
-        return false;
+        result = false;
       } else if (i === 2 && !password_confirm) {
         setToast({
           ...toast,
           status: true,
           msg: '비밀번호 확인을 해주세요.',
         });
-        return false;
+        result = false;
       } else if (i === 3 && !name) {
         setToast({
           ...toast,
           status: true,
           msg: '이름을 입력해주세요.',
         });
-        return false;
+        result = false;
       } else if (i === 4 && !age) {
         setToast({
           ...toast,
           status: true,
           msg: '나이를 입력해주세요.',
         });
-        return false;
+        result = false;
       } else if (i === 5 && !zcode) {
         setToast({
           ...toast,
           status: true,
           msg: '주소를 입력해주세요',
         });
-        return false;
+        result = false;
       } else if (i === 6 && !cardNumber) {
         setToast({
           ...toast,
           status: true,
           msg: '카드를 등록해주세요.',
         });
-        return false;
-      } else if (i === 7 && !password_confirm) {
-        setToast({
-          ...toast,
-          status: true,
-          msg: '비밀번호 확인을 해주세요.',
-        });
-        return false;
+        result = false;
       }
+      return result;
     }
   };
 
   const [showModal, setShowModal] = useState(false);
 
   const handleId = (e) => {
-
     const id = e.target.value;
     const regex1 = /[A-Za-z0-9]+/;
-    if(regex1.test(id)){
+    if (regex1.test(id)) {
       setIsEngNum(true);
-    }else {
+    } else {
       setIsEngNum(false);
     }
-    if(id.length >= 4){
+    if (id.length >= 4) {
       setIsLenId(true);
-    }else {
+    } else {
       setIsLenId(false);
     }
     setUserInfo({
@@ -208,25 +196,24 @@ export default function SignUpPage() {
     const regex2 = /[0-9]+/;
     const regex3 = /[!@#$%^*+=-]+/;
 
-    if(regex1.test(pw)){
+    if (regex1.test(pw)) {
       setIsEnglish(true);
-    }else {
+    } else {
       setIsEnglish(false);
     }
-    if(regex2.test(pw)){
+    if (regex2.test(pw)) {
       setIsNumber(true);
-    }else {
+    } else {
       setIsNumber(false);
     }
-    if(regex3.test(pw)){
+    if (regex3.test(pw)) {
       setIsSpecial(true);
-    }else {
+    } else {
       setIsSpecial(false);
     }
-    if(pw.length >= 8) {
+    if (pw.length >= 8) {
       setIsLength(true);
-    }
-    else {
+    } else {
       setIsLength(false);
     }
 
@@ -392,8 +379,9 @@ export default function SignUpPage() {
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
 
     const check = inputCheck(7);
-
+    
     if (check) {
+
       setToast({ ...toast, status: true, msg: '회원 가입이 완료되었습니다!' });
       inputData(
         userId,
@@ -412,6 +400,7 @@ export default function SignUpPage() {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
+      console.log("들어옴");
       const { userId, password, password_confirm, name, age } = inputChk;
 
       if (!userId) {
@@ -463,9 +452,8 @@ export default function SignUpPage() {
       <Container>
         <Wrap>
           <Title>
-            10초 만에
+            10초 만에 가입해보세요.
             <br />
-            원하는 역할로 가입해보세요 <br />
             <br />
             예리님.
           </Title>
@@ -483,22 +471,16 @@ export default function SignUpPage() {
             </Submit_ID_btn>
           </Wrapper_ID>
           <PW_policy_container>
-          <PW_poclicy_item>
+            <PW_poclicy_item>
               <span>
-                <FiCheck
-                  size="1rem"
-                  color={isLenId ? 'blue' : 'red'}
-                />{' '}
-                4자리 이상
+                <FiCheck size="1rem" color={isLenId ? 'blue' : 'red'} /> 4자리
+                이상
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck
-                  size="1rem"
-                  color={isEngNum ? 'blue' : 'red'}
-                />{' '}
-                숫자 혹은 영문자
+                <FiCheck size="1rem" color={isEngNum ? 'blue' : 'red'} /> 숫자
+                혹은 영문자
               </span>
             </PW_poclicy_item>
           </PW_policy_container>
@@ -511,38 +493,24 @@ export default function SignUpPage() {
           <PW_policy_container>
             <PW_poclicy_item>
               <span>
-                <FiCheck
-                  size="1rem"
-                  color={isNumber ? 'blue' : 'red'}
-                />{' '}
-                숫자
+                <FiCheck size="1rem" color={isNumber ? 'blue' : 'red'} /> 숫자
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck
-                  size="1rem"
-                  color={isSpecial ? 'blue' : 'red'}
-                />{' '}
+                <FiCheck size="1rem" color={isSpecial ? 'blue' : 'red'} />{' '}
                 특수문자
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck
-                  size="1rem"
-                  color={isEnglish ? 'blue' : 'red'}
-                />{' '}
-                영문
+                <FiCheck size="1rem" color={isEnglish ? 'blue' : 'red'} /> 영문
               </span>
             </PW_poclicy_item>
             <PW_poclicy_item>
               <span>
-                <FiCheck
-                  size="1rem"
-                  color={isLength ? 'blue' : 'red'}
-                />{' '}
-                8자리 이상
+                <FiCheck size="1rem" color={isLength ? 'blue' : 'red'} /> 8자리
+                이상
               </span>
             </PW_poclicy_item>
           </PW_policy_container>
