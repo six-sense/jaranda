@@ -3,91 +3,82 @@ import Modal from 'Modal';
 import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
-// import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
-import { ROUTES } from 'utils/constants';
+import { ROUTES, MENUS } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
-import Layout from 'Compnents/Layout';
-const properties = [
-  { label: 'menu1', value: 'menu1' },
-  { label: 'menu2', value: 'menu2' },
-  { label: 'menu3', value: 'menu3' },
-  { label: 'menu4', value: 'menu4' },
-  { label: 'menu5', value: 'menu5' },
-];
 
 function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [checkedArray, setCheckedArray] = useState([]);
-  const [modalStyle, setModalStyle] = useState(false);
+  const [checkedArray, setCheckedArray] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
+  const [clickCheck, setClickCheck] = useState(false);
   const limit = 10;
+  // const menuList = ['PARENT', 'HELP', 'LOG'];
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
-  // const onHandleButton = (page) => {
-  //   console.log(page)
-  //   const currentIndex = checkedArray.indexOf(page);
-  //   const newChecked = [...checkedArray];
-
-  //   if (currentIndex === -1) newChecked.push(page);
-  //   else newChecked.splice(currentIndex, 1);
-
-  //   setCheckedArray(newChecked);
-  // };
-
   useEffect(() => {
     console.log(checkedArray);
   }, [checkedArray]);
 
-  const onHandleChckBtn = (page, tindex) => {
-    const seletedInfo = Object.keys(checkedArray).includes(tindex.toString());
+  const checkedKeys = Object.keys(checkedArray);
+
+  const onHandleChckBtn = (page, path, userId) => {
+    const seletedInfo = checkedKeys.includes(userId);
     let obj = new Object();
+    let newSelected = [];
 
-    if (seletedInfo === false) {
-      let newSelected = [];
-      newSelected = newSelected.concat(page);
+    let innerObj = new Object();
+    innerObj['name'] = page;
+    innerObj['path'] = path;
 
-      for (const [key, value] of Object.entries(checkedArray)) {
-        obj[key] = value;
-      }
-      obj[tindex] = newSelected;
-      setCheckedArray(obj);
+    if (seletedInfo === false || checkedArray[userId].length <= 0) {
+      newSelected.push(innerObj);
     } else {
-      const selectedIndex = checkedArray[tindex].indexOf(page);
-      let newSelected = [];
-      if (selectedIndex == -1) {
-        newSelected = newSelected.concat(checkedArray[tindex], page);
-      } else {
-        newSelected = newSelected.concat(checkedArray[tindex]);
-        newSelected.splice(selectedIndex, 1);
+      let selectedIndex = true;
+      for (const key in checkedArray[userId]) {
+        if (checkedArray[userId][key].name !== innerObj.name) {
+          selectedIndex = false;
+        } else {
+          selectedIndex = true;
+          break;
+        }
       }
 
-      for (const [key, value] of Object.entries(checkedArray)) {
-        obj[key] = value;
-      }
-      obj[tindex] = newSelected;
-      setCheckedArray(obj);
-    }
-  };
-  const isSelected = (name, indexs) => {
-    // console.log(checkedArray[indexs])
-    if (
-      Object.keys(checkedArray).length > 0 &&
-      Object.keys(checkedArray).includes(indexs.toString())
-    ) {
-      if (checkedArray[indexs].indexOf(name) == -1) {
-        return false;
+      if (selectedIndex === false) {
+        newSelected = newSelected.concat(checkedArray[userId], innerObj);
       } else {
-        return true;
+        newSelected = newSelected.concat(checkedArray[userId]);
+        const rmvFindIndx = newSelected.indexOf(
+          newSelected.find((elem) => elem.name === innerObj.name),
+        );
+        newSelected.splice(rmvFindIndx, 1);
       }
+    }
+
+    for (const [key, value] of Object.entries(checkedArray)) {
+      obj[key] = value;
+    }
+    obj[userId] = newSelected;
+    setCheckedArray(obj);
+  };
+  const isSelected = (name, userId) => {
+    if (checkedKeys.length > 0 && checkedKeys.includes(userId.toString())) {
+      for (const [key] of Object.entries(checkedArray[userId])) {
+        if (checkedArray[userId][Number(key)].name === name) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return false;
     }
   };
 
@@ -115,12 +106,10 @@ function AdminPage() {
 
   const openModal = () => {
     setShowModal(true);
-    setModalStyle(!modalStyle);
   };
 
   const closeModal = () => {
     setShowModal(false);
-    setModalStyle(!modalStyle);
   };
 
   useEffect(() => {
@@ -129,10 +118,11 @@ function AdminPage() {
     // console.log('userInfo', userInfo);
     setData(userInfo.userData);
     setMaxPage(userInfo.maxPage);
-  }, [pages, searchValue]);
+    setClickCheck(false);
+  }, [pages, searchValue, clickCheck]);
 
   return (
-    <Layout>
+    <div>
       <TableContainer>
         <TableTitleContainer>
           <TableTitleBox>
@@ -175,8 +165,12 @@ function AdminPage() {
                   <Cell>{data.role}</Cell>
                   <Cell>{data.address}</Cell>
                   <Cell>
-                    {properties.map((property, index) => {
-                      let isItemSelected = isSelected(property.value, indexs);
+                    {MENUS.map((property, index) => {
+                      // console.log(property.name, index)
+                      let isItemSelected = isSelected(
+                        property.name,
+                        data.userId,
+                      );
 
                       return (
                         <div key={index}>
@@ -185,10 +179,14 @@ function AdminPage() {
                             checked={isItemSelected}
                             id={index}
                             onClick={() =>
-                              onHandleChckBtn(property.value, indexs)
+                              onHandleChckBtn(
+                                property.name,
+                                property.path,
+                                data.userId,
+                              )
                             }
                           />
-                          <label>{property.label}</label>
+                          <label>{property.name}</label>
                         </div>
                       );
                     })}
@@ -210,15 +208,11 @@ function AdminPage() {
             />
           </div>
         </TableFooter>
-        <Modal
-          show={showModal}
-          onClose={() => closeModal()}
-          accountStyle={modalStyle}
-        >
-          <SignUpPage accountPlus={modalStyle} />
-        </Modal>
       </TableContainer>
-    </Layout>
+      <Modal show={showModal} onClose={() => closeModal()}>
+        <SignUpPage />
+      </Modal>
+    </div>
   );
 }
 

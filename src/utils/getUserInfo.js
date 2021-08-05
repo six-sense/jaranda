@@ -43,10 +43,8 @@ export const getUserInfo = (pages, limit, searchWord) => {
     });
     return;
   });
-  console.log('filteredInfo', filteredUserInfo);
   const data =
     filteredUserInfo.length !== 0 ? filteredUserInfo : nonFilteredUserInfo;
-  console.log('data', data);
   const maxPage =
     Math.ceil(data.length / limit) > 0 ? Math.ceil(data.length / limit) : 1;
 
@@ -63,7 +61,6 @@ export const getUserInfo = (pages, limit, searchWord) => {
     }
     return;
   });
-  console.log('paginationInfo', paginationInfo);
   return { userData: paginationInfo, maxPage: maxPage };
 };
 
