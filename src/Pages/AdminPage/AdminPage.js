@@ -4,29 +4,43 @@ import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { useHistory } from 'react-router-dom';
-import { ROUTES, MENUS } from 'utils/constants';
+import { ROUTES, MENUS, LOCAL_STORAGE} from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
+import userDataForm from 'utils/storage/userDataForm'
 
 function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
+  // const [initCheckArray, setInitCheckArray] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
   const limit = 10;
-  // const menuList = ['PARENT', 'HELP', 'LOG'];
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
-  useEffect(() => {
-    console.log(checkedArray);
-  }, [checkedArray]);
+  useEffect(()=>{
+    initSelected(data)
+  },[data])
+
+  const initSelected = (userData) =>{
+    console.log(userData)
+    let [f_userId, f_menubar] = ['',[]];
+    let obj = new Object()
+    for(let i=0; i<Object.keys(userData).length; i++){
+      f_userId = userData[i].userId;
+      f_menubar = userData[i].menubar;
+
+      obj[f_userId] = f_menubar
+    }
+    setCheckedArray(obj)
+  }
 
   const checkedKeys = Object.keys(checkedArray);
 
@@ -62,13 +76,13 @@ function AdminPage() {
         newSelected.splice(rmvFindIndx, 1);
       }
     }
-
     for (const [key, value] of Object.entries(checkedArray)) {
       obj[key] = value;
     }
     obj[userId] = newSelected;
     setCheckedArray(obj);
   };
+
   const isSelected = (name, userId) => {
     if (checkedKeys.length > 0 && checkedKeys.includes(userId.toString())) {
       for (const [key] of Object.entries(checkedArray[userId])) {
@@ -76,12 +90,27 @@ function AdminPage() {
           return true;
         }
       }
-      return false;
-    } else {
-      return false;
     }
   };
 
+  const submitBtnClick =() =>{
+    // localStorage 셋팅
+    let userArray = []
+    for(let i=0; i<Object.keys(data).length; i++){
+      let origin_userId = data[i].userId
+      let menubar = (checkedArray[origin_userId]);
+      // for(let menu of checkedArray[origin_userId]){
+      //   // console.log(menu)
+      //   menubar.push(menu)
+      // }
+      console.log(menubar)
+      userArray.push(userDataForm(origin_userId, data[i].password, data[i].name, data[i].age, data[i].creditCard.cardNumber, data[i].creditCard.holderName, data[i].creditCard.expired, data[i].creditCard.CVC, data[i].role, data[i].address, menubar))
+      console.log(userArray)
+    }
+    // LOCAL_STORAGE.remove('userData');
+    LOCAL_STORAGE.set('userData', userArray);
+    // setUserData(userArray)
+  }
   const onHandleButtonLeft = () => {
     const page = pages - 1;
     if (page < 1) {
@@ -166,7 +195,6 @@ function AdminPage() {
                   <Cell>{data.address}</Cell>
                   <Cell>
                     {MENUS.map((property, index) => {
-                      // console.log(property.name, index)
                       let isItemSelected = isSelected(
                         property.name,
                         data.userId,
@@ -195,6 +223,7 @@ function AdminPage() {
               </tbody>
             ))}
         </table>
+        <button onClick={submitBtnClick} style={{cursor:'pointer'}}>저장하기</button>
         <TableFooter>
           <div>
             <AiOutlineLeftStyle
