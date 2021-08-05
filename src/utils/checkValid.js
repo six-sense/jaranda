@@ -18,7 +18,7 @@ function checkPasswordSignUp(password) {
 
 // 아이디 유효성 검사 (5자리 이상)
 function checkIdSignUp(id) {
-  const idValid = /^[a-zA-Z0-9_-]{5,26}$/;
+  const idValid = /^[a-zA-Z0-9_-]{4,26}$/;
   return id.match(idValid);
 }
 
