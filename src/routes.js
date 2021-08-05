@@ -29,7 +29,7 @@ PublicRoute.propTypes = {
 
 export const PrivateRoute = ({ restricted, children, ...rest }) => {
   if (!checkIsLoggedIn()) {
-    return;
+    return <Redirect to={ROUTES.MAIN} />;
   }
 
   if (checkIsAdmin()) {
