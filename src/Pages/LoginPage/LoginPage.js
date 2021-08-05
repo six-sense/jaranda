@@ -6,7 +6,7 @@ import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginPageStyle';
 import Layout from 'Compnents/Layout';
 
-export default function Login({ handleLogin }) {
+export default function Login() {
   const [isValid, setIsValid] = useState(false);
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
@@ -48,12 +48,12 @@ export default function Login({ handleLogin }) {
       inputPwValue !== ''
     ) {
       const validLogin = await sendLogin(inputIdValue, inputPwValue);
+
       if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
         history.push(ROUTES.ADMIN);
       } else {
         history.push(ROUTES.MAIN);
       }
-      handleLogin();
     } else {
       setIsValid(true);
       setTimeout(() => {
