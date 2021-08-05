@@ -57,7 +57,7 @@ export const AccountAddButton = styled.button`
   width: 100px;
   font-size: 12px;
   height: 38px;
-  margin-left: 10px;
+  margin-left: 20px;
   border-radius: 6px;
   color: #fff;
   background-color: #87bf44;

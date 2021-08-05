@@ -3,6 +3,7 @@ import Modal from 'Modal';
 import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
+// import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
@@ -20,7 +21,8 @@ function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [checkedArray, setCheckedArray] = useState({});
+  const [checkedArray, setCheckedArray] = useState([]);
+  const [modalStyle, setModalStyle] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -113,10 +115,12 @@ function AdminPage() {
 
   const openModal = () => {
     setShowModal(true);
+    setModalStyle(!modalStyle);
   };
 
   const closeModal = () => {
     setShowModal(false);
+    setModalStyle(!modalStyle);
   };
 
   useEffect(() => {
@@ -206,6 +210,13 @@ function AdminPage() {
             />
           </div>
         </TableFooter>
+        <Modal
+          show={showModal}
+          onClose={() => closeModal()}
+          accountStyle={modalStyle}
+        >
+          <SignUpPage accountPlus={modalStyle} />
+        </Modal>
       </TableContainer>
       <Modal show={showModal} onClose={() => closeModal()}>
         <SignUpPage />
