@@ -89,3 +89,13 @@ export const getUserMenu = () => {
   const currentUser = getCurrentUser();
   return getUserData(currentUser.userId).menubar;
 };
+
+export const isUserMenu = (menuPath) => {
+  const currentUser = getCurrentUser();
+  if (currentUser) {
+    const userDate = getUserData(currentUser.userId);
+    const finded = userDate.menubar.find((menu) => menu.path === menuPath);
+    return Boolean(finded);
+  }
+  return false;
+};

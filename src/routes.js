@@ -1,8 +1,8 @@
 import { React } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { ROUTES } from './constants';
-import { checkIsAdmin, checkIsLoggedIn } from './getUserInfo';
+import { ROUTES } from './utils/constants';
+import { checkIsAdmin, checkIsLoggedIn } from 'utils/getUserInfo';
 
 export const PublicRoute = ({ restricted, children, ...rest }) => {
   return (
@@ -28,19 +28,17 @@ PublicRoute.propTypes = {
 };
 
 export const PrivateRoute = ({ restricted, children, ...rest }) => {
+  if (!checkIsLoggedIn()) {
+    return;
+  }
+
+  if (checkIsAdmin()) {
+    return <Route {...rest}>{children}</Route>;
+  }
+
   return (
     <Route {...rest}>
-      {checkIsLoggedIn() && restricted ? (
-        children
-      ) : (
-        <>
-          {checkIsAdmin() ? (
-            <Redirect to={ROUTES.ADMIN} />
-          ) : (
-            <Redirect to={ROUTES.MAIN} />
-          )}
-        </>
-      )}
+      {restricted ? children : <Redirect to={ROUTES.MAIN} />}
     </Route>
   );
 };

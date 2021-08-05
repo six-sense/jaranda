@@ -52,7 +52,7 @@
   },
   {
     "userId": "lee",
-    "password": "",
+    "password": "!codus4321",
     "name": "이주영",
     "age": 0,
     "creditCard": {
@@ -61,9 +61,22 @@
       "expired": "0624",
       "CVC": "000"
     },
-    "role": "admin",
+    "role": "user",
     "address": "",
-    "menubar": ["aaa", "bbbb", "cccc"]
+    "menubar": [
+      {
+        "name": "선생님 보기",
+        "path": "/watch"
+      },
+      {
+        "name": "신청서 작성하기",
+        "path": "/form"
+      },
+      {
+        "name": "신청 내역",
+        "path": "/history"
+      }
+    ]
   },
   {
     "userId": "kim",

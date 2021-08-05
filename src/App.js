@@ -16,8 +16,13 @@ import RoleManagement from 'Pages/RoleManagementPage';
 import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
 import { ROUTES, LOCAL_STORAGE, PUBLIC_MENUS } from 'utils/constants';
-import { checkIsAdmin, getCurrentUser, getUserMenu } from 'utils/getUserInfo';
-import { PrivateRoute, PublicRoute } from 'utils/routes';
+import { PrivateRoute, PublicRoute } from 'routes';
+import {
+  checkIsAdmin,
+  getCurrentUser,
+  getUserMenu,
+  isUserMenu,
+} from 'utils/getUserInfo';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
@@ -53,8 +58,6 @@ function App() {
     setIsAdmin(false);
   };
 
-  console.log('App', isLoggedIn, isAdmin);
-
   return (
     <>
       <Navbar
@@ -82,27 +85,33 @@ function App() {
         </PublicRoute>
 
         {/* logged in user */}
-        <PrivateRoute path={ROUTES.WATCH} restricted={isLoggedIn}>
+        <PrivateRoute path={ROUTES.WATCH} restricted={isUserMenu(ROUTES.WATCH)}>
           <Watch />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.FORM} restricted={isLoggedIn}>
+        <PrivateRoute path={ROUTES.FORM} restricted={isUserMenu(ROUTES.FORM)}>
           <Form />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.HISTORY} restricted={isLoggedIn}>
+        <PrivateRoute
+          path={ROUTES.HISTORY}
+          restricted={isUserMenu(ROUTES.HISTORY)}
+        >
           <History />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.SCHEDULE} restricted={isLoggedIn}>
+        <PrivateRoute
+          path={ROUTES.SCHEDULE}
+          restricted={isUserMenu(ROUTES.SCHEDULE)}
+        >
           <Schedule />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.LOG} restricted={isLoggedIn}>
+        <PrivateRoute path={ROUTES.LOG} restricted={isUserMenu(ROUTES.LOG)}>
           <Log />
         </PrivateRoute>
 
         {/* admin */}
-        <PrivateRoute path={ROUTES.ADMIN} restricted={isAdmin}>
+        <PrivateRoute path={ROUTES.ADMIN}>
           <AdminPage />
         </PrivateRoute>
-        <PrivateRoute path={ROUTES.ROLE_MANAGEMENT} restricted={isAdmin}>
+        <PrivateRoute path={ROUTES.ROLE_MANAGEMENT}>
           <RoleManagement />
         </PrivateRoute>
       </Switch>
