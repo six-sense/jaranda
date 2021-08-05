@@ -27,6 +27,7 @@ export default function SignUpPage({ accountPlus }) {
   const [isLength, setIsLength] = useState(false);
   const [isEngNum, setIsEngNum] = useState(false);
   const [isLenId, setIsLenId] = useState(false);
+  const [isSpecialId, setIsSpecialId] = useState(false);
 
   const { checkIdSignUp, checkPasswordSignUp } = Validation;
   const [inputChk, setInputChk] = useState({
@@ -140,16 +141,25 @@ export default function SignUpPage({ accountPlus }) {
   const handleId = (e) => {
     const id = e.target.value;
     const regex1 = /[A-Za-z0-9]+/;
+    const regex2 = /[!@#$%^*+=-_]+/;
     if (regex1.test(id)) {
       setIsEngNum(true);
     } else {
       setIsEngNum(false);
     }
+
+    if (regex2.test(id)) {
+      setIsSpecialId(true);
+    } else {
+      setIsSpecialId(false);
+    }
+
     if (id.length >= 4) {
       setIsLenId(true);
     } else {
       setIsLenId(false);
     }
+
     setUserInfo({
       ...userInfo,
       userId: e.target.value,
@@ -282,7 +292,7 @@ export default function SignUpPage({ accountPlus }) {
       ...userInfo,
       name: e.target.value,
     });
-    if (e.target.value === '' || !userInfo.name) {
+    if (e.target.value === '') {
       setInputChk({
         ...inputChk,
         name: false,
@@ -302,12 +312,12 @@ export default function SignUpPage({ accountPlus }) {
       age: e.target.value,
     });
 
-    if (e.target.value === '' || !userInfo.age) {
+    if (e.target.value === '' || !userInfo) {
       setInputChk({
         ...inputChk,
         age: false,
       });
-    } else {
+    } else if (e.target.value !== '') {
       setInputChk({
         ...inputChk,
         age: true,
@@ -467,12 +477,7 @@ export default function SignUpPage({ accountPlus }) {
       <Container>
         <Wrap>
           {!accountPlus ? (
-            <Title>
-              10초 만에 가입해보세요.
-              <br />
-              <br />
-              예리님.
-            </Title>
+            <Title>환상적인 회원가입을 경험해보세요.</Title>
           ) : (
             <>
               <Title>계정 추가 해보세요.</Title>
@@ -512,6 +517,12 @@ export default function SignUpPage({ accountPlus }) {
               <span>
                 <FiCheck size="1rem" color={isEngNum ? 'blue' : 'red'} /> 숫자
                 혹은 영문자
+              </span>
+            </PW_poclicy_item>
+            <PW_poclicy_item>
+              <span>
+                <FiCheck size="1rem" color={isSpecialId ? 'red' : 'blue'} />{' '}
+                특수문자 X
               </span>
             </PW_poclicy_item>
           </PW_policy_container>
