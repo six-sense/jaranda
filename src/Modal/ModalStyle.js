@@ -12,18 +12,20 @@ export const Overlay = styled.div`
 `;
 
 export const Container = styled.div`
+  ${({ theme }) => theme.flexSet()};
   width: 480px;
   height: 400px;
-  /* max-height: 400px; */
   z-index: 1;
 `;
 
 export const Wrap = styled.div`
   ${({ theme }) => theme.flexSet('flex-start', 'center', 'column')};
   position: absolute;
-  /* height: 400px; */
-  overflow-y: scroll;
+  width: ${({ accountStyle }) => (accountStyle ? '520px' : '480px')};
+  height: ${({ accountStyle }) => (accountStyle ? '400px' : '')};
+  border-radius: 6px;
   background-color: #fff;
+  overflow-y: scroll;
 `;
 
 export const Header = styled.div`

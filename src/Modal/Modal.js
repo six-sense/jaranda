@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 import { style } from './ModalStyle';
 import { AiOutlineClose } from 'react-icons/ai';
 
-export default function Modal({ show, onClose, children }) {
+export default function Modal({ show, onClose, children, accountStyle }) {
   return ReactDom.createPortal(
     <>
       {show && (
         <>
           <Overlay>
             <Container>
-              <Wrap>
-                {/* <Header> */}
-                <ModalClose onClick={onClose}>
-                  <AiOutlineClose size={18} />
-                </ModalClose>
-                {/* </Header> */}
+              <Wrap accountStyle={accountStyle}>
+                <Header>
+                  <ModalClose onClick={onClose}>
+                    <AiOutlineClose size={18} />
+                  </ModalClose>
+                </Header>
                 <Contents>{children}</Contents>
               </Wrap>
             </Container>
@@ -35,6 +35,7 @@ Modal.propTypes = {
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]),
+  accountStyle: PropTypes.bool,
 };
 
-const { Overlay, Container, Wrap, ModalClose, Contents } = style;
+const { Overlay, Container, Wrap, Header, ModalClose, Contents } = style;

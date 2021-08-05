@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { style } from './SignUpPageStyle';
 import { FiCheck } from 'react-icons/fi';
 import get_address from './get_address';
@@ -11,7 +12,7 @@ import CreditCardForm from 'Compnents/CreditCardForm';
 import ToastForm from 'Compnents/ToastForm/ToastForm';
 import { useHistory } from 'react-router-dom';
 
-export default function SignUpPage() {
+export default function SignUpPage({ accountPlus }) {
   const history = useHistory();
   const idInput = useRef();
   const pwInput = useRef();
@@ -335,6 +336,21 @@ export default function SignUpPage() {
     inputCheck(5);
   };
 
+  const handleCheckBoxButton = (e) => {
+    let isAdmin = e.target.checked;
+
+    isAdmin
+      ? setUserInfo({
+          ...userInfo,
+          role: e.target.name,
+        })
+      : setUserInfo({
+          ...userInfo,
+          role: 'user',
+        });
+  };
+  console.log(userInfo);
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -379,9 +395,8 @@ export default function SignUpPage() {
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
 
     const check = inputCheck(7);
-    
-    if (check) {
 
+    if (check) {
       setToast({ ...toast, status: true, msg: '회원 가입이 완료되었습니다!' });
       inputData(
         userId,
@@ -400,7 +415,7 @@ export default function SignUpPage() {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
-      console.log("들어옴");
+      console.log('들어옴');
       const { userId, password, password_confirm, name, age } = inputChk;
 
       if (!userId) {
@@ -451,12 +466,28 @@ export default function SignUpPage() {
     <>
       <Container>
         <Wrap>
-          <Title>
-            10초 만에 가입해보세요.
-            <br />
-            <br />
-            예리님.
-          </Title>
+          {!accountPlus ? (
+            <Title>
+              10초 만에 가입해보세요.
+              <br />
+              <br />
+              예리님.
+            </Title>
+          ) : (
+            <>
+              <Title>계정 추가 해보세요.</Title>
+              <Wrapper_CheckBox>
+                <label htmlFor="radio">
+                  <Input_Radio
+                    type="checkbox"
+                    name="admin"
+                    onChange={(e) => handleCheckBoxButton(e)}
+                  />
+                  <span>Admin</span>
+                </label>
+              </Wrapper_CheckBox>
+            </>
+          )}
 
           <Wrapper_ID>
             <Input_ID
@@ -555,7 +586,7 @@ export default function SignUpPage() {
           </Address_container>
           <Button_credit onClick={openModal}>신용카드 등록</Button_credit>
           <Submit_SignUp_btn onClick={signupBtnEvnt}>
-            가입하기
+            {!accountPlus ? '가입하기' : '계정 추가 하기'}
           </Submit_SignUp_btn>
         </Wrap>
       </Container>
@@ -576,7 +607,7 @@ const {
   Container,
   Wrap,
   Title,
-  // Wrapper_Radio,
+  Wrapper_CheckBox,
   Wrapper_ID,
   Input_ID,
   Submit_ID_btn,
@@ -597,6 +628,10 @@ const {
   Street_addr,
   Lot_addr,
   Detailed_addr,
-  // Input_Radio,
+  Input_Radio,
   // Note_addr,
 } = style;
+
+SignUpPage.propTypes = {
+  accountPlus: PropTypes.bool,
+};
