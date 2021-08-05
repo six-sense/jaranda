@@ -16,7 +16,7 @@ import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
 import { ROUTES, LOCAL_STORAGE } from 'utils/constants';
 import { PrivateRoute, PublicRoute } from 'routes';
-import { isUserMenu } from 'utils/getUserInfo';
+import { isUserMenu } from 'Services/user';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
