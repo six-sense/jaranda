@@ -56,12 +56,10 @@ export default function Login() {
         history.push(ROUTES.MAIN);
       }
     }
-    //  else {
     setIsValid(true);
     setTimeout(() => {
       setIsValid(false);
     }, 6000);
-    // }
   };
 
   const onKeyPressEnterkey = (e) => {

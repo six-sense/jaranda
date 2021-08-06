@@ -29,8 +29,7 @@ export default function SignUp({ accountPlus }) {
   const [isLenId, setIsLenId] = useState(false);
   const [isSpecialId, setIsSpecialId] = useState(false);
   const [isOverlap, setIsOverlap] = useState('');
-
-  const { checkIdSignUp, checkPasswordSignUp } = Validation;
+  const [showModal, setShowModal] = useState(false);
   const [inputChk, setInputChk] = useState({
     userId: false,
     password: false,
@@ -42,7 +41,6 @@ export default function SignUp({ accountPlus }) {
     },
     zcode: false,
   });
-
   const [userInfo, setUserInfo] = useState({
     userId: '',
     password: '',
@@ -61,11 +59,12 @@ export default function SignUp({ accountPlus }) {
     detailAddr: '',
     menubar: MENUS,
   });
-
   const [toast, setToast] = useState({
     status: false,
     msg: '',
   });
+
+  const { checkIdSignUp, checkPasswordSignUp } = Validation;
 
   useEffect(() => {
     if (toast.status) {
@@ -75,6 +74,36 @@ export default function SignUp({ accountPlus }) {
       return () => clearTimeout(timeInterver);
     }
   }, [toast]);
+
+  useEffect(() => {
+    if (userInfo.zcode) {
+      setInputChk((prevInputChk) => ({
+        ...prevInputChk,
+        zcode: true,
+      }));
+      setToast((prevToast) => ({
+        ...prevToast,
+        status: true,
+        msg: '주소가 등록되었습니다.',
+      }));
+    }
+  }, [userInfo.zcode]);
+
+  useEffect(() => {
+    if (userInfo.creditCard.cardNumber) {
+      setInputChk((prevInputChk) => ({
+        ...prevInputChk,
+        creditCard: {
+          cardNumber: true,
+        },
+      }));
+      setToast((prevToast) => ({
+        ...prevToast,
+        status: true,
+        msg: '카드가 등록되었습니다.',
+      }));
+    }
+  }, [userInfo.creditCard.cardNumber]);
 
   const inputCheck = (limit) => {
     const { userId, password, password_confirm, name, age, zcode, creditCard } =
@@ -137,16 +166,21 @@ export default function SignUp({ accountPlus }) {
     return result;
   };
 
-  const [showModal, setShowModal] = useState(false);
-
   const onChangeID = (e) => {
     const id = e.target.value;
-    const regex1 = /[A-Za-z0-9]+/;
-    const regex2 = /[!@#$%^*+=-_]+/;
+    const regex1 = /[A-Za-z0-9]+/g;
+    const regex2 = /[^가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9]+/gi;
+    const regex3 = /[가-힣ㄱ-ㅎㅏ-ㅣ]/;
     if (regex1.test(id)) {
       setIsEngNum(true);
     } else {
       setIsEngNum(false);
+    }
+
+    if (regex3.test(id)) {
+      setIsEngNum(false);
+    } else {
+      setIsEngNum(true);
     }
 
     if (regex2.test(id)) {
@@ -331,20 +365,6 @@ export default function SignUp({ accountPlus }) {
     get_address(userInfo, setUserInfo);
   };
 
-  useEffect(() => {
-    if (userInfo.zcode) {
-      setInputChk((prevInputChk) => ({
-        ...prevInputChk,
-        zcode: true,
-      }));
-      setToast((prevToast) => ({
-        ...prevToast,
-        status: true,
-        msg: '주소가 등록되었습니다.',
-      }));
-    }
-  }, [userInfo.zcode]);
-
   const onChangeDetailAddr = (e) => {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
     inputCheck(5);
@@ -384,22 +404,6 @@ export default function SignUp({ accountPlus }) {
       },
     });
   };
-
-  useEffect(() => {
-    if (userInfo.creditCard.cardNumber) {
-      setInputChk((prevInputChk) => ({
-        ...prevInputChk,
-        creditCard: {
-          cardNumber: true,
-        },
-      }));
-      setToast((prevToast) => ({
-        ...prevToast,
-        status: true,
-        msg: '카드가 등록되었습니다.',
-      }));
-    }
-  }, [userInfo.creditCard.cardNumber]);
 
   const signupBtnEvnt = () => {
     const { userId, password, name, age, role, menubar } = userInfo;
@@ -453,7 +457,6 @@ export default function SignUp({ accountPlus }) {
     }
   };
 
-  // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
   const inputData = (
     userId,
     pw,
@@ -513,8 +516,7 @@ export default function SignUp({ accountPlus }) {
               ref={idInput}
             />
             <Submit_ID_btn onClick={onClickIdValid}>
-              {' '}
-              아이디 중복 확인{' '}
+              아이디 중복 확인
             </Submit_ID_btn>
           </Wrapper_ID>
           <PW_policy_container>
@@ -589,7 +591,7 @@ export default function SignUp({ accountPlus }) {
             <Wrapper_ZipCode>
               <ZipCode value={userInfo.zcode} readOnly />
               <Button_ZipCode_find onClick={onClickAddrBtn}>
-                우편번호 찾기{' '}
+                우편번호 찾기
               </Button_ZipCode_find>
             </Wrapper_ZipCode>
 
@@ -650,7 +652,6 @@ const {
   Lot_addr,
   Detailed_addr,
   Input_Radio,
-  // Note_addr,
 } = style;
 
 SignUp.propTypes = {

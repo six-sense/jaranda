@@ -11,6 +11,8 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import userDataForm from 'utils/storage/userDataForm';
 
 function Admin() {
+  const limit = 10;
+  const checkedKeys = Object.keys(checkedArray);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
@@ -20,15 +22,21 @@ function Admin() {
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const limit = 10;
+
+  useEffect(() => {
+    initSelected(LOCAL_STORAGE.get('userData'));
+  }, []);
+
+  useEffect(() => {
+    const userInfo = getUserInfo(pages, limit, searchValue);
+    setData(userInfo.userData);
+    setMaxPage(userInfo.maxPage);
+    setClickCheck(false);
+  }, [pages, searchValue, clickCheck]);
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
   };
-
-  useEffect(() => {
-    initSelected(LOCAL_STORAGE.get('userData'));
-  }, [data]);
 
   const initSelected = (userData) => {
     let obj = new Object();
@@ -36,11 +44,8 @@ function Admin() {
       (acc, cur) => ({ ...acc, [cur.userId]: cur.menubar }),
       {},
     );
-
     setCheckedArray(obj);
   };
-
-  const checkedKeys = Object.keys(checkedArray);
 
   const onClickChckBtn = (page, path, userId) => {
     const seletedInfo = checkedKeys.includes(userId);
@@ -92,8 +97,7 @@ function Admin() {
     return false;
   };
 
-  const onClickSubmitbtn = async () => {
-    // localStorage 셋팅
+  const onClickSubmitBtn = async () => {
     const allUserData = await LOCAL_STORAGE.get('userData');
     let userArray = [];
     for (let i = 0; i < Object.keys(allUserData).length; i++) {
@@ -123,6 +127,7 @@ function Admin() {
       setIsSubmit(false);
     }, 3000);
   };
+
   const onClickButtonLeft = () => {
     const page = pages - 1;
     if (page < 1) {
@@ -151,13 +156,6 @@ function Admin() {
     setModalStyle(!modalStyle);
   };
 
-  useEffect(() => {
-    const userInfo = getUserInfo(pages, limit, searchValue);
-    setData(userInfo.userData);
-    setMaxPage(userInfo.maxPage);
-    setClickCheck(false);
-  }, [pages, searchValue, clickCheck]);
-
   return (
     <Layout>
       <TableContainer>
@@ -176,16 +174,16 @@ function Admin() {
               onChange={onHandleSearch}
             />
             {!isSubmit && (
-              <GoRolePageButton onClick={onClickSubmitbtn}>
+              <PageAuthButton onClick={onClickSubmitBtn}>
                 페이지 권한 확정하기
-              </GoRolePageButton>
+              </PageAuthButton>
             )}
 
             {isSubmit && (
-              <GoRolePageButton disabled={true} onClick={onClickSubmitbtn}>
+              <PageAuthButton disabled={true} onClick={onClickSubmitBtn}>
                 <AiOutlineCheck />
                 확정되었습니다.
-              </GoRolePageButton>
+              </PageAuthButton>
             )}
           </SearchContainer>
         </TableTitleContainer>
@@ -269,7 +267,6 @@ export default Admin;
 
 const {
   Cell,
-  // CheckButton,
   AccountAddButton,
   Searchbox,
   SearchContainer,
@@ -279,7 +276,7 @@ const {
   TableFooter,
   TableTitle,
   TableTitleContainer,
-  GoRolePageButton,
+  PageAuthButton,
   AiOutlineLeftStyle,
   AiOutlineRightStyle,
 } = style;

@@ -123,7 +123,7 @@ export const RoleButonWrapper = styled.div`
   text-align: right;
 `;
 
-export const GoRolePageButton = styled.button`
+export const PageAuthButton = styled.button`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -161,7 +161,7 @@ export const style = {
   TableFooter,
   TableTitle,
   TableTitleContainer,
-  GoRolePageButton,
+  PageAuthButton,
   AiOutlineLeftStyle,
   AiOutlineRightStyle,
 };

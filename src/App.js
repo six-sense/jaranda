@@ -23,7 +23,6 @@ if (!LOCAL_STORAGE.get('userData')) {
 function App() {
   return (
     <Switch>
-      {/* public */}
       <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
         <Landing />
       </PublicRoute>
@@ -39,8 +38,6 @@ function App() {
       <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
         <SignUp />
       </PublicRoute>
-
-      {/* logged in user */}
       <PrivateRoute path={ROUTES.WATCH}>
         <Watch />
       </PrivateRoute>
@@ -56,13 +53,9 @@ function App() {
       <PrivateRoute path={ROUTES.LOG}>
         <Log />
       </PrivateRoute>
-
-      {/* admin */}
       <PrivateRoute path={ROUTES.ADMIN}>
         <Admin />
       </PrivateRoute>
-
-      {/* error */}
       <PublicRoute path={ROUTES.NOTFOUND} restricted={true}>
         <NotFound />
       </PublicRoute>

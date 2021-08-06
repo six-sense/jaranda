@@ -16,11 +16,6 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userMenu, setUserMenu] = useState([]);
 
-  const onClickLogout = () => {
-    logout();
-    setIsLoggedIn(checkIsLoggedIn());
-  };
-
   useEffect(() => {
     setIsLoggedIn(checkIsLoggedIn());
   }, []);
@@ -34,6 +29,11 @@ const Navbar = () => {
       setIsAdmin(false);
     }
   }, [isLoggedIn]);
+
+  const onClickLogout = () => {
+    logout();
+    setIsLoggedIn(checkIsLoggedIn());
+  };
 
   return (
     <NavbarContainer>
