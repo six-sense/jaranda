@@ -7,8 +7,9 @@ import {
   NavMenu,
 } from 'Styles/NavbarStyles';
 import jaranda from 'Assets/jarandalogo.png';
-import { LOCAL_STORAGE, PUBLIC_MENUS, ROUTES } from 'utils/constants';
-import { checkIsAdmin, checkIsLoggedIn, getUserMenu } from 'utils/getUserInfo';
+import { PUBLIC_MENUS, ROUTES } from 'utils/constants';
+import { getUserMenu } from 'Services/user';
+import { checkIsAdmin, checkIsLoggedIn, logout } from 'Services/auth';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,7 +17,7 @@ const Navbar = () => {
   const [userMenu, setUserMenu] = useState([]);
 
   const handleLogout = () => {
-    LOCAL_STORAGE.remove('token');
+    logout();
     setIsLoggedIn(checkIsLoggedIn());
   };
 
