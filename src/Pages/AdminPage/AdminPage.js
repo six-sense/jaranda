@@ -7,15 +7,16 @@ import { useHistory } from 'react-router-dom';
 import { ROUTES, MENUS, LOCAL_STORAGE } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
-import userDataForm from 'utils/storage/userDataForm';
 import Layout from 'Compnents/Layout';
 import { AiOutlineCheck } from 'react-icons/ai';
+import userDataForm from 'utils/storage/userDataForm';
 
 function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
+  const [modalStyle, setModalStyle] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
@@ -144,10 +145,12 @@ function AdminPage() {
 
   const openModal = () => {
     setShowModal(true);
+    setModalStyle(!modalStyle);
   };
 
   const closeModal = () => {
     setShowModal(false);
+    setModalStyle(!modalStyle);
   };
 
   useEffect(() => {
@@ -255,8 +258,12 @@ function AdminPage() {
           </div>
         </TableFooter>
       </TableContainer>
-      <Modal show={showModal} onClose={() => closeModal()}>
-        <SignUpPage />
+      <Modal
+        show={showModal}
+        onClose={() => closeModal()}
+        accountStyle={modalStyle}
+      >
+        <SignUpPage accountPlus={modalStyle} />
       </Modal>
     </Layout>
   );
