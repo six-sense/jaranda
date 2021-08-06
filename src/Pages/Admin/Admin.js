@@ -99,7 +99,6 @@ function Admin() {
       let origin_userId = allUserData[i].userId;
       let menubar = checkedArray[origin_userId];
 
-      console.log(menubar);
       userArray.push(
         userDataForm(
           origin_userId,
@@ -115,7 +114,6 @@ function Admin() {
           menubar,
         ),
       );
-      console.log(userArray);
     }
     LOCAL_STORAGE.set('userData', userArray);
     setIsSubmit(true);
@@ -153,9 +151,7 @@ function Admin() {
   };
 
   useEffect(() => {
-    // console.log(pages,data);
     const userInfo = getUserInfo(pages, limit, searchValue);
-    // console.log('userInfo', userInfo);
     setData(userInfo.userData);
     setMaxPage(userInfo.maxPage);
     setClickCheck(false);

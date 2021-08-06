@@ -29,7 +29,6 @@ export default function Login() {
       userInfo?.find(
         (data) => data.userId === userID && data.password === userPW,
       );
-    console.log(test);
 
     if (test !== undefined) {
       await LOCAL_STORAGE.set('token', {
