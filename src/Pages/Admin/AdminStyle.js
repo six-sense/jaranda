@@ -31,8 +31,6 @@ export const Cell = styled.th`
   }
 `;
 
-export const CheckButton = styled.input``;
-
 export const TableTitleContainer = styled.div`
   padding-left: 16px;
   padding-right: 8px;
@@ -73,7 +71,6 @@ export const Searchbox = styled.input`
   left: -42px;
   margin: 11px;
   width: 170px;
-  color: hsla(0, 0%, 91.8%, 0.6549019607843137);
   position: relative;
   border-radius: 15px;
   padding: 0 10px 0 45px;
@@ -155,7 +152,6 @@ export const AiOutlineRightStyle = styled(AiOutlineRight)`
 
 export const style = {
   Cell,
-  CheckButton,
   Searchbox,
   SearchContainer,
   SearchIcon,

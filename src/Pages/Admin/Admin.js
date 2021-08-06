@@ -119,6 +119,10 @@ function Admin() {
     }
     LOCAL_STORAGE.set('userData', userArray);
     setIsSubmit(true);
+
+    setTimeout(function () {
+      setIsSubmit(false);
+    }, 3000);
   };
   const onHandleButtonLeft = () => {
     const page = pages - 1;
@@ -171,7 +175,7 @@ function Admin() {
             <SearchIcon src={searchIcon} alt="search-icon" />
             <Searchbox
               type="text"
-              placeholder="Search Name"
+              placeholder="Search Name, ID"
               onChange={onHandleSearch}
             />
             {!isSubmit && (
