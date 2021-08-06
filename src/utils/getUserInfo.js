@@ -24,22 +24,37 @@ export const getUserInfo = (pages, limit, searchWord) => {
       user.userId.search(searchWord) >= 0 ||
       user.name.search(searchWord) >= 0
     ) {
+      console.log(user);
       filteredUserInfo.push({
         userId: user.userId,
+        password:user.password,
         name: user.name,
         age: user.age,
         role: user.role,
         address: user.address,
         menubar: user.menubar,
+        creditCard: {
+            CVC: user.creditCard.CVC,
+            cardNumber: user.creditCard.cardNumber,
+            expired: user.creditCard.expired,
+            holderName: user.creditCard.holderName,
+          },
       });
     }
     nonFilteredUserInfo.push({
       userId: user.userId,
+      password:user.password,
       name: user.name,
       age: user.age,
       role: user.role,
       address: user.address,
       menubar: user.menubar,
+      creditCard: {
+        CVC: user.creditCard.CVC,
+        cardNumber: user.creditCard.cardNumber,
+        expired: user.creditCard.expired,
+        holderName: user.creditCard.holderName,
+      },
     });
     return;
   });
@@ -52,11 +67,18 @@ export const getUserInfo = (pages, limit, searchWord) => {
     if (idx >= (pages - 1) * limit && idx < pages * limit) {
       paginationInfo.push({
         userId: user.userId,
+        password:user.password,
         name: user.name,
         age: user.age,
         role: user.role,
         address: user.address,
         menubar: user.menubar,
+        creditCard: {
+          CVC: user.creditCard.CVC,
+          cardNumber: user.creditCard.cardNumber,
+          expired: user.creditCard.expired,
+          holderName: user.creditCard.holderName,
+        },
       });
     }
     return;
