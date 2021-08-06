@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from 'Compnents/Layout';
 
-function LandingPage() {
+function NotFound() {
   return (
     <Layout>
       <div
@@ -9,10 +9,10 @@ function LandingPage() {
           fontSize: '40px',
         }}
       >
-        Main Page
+        404 Error Not Found Page
       </div>
     </Layout>
   );
 }
 
-export default LandingPage;
+export default NotFound;

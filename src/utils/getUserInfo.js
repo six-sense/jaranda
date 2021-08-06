@@ -1,17 +1,5 @@
 import { LOCAL_STORAGE, ROLES } from './constants';
 
-// const searchKeyword = (targets, searchWord) => {
-//   console.log('here', targets, searchWord);
-//   targets.map((target) => {
-//     console.log(target, searchWord);
-//     if (target.search(searchWord) >= 0) {
-//       return true;
-//     }
-//   });
-//   console.log('false');
-//   return false;
-// };
-
 export const getUserInfo = (pages, limit, searchWord) => {
   const originalData = LOCAL_STORAGE.get('userData');
   const filteredUserInfo = [];
@@ -20,30 +8,28 @@ export const getUserInfo = (pages, limit, searchWord) => {
 
   originalData?.map((user) => {
     if (
-      //   searchKeyword([user.userId, user.name], searchWord)
       user.userId.search(searchWord) >= 0 ||
       user.name.search(searchWord) >= 0
     ) {
-      console.log(user);
       filteredUserInfo.push({
         userId: user.userId,
-        password:user.password,
+        password: user.password,
         name: user.name,
         age: user.age,
         role: user.role,
         address: user.address,
         menubar: user.menubar,
         creditCard: {
-            CVC: user.creditCard.CVC,
-            cardNumber: user.creditCard.cardNumber,
-            expired: user.creditCard.expired,
-            holderName: user.creditCard.holderName,
-          },
+          CVC: user.creditCard.CVC,
+          cardNumber: user.creditCard.cardNumber,
+          expired: user.creditCard.expired,
+          holderName: user.creditCard.holderName,
+        },
       });
     }
     nonFilteredUserInfo.push({
       userId: user.userId,
-      password:user.password,
+      password: user.password,
       name: user.name,
       age: user.age,
       role: user.role,
@@ -67,7 +53,7 @@ export const getUserInfo = (pages, limit, searchWord) => {
     if (idx >= (pages - 1) * limit && idx < pages * limit) {
       paginationInfo.push({
         userId: user.userId,
-        password:user.password,
+        password: user.password,
         name: user.name,
         age: user.age,
         role: user.role,

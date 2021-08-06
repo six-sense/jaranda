@@ -1,27 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
-import LandingPage from 'Pages/LandingPage';
+import { Switch, Route } from 'react-router-dom';
+import Landing from 'Pages/Landing';
 import Support from 'Pages/Support';
 import Help from 'Pages/Help';
-import LoginPage from 'Pages/LoginPage';
-import SignUpPage from 'Pages/SignUpPage/SignUpPage';
+import Login from 'Pages/Login';
+import SignUp from 'Pages/SignUp';
 import Watch from 'Pages/Watch';
 import Form from 'Pages/Form';
 import History from 'Pages/History';
 import Schedule from 'Pages/Schedule';
 import Log from 'Pages/Log';
-import AdminPage from 'Pages/AdminPage';
-import RoleManagement from 'Pages/RoleManagementPage';
+import Admin from 'Pages/Admin';
+import NotFound from 'Pages/NotFound';
 import userData from 'utils/userData.json';
-import roleMenu from 'utils/roleMenu.json';
 import { ROUTES, LOCAL_STORAGE } from 'utils/constants';
 import { PrivateRoute, PublicRoute } from 'routes';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
-}
-if (!LOCAL_STORAGE.get('role')) {
-  LOCAL_STORAGE.set('role', roleMenu);
 }
 
 function App() {
@@ -29,7 +25,7 @@ function App() {
     <Switch>
       {/* public */}
       <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
-        <LandingPage />
+        <Landing />
       </PublicRoute>
       <PublicRoute path={ROUTES.SUPPORT} restricted={false}>
         <Support />
@@ -38,10 +34,10 @@ function App() {
         <Help />
       </PublicRoute>
       <PublicRoute path={ROUTES.SIGN_IN} restricted={true}>
-        <LoginPage />
+        <Login />
       </PublicRoute>
       <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
-        <SignUpPage />
+        <SignUp />
       </PublicRoute>
 
       {/* logged in user */}
@@ -63,11 +59,13 @@ function App() {
 
       {/* admin */}
       <PrivateRoute path={ROUTES.ADMIN}>
-        <AdminPage />
+        <Admin />
       </PrivateRoute>
-      <PrivateRoute path={ROUTES.ROLE_MANAGEMENT}>
-        <RoleManagement />
-      </PrivateRoute>
+
+      {/* error */}
+      <Route path={ROUTES.NOTFOUND} restricted={true}>
+        <NotFound />
+      </Route>
     </Switch>
   );
 }

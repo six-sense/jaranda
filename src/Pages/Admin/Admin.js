@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'Modal';
-import SignUpPage from 'Pages/SignUpPage';
+import SignUp from 'Pages/SignUp';
 import searchIcon from 'Assets/search.png';
-import { style } from './AdminPageStyle';
-import { useHistory } from 'react-router-dom';
-import { ROUTES, MENUS, LOCAL_STORAGE } from 'utils/constants';
+import { style } from './AdminStyle';
+import { MENUS, LOCAL_STORAGE } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
-import Checkbox from 'Compnents/Checkbox/Checkbox';
+import Checkbox from 'Compnents/Checkbox';
 import Layout from 'Compnents/Layout';
 import { AiOutlineCheck } from 'react-icons/ai';
 import userDataForm from 'utils/storage/userDataForm';
 
-function AdminPage() {
-  const history = useHistory();
+function Admin() {
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
@@ -29,7 +27,7 @@ function AdminPage() {
   };
 
   useEffect(() => {
-    initSelected(data);
+    initSelected(LOCAL_STORAGE.get('userData'));
   }, [data]);
 
   const initSelected = (userData) => {
@@ -93,26 +91,27 @@ function AdminPage() {
     }
   };
 
-  const submitBtnClick = () => {
+  const submitBtnClick = async () => {
     // localStorage 셋팅
+    const allUserData = await LOCAL_STORAGE.get('userData');
     let userArray = [];
-    for (let i = 0; i < Object.keys(data).length; i++) {
-      let origin_userId = data[i].userId;
+    for (let i = 0; i < Object.keys(allUserData).length; i++) {
+      let origin_userId = allUserData[i].userId;
       let menubar = checkedArray[origin_userId];
 
       console.log(menubar);
       userArray.push(
         userDataForm(
           origin_userId,
-          data[i].password,
-          data[i].name,
-          data[i].age,
-          data[i].creditCard.cardNumber,
-          data[i].creditCard.holderName,
-          data[i].creditCard.expired,
-          data[i].creditCard.CVC,
-          data[i].role,
-          data[i].address,
+          allUserData[i].password,
+          allUserData[i].name,
+          allUserData[i].age,
+          allUserData[i].creditCard.cardNumber,
+          allUserData[i].creditCard.holderName,
+          allUserData[i].creditCard.expired,
+          allUserData[i].creditCard.CVC,
+          allUserData[i].role,
+          allUserData[i].address,
           menubar,
         ),
       );
@@ -137,10 +136,6 @@ function AdminPage() {
     } else {
       setPages(page);
     }
-  };
-
-  const goRoleManagementPage = () => {
-    history.push(ROUTES.ROLE_MANAGEMENT);
   };
 
   const openModal = () => {
@@ -263,13 +258,13 @@ function AdminPage() {
         onClose={() => closeModal()}
         accountStyle={modalStyle}
       >
-        <SignUpPage accountPlus={modalStyle} />
+        <SignUp accountPlus={modalStyle} />
       </Modal>
     </Layout>
   );
 }
 
-export default AdminPage;
+export default Admin;
 
 const {
   Cell,

@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { style } from './SignUpPageStyle';
+import { style } from './SignUpStyle';
 import { FiCheck } from 'react-icons/fi';
-import get_address from './get_address';
+import get_address from './utils/get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
-import { LOCAL_STORAGE, ROUTES, MENUS } from 'utils/constants';
+import { LOCAL_STORAGE, ROUTES, MENUS, ROLES } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from './CreditCardForm';
-import ToastForm from 'Compnents/ToastForm/ToastForm';
+import ToastForm from 'Compnents/ToastForm';
 import { useHistory } from 'react-router-dom';
 import Layout from 'Compnents/Layout';
 
-export default function SignUpPage({ accountPlus }) {
+export default function SignUp({ accountPlus }) {
   const history = useHistory();
   const idInput = useRef();
   const pwInput = useRef();
@@ -53,7 +53,7 @@ export default function SignUpPage({ accountPlus }) {
       expired: '',
       CVC: '',
     },
-    role: 'user',
+    role: ROLES.USER,
     zcode: '',
     roadAddr: '',
     jibunAddr: '',
@@ -69,7 +69,7 @@ export default function SignUpPage({ accountPlus }) {
   useEffect(() => {
     if (toast.status) {
       const timeInterver = setTimeout(() => {
-        setToast({ ...toast, status: false });
+        setToast((prevToast) => ({ ...prevToast, status: false }));
       }, 2000);
       return () => clearTimeout(timeInterver);
     }
@@ -331,15 +331,15 @@ export default function SignUpPage({ accountPlus }) {
 
   useEffect(() => {
     if (userInfo.zcode) {
-      setInputChk({
-        ...inputChk,
+      setInputChk((prevInputChk) => ({
+        ...prevInputChk,
         zcode: true,
-      });
-      setToast({
-        ...toast,
+      }));
+      setToast((prevToast) => ({
+        ...prevToast,
         status: true,
         msg: '주소가 등록되었습니다.',
-      });
+      }));
     }
   }, [userInfo.zcode]);
 
@@ -358,7 +358,7 @@ export default function SignUpPage({ accountPlus }) {
         })
       : setUserInfo({
           ...userInfo,
-          role: 'user',
+          role: ROLES.USER,
         });
   };
 
@@ -385,17 +385,17 @@ export default function SignUpPage({ accountPlus }) {
 
   useEffect(() => {
     if (userInfo.creditCard.cardNumber) {
-      setInputChk({
-        ...inputChk,
+      setInputChk((prevInputChk) => ({
+        ...prevInputChk,
         creditCard: {
           cardNumber: true,
         },
-      });
-      setToast({
-        ...toast,
+      }));
+      setToast((prevToast) => ({
+        ...prevToast,
         status: true,
         msg: '카드가 등록되었습니다.',
-      });
+      }));
     }
   }, [userInfo.creditCard.cardNumber]);
 
@@ -643,6 +643,6 @@ const {
   // Note_addr,
 } = style;
 
-SignUpPage.propTypes = {
+SignUp.propTypes = {
   accountPlus: PropTypes.bool,
 };

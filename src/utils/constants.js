@@ -1,17 +1,6 @@
-//import { getUserInfo } from './getUserInfo';
 import storage from './storage/storage';
 
 export const LOCAL_STORAGE = storage(localStorage);
-
-//export const USER_INFO = getUserInfo(); // admin에서 암호화 된 정보 제외한 정보들만 출력
-// {
-//   id: user.id,
-//   name: user.name,
-//   age: user.age,
-//   role: user.role,
-//   address: user.address,
-//   menubar: user.menubar,
-// }
 
 export const ROUTES = {
   MAIN: '/',
@@ -26,6 +15,7 @@ export const ROUTES = {
   HISTORY: '/history',
   SCHEDULE: '/schedule',
   LOG: '/log',
+  NOTFOUND: '*',
 };
 
 export const PUBLIC_MENUS = [
@@ -68,6 +58,5 @@ export const MENUS = [
 
 export const ROLES = {
   ADMIN: 'admin',
-  TEACHER: 'teacher',
-  PARENT: 'parent',
+  USER: 'user',
 };
