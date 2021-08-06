@@ -243,12 +243,12 @@ function Admin() {
         <TableFooter>
           <div>
             <AiOutlineLeftStyle
-              pageend={pages === 1 && 'true'}
+              pageend={pages === 1 ? 'true' : 'false'}
               onClick={onHandleButtonLeft}
             />
             <div>{pages}</div>
             <AiOutlineRightStyle
-              pageend={pages === maxPage && 'true'}
+              pageend={pages === maxPage ? 'true' : 'false'}
               onClick={onHandleButtonRight}
             />
           </div>
