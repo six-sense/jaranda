@@ -1,19 +1,19 @@
-# Jaranda 기업 과제
+<p align='middle'>
+<a href='https://610cdcae8e155c71b5fb1482--jaranda.netlify.app'><img src='https://user-images.githubusercontent.com/51367622/128473643-62cedb40-2390-4356-9db4-5ddb2cfa346e.png' width="100px;" alt="LiveMD" /></a></p>
+<p align='middle'><img alt="GitHub top language" src="https://img.shields.io/github/languages/top/six-sense/jaranda?color=blueviolet"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/six-sense/jaranda"> 
+<h1 align='middle'><a href='https://jaranda.netlify.app/'>https://jaranda.netlify.app/</a></h1>
+
+---
+🧐[노션 미팅 로그](https://first-english-d5d.notion.site/d789f1ad2e434084be98bb6c54a006b2)에서 더 다양한 개발 과정을 확인해보세요!
+
+---
 
 <br/>
 
->  📌 **Wanted 프리온보딩 코스 (프론트 엔드) 기업 과제**
->
->  <br/>
->
->  📗 **회원가입, 로그인 / 로그아웃 기능과 다양한 메뉴를 가지고 있는 홈페이지, 관리자 페이지 구현하기**
+## 📌 프로젝트 소개
 
-<br/>
-
-**결과물은 `배포 링크`, 진행 과정과 세부 사항은 `노션 미팅 로그`를 클릭해주세요!**
-
-| 🎈[배포 링크](https://jaranda.netlify.app) | 🧐[노션 미팅 로그](https://first-english-d5d.notion.site/d789f1ad2e434084be98bb6c54a006b2) |
-| ----------------------------------------- | ------------------------------------------------------------ |
+###  프리온보딩 코스 Jaranda 기업 과제
+> ❕ **회원가입, 로그인 / 로그아웃 기능과 다양한 메뉴를 가지고 있는 홈페이지, 관리자 페이지 구현하기**❗
 
 <details>
     <summary><STRONG>
@@ -77,14 +77,15 @@
 - 유저가 권한이 없는 페이지주소를 입력하면 페이지 접근불가, 메인페이지로 이동
 - Not Found 페이지
         
+
 `라우트` && `접근 권한`
 
 - 로그인 전
-    - 로그인 없이 접근 가능한 메뉴 렌더링 (로그인/회원가입 페이지)
+  - 로그인 없이 접근 가능한 메뉴 렌더링 (로그인/회원가입 페이지)
 - 로그인 후
-    - 관리자 계정으로 로그인시 Admin 페이지 렌더링
-    - 일반 계정으로 로그인시 게스트메뉴에서 유저별 허가된 메뉴 렌더링
-    - 로그인 후에는 로그인/회원가입 페이지 접근 불가
+  - 관리자 계정으로 로그인시 Admin 페이지 렌더링
+  - 일반 계정으로 로그인시 게스트메뉴에서 유저별 허가된 메뉴 렌더링
+  - 로그인 후에는 로그인/회원가입 페이지 접근 불가
 - 로그아웃
 
 
@@ -100,52 +101,27 @@
 
 `npm start`
 
+### 데모 로그인
+
+`Admin : admin1 / admin123!`
+
+`User : user1 / user123!`
+
 <br/>
 
 ## 📂프로젝트 구조
 
-```
-.src
-+-- Assets
-+-- Components
-|	+--Layout
-|		--index.js
-|		--Layout.js
-|		--LayoutStyle.js
-|	:
-|	:
-+-- Modal       
-+-- Pages
-|	+--AdminPage
-|		--index.js
-|		--AdminPage.js
-|		--AdminPageStyle.js
-|	:
-|	:
-+-- Styles
-+-- Utils
-|	+--storage
-|		--storage.js
-|		--userDataForm.js
-|	--checkValid.js
-|	--constants.js
-|	:
-App.js
-index.js
-routes.js
-```
 
-| 폴더 / 파일 | 설명      |
-| ----------- | --------- |
-| Assets      | 작성 요망 |
-| Components  | 작성 요망 |
-| Modal       | 작성 요망 |
-| Pages       | 작성 요망 |
-| Styles      | 작성 요망 |
-| Utils       | 작성 요망 |
-| App.js      | 작성 요망 |
-| index.js    | 작성 요망 |
-| routes.js   | 작성 요망 |
+| 폴더 / 파일 | 설명                               |
+| ----------- | ---------------------------------- |
+| Assets      | jaranda 로고 및 아이콘.            |
+| Components  | 각 Page에 사용되는 Component 모음. |
+| Modal       | 팝업창 Modal.                      |
+| Pages       | Route를 위한 Page 목록.            |
+| Services    | 권한별 인가 책정.                  |
+| Styles      | 기본 공통 Style.                   |
+| Utils       | localStorage 접근 및 공통 함수.    |
+| App.js      | public, private Route 정리.        |
+| routes.js   | 계정별 페이지 권한 구분.           |
 
-
-
+<br/>
