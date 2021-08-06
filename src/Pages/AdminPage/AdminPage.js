@@ -4,11 +4,12 @@ import SignUpPage from 'Pages/SignUpPage';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminPageStyle';
 import { useHistory } from 'react-router-dom';
-import { ROUTES, MENUS, LOCAL_STORAGE} from 'utils/constants';
+import { ROUTES, MENUS, LOCAL_STORAGE } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
-import userDataForm from 'utils/storage/userDataForm'
 import Layout from 'Compnents/Layout';
+import { AiOutlineCheck } from 'react-icons/ai';
+import userDataForm from 'utils/storage/userDataForm';
 
 function AdminPage() {
   const history = useHistory();
@@ -20,28 +21,26 @@ function AdminPage() {
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const limit = 10;
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
   };
 
-  useEffect(()=>{
-    initSelected(data)
-  },[data])
+  useEffect(() => {
+    initSelected(data);
+  }, [data]);
 
-  const initSelected = (userData) =>{
-    console.log(userData)
-    let [f_userId, f_menubar] = ['',[]];
-    let obj = new Object()
-    for(let i=0; i<Object.keys(userData).length; i++){
-      f_userId = userData[i].userId;
-      f_menubar = userData[i].menubar;
+  const initSelected = (userData) => {
+    let obj = new Object();
+    obj = userData.reduce(
+      (acc, cur) => ({ ...acc, [cur.userId]: cur.menubar }),
+      {},
+    );
 
-      obj[f_userId] = f_menubar
-    }
-    setCheckedArray(obj)
-  }
+    setCheckedArray(obj);
+  };
 
   const checkedKeys = Object.keys(checkedArray);
 
@@ -94,24 +93,34 @@ function AdminPage() {
     }
   };
 
-  const submitBtnClick =() =>{
+  const submitBtnClick = () => {
     // localStorage 셋팅
-    let userArray = []
-    for(let i=0; i<Object.keys(data).length; i++){
-      let origin_userId = data[i].userId
-      let menubar = (checkedArray[origin_userId]);
-      // for(let menu of checkedArray[origin_userId]){
-      //   // console.log(menu)
-      //   menubar.push(menu)
-      // }
-      console.log(menubar)
-      userArray.push(userDataForm(origin_userId, data[i].password, data[i].name, data[i].age, data[i].creditCard.cardNumber, data[i].creditCard.holderName, data[i].creditCard.expired, data[i].creditCard.CVC, data[i].role, data[i].address, menubar))
-      console.log(userArray)
+    let userArray = [];
+    for (let i = 0; i < Object.keys(data).length; i++) {
+      let origin_userId = data[i].userId;
+      let menubar = checkedArray[origin_userId];
+
+      console.log(menubar);
+      userArray.push(
+        userDataForm(
+          origin_userId,
+          data[i].password,
+          data[i].name,
+          data[i].age,
+          data[i].creditCard.cardNumber,
+          data[i].creditCard.holderName,
+          data[i].creditCard.expired,
+          data[i].creditCard.CVC,
+          data[i].role,
+          data[i].address,
+          menubar,
+        ),
+      );
+      console.log(userArray);
     }
-    // LOCAL_STORAGE.remove('userData');
     LOCAL_STORAGE.set('userData', userArray);
-    // setUserData(userArray)
-  }
+    setIsSubmit(true);
+  };
   const onHandleButtonLeft = () => {
     const page = pages - 1;
     if (page < 1) {
@@ -170,9 +179,18 @@ function AdminPage() {
               placeholder="Search Name"
               onChange={onHandleSearch}
             />
-            <GoRolePageButton onClick={goRoleManagementPage}>
-              권한 별 사용자 목록 보기
-            </GoRolePageButton>
+            {!isSubmit && (
+              <GoRolePageButton onClick={submitBtnClick}>
+                페이지 권한 확정하기
+              </GoRolePageButton>
+            )}
+
+            {isSubmit && (
+              <GoRolePageButton disabled={true} onClick={submitBtnClick}>
+                <AiOutlineCheck />
+                확정되었습니다.
+              </GoRolePageButton>
+            )}
           </SearchContainer>
         </TableTitleContainer>
 
@@ -226,7 +244,6 @@ function AdminPage() {
               </tbody>
             ))}
         </table>
-        <button onClick={submitBtnClick} style={{cursor:'pointer'}}>저장하기</button>
         <TableFooter>
           <div>
             <AiOutlineLeftStyle
