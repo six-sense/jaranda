@@ -96,8 +96,8 @@ function Admin() {
     return false;
   };
 
-  const onClickSubmitBtn = async () => {
-    const allUserData = await LOCAL_STORAGE.get('userData');
+  const onClickSubmitBtn = () => {
+    const allUserData = LOCAL_STORAGE.get('userData');
     let userArray = [];
     for (let i = 0; i < Object.keys(allUserData).length; i++) {
       let origin_userId = allUserData[i].userId;

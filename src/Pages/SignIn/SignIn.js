@@ -22,8 +22,8 @@ export default function SignIn() {
     setInputPwValue(e.target.value);
   };
 
-  const sendLogin = async (userID, userPW) => {
-    const userInfo = await LOCAL_STORAGE.get('userData');
+  const sendLogin = (userID, userPW) => {
+    const userInfo = LOCAL_STORAGE.get('userData');
     let test =
       userInfo &&
       userInfo?.find(
@@ -31,7 +31,7 @@ export default function SignIn() {
       );
 
     if (test !== undefined) {
-      await LOCAL_STORAGE.set('token', {
+      LOCAL_STORAGE.set('token', {
         userId: test.userId,
         role: test.role,
       });
@@ -41,20 +41,21 @@ export default function SignIn() {
     return false;
   };
 
-  const onClickCheckLogin = async () => {
+  const onClickCheckLogin = () => {
     if (
       checkId(inputIdValue) &&
       checkPassword(inputPwValue) &&
       inputIdValue !== '' &&
       inputPwValue !== ''
     ) {
-      const validLogin = await sendLogin(inputIdValue, inputPwValue);
-      const tokenRole = await LOCAL_STORAGE.get('token')?.role;
+      const validLogin = sendLogin(inputIdValue, inputPwValue);
+      const tokenRole = LOCAL_STORAGE.get('token')?.role;
       if (validLogin && tokenRole === 'admin') {
         history.push(ROUTES.ADMIN);
       } else if (validLogin && tokenRole !== 'admin') {
         history.push(ROUTES.MAIN);
       }
+      return;
     }
     setIsValid(true);
     setTimeout(() => {

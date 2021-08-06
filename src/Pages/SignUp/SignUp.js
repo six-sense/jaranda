@@ -201,7 +201,7 @@ export default function SignUp({ accountPlus }) {
     });
   };
 
-  const onClickIdValid = async () => {
+  const onClickIdValid = () => {
     const checkValidId = checkIdSignUp(userInfo.userId);
     let userData = LOCAL_STORAGE.get('userData');
 
