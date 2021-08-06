@@ -2,7 +2,8 @@ import { React } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ROUTES } from './utils/constants';
-import { checkIsAdmin, checkIsLoggedIn, isUserMenu } from 'utils/getUserInfo';
+import { checkIsAdmin, checkIsLoggedIn } from 'Services/auth';
+import { isUserMenu } from 'Services/user';
 
 export const PublicRoute = ({ restricted, children, ...rest }) => {
   return (
