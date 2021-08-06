@@ -1,5 +1,5 @@
 import React from 'react';
-import Layout from 'Compnents/Layout';
+import Layout from 'Components/Layout';
 
 function Help() {
   return (

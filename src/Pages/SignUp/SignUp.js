@@ -9,9 +9,9 @@ import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES, MENUS, ROLES } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from './CreditCardForm';
-import ToastForm from 'Compnents/ToastForm';
+import ToastForm from 'Components/ToastForm';
 import { useHistory } from 'react-router-dom';
-import Layout from 'Compnents/Layout';
+import Layout from 'Components/Layout';
 
 export default function SignUp({ accountPlus }) {
   const history = useHistory();

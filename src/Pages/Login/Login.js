@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
 import { style } from './LoginStyle';
-import Layout from 'Compnents/Layout';
+import Layout from 'Components/Layout';
 
 export default function Login() {
   const [isValid, setIsValid] = useState(false);

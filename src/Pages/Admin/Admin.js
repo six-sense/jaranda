@@ -5,8 +5,8 @@ import searchIcon from 'Assets/search.png';
 import { style } from './AdminStyle';
 import { MENUS, LOCAL_STORAGE } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
-import Checkbox from 'Compnents/Checkbox';
-import Layout from 'Compnents/Layout';
+import Checkbox from 'Components/Checkbox';
+import Layout from 'Components/Layout';
 import { AiOutlineCheck } from 'react-icons/ai';
 import userDataForm from 'utils/storage/userDataForm';
 

@@ -7,7 +7,7 @@ import {
   limitLength,
   validateExpiration,
 } from './utils/cardValidation';
-import ToastForm from 'Compnents/ToastForm';
+import ToastForm from 'Components/ToastForm';
 
 const INPUT_NAMES = {
   CARD_NUMBER: 'cardNumber',
