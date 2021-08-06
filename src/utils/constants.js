@@ -60,3 +60,5 @@ export const ROLES = {
   ADMIN: 'admin',
   USER: 'user',
 };
+
+export const LIMIT = 10;

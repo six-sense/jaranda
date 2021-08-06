@@ -3,7 +3,7 @@ import Modal from 'Modal';
 import SignUp from 'Pages/SignUp';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminStyle';
-import { MENUS, LOCAL_STORAGE } from 'utils/constants';
+import { MENUS, LOCAL_STORAGE, LIMIT } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Components/Checkbox';
 import Layout from 'Components/Layout';
@@ -11,8 +11,6 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import userDataForm from 'utils/storage/userDataForm';
 
 function Admin() {
-  const limit = 10;
-  const checkedKeys = Object.keys(checkedArray);
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
@@ -22,13 +20,14 @@ function Admin() {
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+  const checkedKeys = Object.keys(checkedArray);
 
   useEffect(() => {
     initSelected(LOCAL_STORAGE.get('userData'));
   }, []);
 
   useEffect(() => {
-    const userInfo = getUserInfo(pages, limit, searchValue);
+    const userInfo = getUserInfo(pages, LIMIT, searchValue);
     setData(userInfo.userData);
     setMaxPage(userInfo.maxPage);
     setClickCheck(false);
