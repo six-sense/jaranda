@@ -139,7 +139,7 @@ export default function SignUp({ accountPlus }) {
 
   const [showModal, setShowModal] = useState(false);
 
-  const handleId = (e) => {
+  const onChangeID = (e) => {
     const id = e.target.value;
     const regex1 = /[A-Za-z0-9]+/;
     const regex2 = /[!@#$%^*+=-_]+/;
@@ -167,7 +167,7 @@ export default function SignUp({ accountPlus }) {
     });
   };
 
-  const handleIdValidate = async () => {
+  const onClickIdValid = async () => {
     const checkValidId = checkIdSignUp(userInfo.userId);
     let userData = LOCAL_STORAGE.get('userData');
 
@@ -256,7 +256,7 @@ export default function SignUp({ accountPlus }) {
     }
   };
 
-  const onChangePwconfirm = (e) => {
+  const onChangePwConfirm = (e) => {
     inputCheck(2);
     setUserPwConfirm(e.target.value);
     MatchPW(e.target.value);
@@ -327,7 +327,7 @@ export default function SignUp({ accountPlus }) {
     }
   };
 
-  const addrBtnEvent = () => {
+  const onClickAddrBtn = () => {
     get_address(userInfo, setUserInfo);
   };
 
@@ -345,12 +345,12 @@ export default function SignUp({ accountPlus }) {
     }
   }, [userInfo.zcode]);
 
-  const handleChange = (e) => {
+  const onChangeDetailAddr = (e) => {
     setUserInfo({ ...userInfo, detailAddr: e.target.value });
     inputCheck(5);
   };
 
-  const handleCheckBoxButton = (e) => {
+  const onChangeRoleAdmin = (e) => {
     let isAdmin = e.target.checked;
 
     isAdmin
@@ -497,7 +497,7 @@ export default function SignUp({ accountPlus }) {
                   <Input_Radio
                     type="checkbox"
                     name="admin"
-                    onChange={(e) => handleCheckBoxButton(e)}
+                    onChange={(e) => onChangeRoleAdmin(e)}
                   />
                   <span>Admin</span>
                 </label>
@@ -509,10 +509,10 @@ export default function SignUp({ accountPlus }) {
             <Input_ID
               placeholder="ID"
               maxLength="30"
-              onChange={handleId}
+              onChange={onChangeID}
               ref={idInput}
             />
-            <Submit_ID_btn onClick={handleIdValidate}>
+            <Submit_ID_btn onClick={onClickIdValid}>
               {' '}
               아이디 중복 확인{' '}
             </Submit_ID_btn>
@@ -569,7 +569,7 @@ export default function SignUp({ accountPlus }) {
           </PW_policy_container>
 
           <Input_PW_confirm
-            onChange={onChangePwconfirm}
+            onChange={onChangePwConfirm}
             value={userPwconfirm}
             ref={pwConfirmInput}
           />
@@ -588,7 +588,7 @@ export default function SignUp({ accountPlus }) {
             <Address_title>주소</Address_title>
             <Wrapper_ZipCode>
               <ZipCode value={userInfo.zcode} readOnly />
-              <Button_ZipCode_find onClick={addrBtnEvent}>
+              <Button_ZipCode_find onClick={onClickAddrBtn}>
                 우편번호 찾기{' '}
               </Button_ZipCode_find>
             </Wrapper_ZipCode>
@@ -601,9 +601,8 @@ export default function SignUp({ accountPlus }) {
             <Wrapper_addr>
               <Detailed_addr
                 value={userInfo.detailAddr}
-                onChange={handleChange}
+                onChange={onChangeDetailAddr}
               />
-              {/* <Note_addr /> */}
             </Wrapper_addr>
           </Address_container>
           <Button_credit onClick={openModal}>신용카드 등록</Button_credit>
@@ -612,7 +611,7 @@ export default function SignUp({ accountPlus }) {
           </Submit_SignUp_btn>
         </Wrap>
       </Container>
-      <Modal show={showModal} onClose={closeModal}>
+      <Modal show={showModal} onClickClose={closeModal}>
         <CreditCardForm
           closeModal={closeModal}
           creditCard={userInfo.creditCard}

@@ -16,7 +16,7 @@ const Navbar = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [userMenu, setUserMenu] = useState([]);
 
-  const handleLogout = () => {
+  const onClickLogout = () => {
     logout();
     setIsLoggedIn(checkIsLoggedIn());
   };
@@ -49,7 +49,7 @@ const Navbar = () => {
               </NavLink>
             ))}
           {isLoggedIn && (
-            <NavLink to={ROUTES.MAIN} onClick={handleLogout}>
+            <NavLink to={ROUTES.MAIN} onClick={onClickLogout}>
               로그아웃
             </NavLink>
           )}
@@ -65,5 +65,5 @@ Navbar.propTypes = {
   isLoggedIn: PropTypes.bool,
   userMenu: PropTypes.array,
   isAdmin: PropTypes.bool,
-  handleLogout: PropTypes.func,
+  onClickLogout: PropTypes.func,
 };

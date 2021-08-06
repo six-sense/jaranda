@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { style } from './ModalStyle';
 import { AiOutlineClose } from 'react-icons/ai';
 
-export default function Modal({ show, onClose, children, accountStyle }) {
+export default function Modal({ show, onClickClose, children, accountStyle }) {
   return ReactDom.createPortal(
     <>
       {show && (
@@ -13,7 +13,7 @@ export default function Modal({ show, onClose, children, accountStyle }) {
             <Container>
               <Wrap accountStyle={accountStyle}>
                 <Header>
-                  <ModalClose onClick={onClose}>
+                  <ModalClose onClick={onClickClose}>
                     <AiOutlineClose size={18} />
                   </ModalClose>
                 </Header>

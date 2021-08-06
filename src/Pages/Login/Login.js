@@ -14,11 +14,11 @@ export default function Login() {
   const inputPw = useRef();
   const { checkId, checkPassword } = Validation;
 
-  const handleIdInput = (e) => {
+  const onChangePwInput = (e) => {
     setInputIdValue(e.target.value);
   };
 
-  const handlePwInput = (e) => {
+  const onChangeIdInput = (e) => {
     setInputPwValue(e.target.value);
   };
 
@@ -41,7 +41,7 @@ export default function Login() {
     return false;
   };
 
-  const checkLogin = async () => {
+  const onClickCheckLogin = async () => {
     if (
       checkId(inputIdValue) &&
       checkPassword(inputPwValue) &&
@@ -64,11 +64,11 @@ export default function Login() {
     // }
   };
 
-  const enterkey = (e) => {
+  const onKeyPressEnterkey = (e) => {
     if (e.key === 'Enter') {
       e.target.placeholder === '아이디'
         ? inputPw.current.focus()
-        : checkLogin();
+        : onClickCheckLogin();
     }
   };
 
@@ -82,13 +82,15 @@ export default function Login() {
               유효한 아이디 또는 비밀번호를 입력해주세요
             </VaildMessage>
           )}
-
-          <IdInput onChange={(e) => handleIdInput(e)} onKeyPress={enterkey} />
-          <PasswordInput
-            onChange={(e) => handlePwInput(e)}
-            onKeyPress={enterkey}
+          <IdInput
+            onChange={(e) => onChangePwInput(e)}
+            onKeyPress={onKeyPressEnterkey}
           />
-          <LoginButton onClick={checkLogin}>로그인</LoginButton>
+          <PasswordInput
+            onChange={(e) => onChangeIdInput(e)}
+            onKeyPress={onKeyPressEnterkey}
+          />
+          <LoginButton onClick={onClickCheckLogin}>로그인</LoginButton>
           <Bar />
           <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>
         </Wrap>

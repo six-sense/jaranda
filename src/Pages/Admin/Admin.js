@@ -42,7 +42,7 @@ function Admin() {
 
   const checkedKeys = Object.keys(checkedArray);
 
-  const onHandleChckBtn = (page, path, userId) => {
+  const onClickChckBtn = (page, path, userId) => {
     const seletedInfo = checkedKeys.includes(userId);
     let obj = new Object();
     let newSelected = [];
@@ -92,7 +92,7 @@ function Admin() {
     return false;
   };
 
-  const submitBtnClick = async () => {
+  const onClickSubmitbtn = async () => {
     // localStorage 셋팅
     const allUserData = await LOCAL_STORAGE.get('userData');
     let userArray = [];
@@ -123,7 +123,7 @@ function Admin() {
       setIsSubmit(false);
     }, 3000);
   };
-  const onHandleButtonLeft = () => {
+  const onClickButtonLeft = () => {
     const page = pages - 1;
     if (page < 1) {
       setPages(1);
@@ -132,7 +132,7 @@ function Admin() {
     }
   };
 
-  const onHandleButtonRight = () => {
+  const onClickButtonRight = () => {
     const page = pages + 1;
     if (page > maxPage) {
       setPages(maxPage);
@@ -176,13 +176,13 @@ function Admin() {
               onChange={onHandleSearch}
             />
             {!isSubmit && (
-              <GoRolePageButton onClick={submitBtnClick}>
+              <GoRolePageButton onClick={onClickSubmitbtn}>
                 페이지 권한 확정하기
               </GoRolePageButton>
             )}
 
             {isSubmit && (
-              <GoRolePageButton disabled={true} onClick={submitBtnClick}>
+              <GoRolePageButton disabled={true} onClick={onClickSubmitbtn}>
                 <AiOutlineCheck />
                 확정되었습니다.
               </GoRolePageButton>
@@ -224,7 +224,7 @@ function Admin() {
                             checked={isItemSelected}
                             id={index}
                             onClick={() =>
-                              onHandleChckBtn(
+                              onClickChckBtn(
                                 property.name,
                                 property.path,
                                 data.userId,
@@ -244,19 +244,19 @@ function Admin() {
           <div>
             <AiOutlineLeftStyle
               pageend={pages === 1 ? 'true' : 'false'}
-              onClick={onHandleButtonLeft}
+              onClick={onClickButtonLeft}
             />
             <div>{pages}</div>
             <AiOutlineRightStyle
               pageend={pages === maxPage ? 'true' : 'false'}
-              onClick={onHandleButtonRight}
+              onClick={onClickButtonRight}
             />
           </div>
         </TableFooter>
       </TableContainer>
       <Modal
         show={showModal}
-        onClose={() => closeModal()}
+        onClickClose={() => closeModal()}
         accountStyle={modalStyle}
       >
         <SignUp accountPlus={modalStyle} />
