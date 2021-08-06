@@ -89,6 +89,7 @@ function Admin() {
         }
       }
     }
+    return false;
   };
 
   const submitBtnClick = async () => {
@@ -242,12 +243,12 @@ function Admin() {
         <TableFooter>
           <div>
             <AiOutlineLeftStyle
-              pageEnd={pages === 1}
+              pageend={pages === 1 && 'true'}
               onClick={onHandleButtonLeft}
             />
             <div>{pages}</div>
             <AiOutlineRightStyle
-              pageEnd={pages === maxPage}
+              pageend={pages === maxPage && 'true'}
               onClick={onHandleButtonRight}
             />
           </div>

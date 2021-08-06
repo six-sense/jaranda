@@ -143,11 +143,11 @@ export const GoRolePageButton = styled.button`
 `;
 
 export const AiOutlineLeftStyle = styled(AiOutlineLeft)`
-  color: ${({ pageEnd }) => (pageEnd ? 'lightgray' : '')};
+  color: ${({ pageend }) => (pageend === 'true' ? 'lightgray' : '')};
 `;
 
 export const AiOutlineRightStyle = styled(AiOutlineRight)`
-  color: ${({ pageEnd }) => (pageEnd ? 'lightgray' : '')};
+  color: ${({ pageend }) => (pageend === 'true' ? 'lightgray' : '')};
 `;
 
 export const style = {
