@@ -38,7 +38,7 @@ const Navbar = () => {
   return (
     <NavbarContainer>
       <NavbarInnerContainer>
-        <NavLink to={ROUTES.MAIN}>
+        <NavLink to={isAdmin ? ROUTES.ADMIN : ROUTES.MAIN}>
           <img src={jaranda} alt="logo" />
         </NavLink>
         <NavMenu>

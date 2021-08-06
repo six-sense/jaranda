@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
-import { style } from './LoginStyle';
+import { style } from './SignInStyle';
 import Layout from 'Components/Layout';
 
-export default function Login() {
+export default function SignIn() {
   const [isValid, setIsValid] = useState(false);
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
@@ -109,6 +109,6 @@ const {
   SignButton,
 } = style;
 
-Login.propTypes = {
+SignIn.propTypes = {
   handleLogin: PropTypes.func,
 };

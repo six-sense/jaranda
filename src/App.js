@@ -3,7 +3,7 @@ import { Switch } from 'react-router-dom';
 import Landing from 'Pages/Landing';
 import Support from 'Pages/Support';
 import Help from 'Pages/Help';
-import Login from 'Pages/Login';
+import Login from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
 import Watch from 'Pages/Watch';
 import Form from 'Pages/Form';
