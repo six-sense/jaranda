@@ -22,7 +22,7 @@ export const Wrap = styled.div`
   ${({ theme }) => theme.flexSet('flex-start', 'center', 'column')};
   position: absolute;
   width: ${({ accountStyle }) => (accountStyle ? '520px' : '480px')};
-  height: ${({ accountStyle }) => (accountStyle ? '400px' : '')};
+  height: ${({ accountStyle }) => (accountStyle ? '80vh' : '')};
   border-radius: 6px;
   background-color: #fff;
   overflow-y: scroll;

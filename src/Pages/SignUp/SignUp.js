@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { style } from './SignUpPageStyle';
+import { style } from './SignUpStyle';
 import { FiCheck } from 'react-icons/fi';
-import get_address from './get_address';
+import get_address from './utils/get_address';
 import userDataForm from 'utils/storage/userDataForm';
 import setUserData from 'utils/setUserInfo';
 import { Validation } from 'utils/checkValid';
-import { LOCAL_STORAGE, ROUTES, MENUS } from 'utils/constants';
+import { LOCAL_STORAGE, ROUTES, MENUS, ROLES } from 'utils/constants';
 import Modal from 'Modal';
 import CreditCardForm from './CreditCardForm';
-import ToastForm from 'Compnents/ToastForm/ToastForm';
+import ToastForm from 'Compnents/ToastForm';
 import { useHistory } from 'react-router-dom';
 import Layout from 'Compnents/Layout';
 
-export default function SignUpPage({ accountPlus }) {
+export default function SignUp({ accountPlus }) {
   const history = useHistory();
   const idInput = useRef();
   const pwInput = useRef();
@@ -27,6 +27,7 @@ export default function SignUpPage({ accountPlus }) {
   const [isLength, setIsLength] = useState(false);
   const [isEngNum, setIsEngNum] = useState(false);
   const [isLenId, setIsLenId] = useState(false);
+  const [isSpecialId, setIsSpecialId] = useState(false);
 
   const { checkIdSignUp, checkPasswordSignUp } = Validation;
   const [inputChk, setInputChk] = useState({
@@ -52,7 +53,7 @@ export default function SignUpPage({ accountPlus }) {
       expired: '',
       CVC: '',
     },
-    role: 'user',
+    role: ROLES.USER,
     zcode: '',
     roadAddr: '',
     jibunAddr: '',
@@ -68,7 +69,7 @@ export default function SignUpPage({ accountPlus }) {
   useEffect(() => {
     if (toast.status) {
       const timeInterver = setTimeout(() => {
-        setToast({ ...toast, status: false });
+        setToast((prevToast) => ({ ...prevToast, status: false }));
       }, 2000);
       return () => clearTimeout(timeInterver);
     }
@@ -130,8 +131,9 @@ export default function SignUpPage({ accountPlus }) {
         });
         result = false;
       }
-      return result;
+      if (!result) break;
     }
+    return result;
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -139,16 +141,25 @@ export default function SignUpPage({ accountPlus }) {
   const handleId = (e) => {
     const id = e.target.value;
     const regex1 = /[A-Za-z0-9]+/;
+    const regex2 = /[!@#$%^*+=-_]+/;
     if (regex1.test(id)) {
       setIsEngNum(true);
     } else {
       setIsEngNum(false);
     }
+
+    if (regex2.test(id)) {
+      setIsSpecialId(true);
+    } else {
+      setIsSpecialId(false);
+    }
+
     if (id.length >= 4) {
       setIsLenId(true);
     } else {
       setIsLenId(false);
     }
+
     setUserInfo({
       ...userInfo,
       userId: e.target.value,
@@ -281,7 +292,7 @@ export default function SignUpPage({ accountPlus }) {
       ...userInfo,
       name: e.target.value,
     });
-    if (e.target.value === '' || !userInfo.name) {
+    if (e.target.value === '') {
       setInputChk({
         ...inputChk,
         name: false,
@@ -301,12 +312,12 @@ export default function SignUpPage({ accountPlus }) {
       age: e.target.value,
     });
 
-    if (e.target.value === '' || !userInfo.age) {
+    if (e.target.value === '' || !userInfo) {
       setInputChk({
         ...inputChk,
         age: false,
       });
-    } else {
+    } else if (e.target.value !== '') {
       setInputChk({
         ...inputChk,
         age: true,
@@ -320,15 +331,15 @@ export default function SignUpPage({ accountPlus }) {
 
   useEffect(() => {
     if (userInfo.zcode) {
-      setInputChk({
-        ...inputChk,
+      setInputChk((prevInputChk) => ({
+        ...prevInputChk,
         zcode: true,
-      });
-      setToast({
-        ...toast,
+      }));
+      setToast((prevToast) => ({
+        ...prevToast,
         status: true,
         msg: '주소가 등록되었습니다.',
-      });
+      }));
     }
   }, [userInfo.zcode]);
 
@@ -347,10 +358,9 @@ export default function SignUpPage({ accountPlus }) {
         })
       : setUserInfo({
           ...userInfo,
-          role: 'user',
+          role: ROLES.USER,
         });
   };
-  console.log(userInfo);
 
   const openModal = () => {
     setShowModal(true);
@@ -375,17 +385,17 @@ export default function SignUpPage({ accountPlus }) {
 
   useEffect(() => {
     if (userInfo.creditCard.cardNumber) {
-      setInputChk({
-        ...inputChk,
+      setInputChk((prevInputChk) => ({
+        ...prevInputChk,
         creditCard: {
           cardNumber: true,
         },
-      });
-      setToast({
-        ...toast,
+      }));
+      setToast((prevToast) => ({
+        ...prevToast,
         status: true,
         msg: '카드가 등록되었습니다.',
-      });
+      }));
     }
   }, [userInfo.creditCard.cardNumber]);
 
@@ -416,7 +426,6 @@ export default function SignUpPage({ accountPlus }) {
         history.push(ROUTES.SIGN_IN);
       }, 1500);
     } else {
-      console.log('들어옴');
       const { userId, password, password_confirm, name, age } = inputChk;
 
       if (!userId) {
@@ -468,15 +477,10 @@ export default function SignUpPage({ accountPlus }) {
       <Container>
         <Wrap>
           {!accountPlus ? (
-            <Title>
-              10초 만에 가입해보세요.
-              <br />
-              <br />
-              예리님.
-            </Title>
+            <Title>환상적인 회원가입을 경험해보세요.</Title>
           ) : (
             <>
-              <Title>계정 추가 해보세요.</Title>
+              <Title>간편하게 계정 추가 해보세요.</Title>
               <Wrapper_CheckBox>
                 <label htmlFor="radio">
                   <Input_Radio
@@ -513,6 +517,12 @@ export default function SignUpPage({ accountPlus }) {
               <span>
                 <FiCheck size="1rem" color={isEngNum ? 'blue' : 'red'} /> 숫자
                 혹은 영문자
+              </span>
+            </PW_poclicy_item>
+            <PW_poclicy_item>
+              <span>
+                <FiCheck size="1rem" color={isSpecialId ? 'red' : 'blue'} />{' '}
+                특수문자 X
               </span>
             </PW_poclicy_item>
           </PW_policy_container>
@@ -633,6 +643,6 @@ const {
   // Note_addr,
 } = style;
 
-SignUpPage.propTypes = {
+SignUp.propTypes = {
   accountPlus: PropTypes.bool,
 };

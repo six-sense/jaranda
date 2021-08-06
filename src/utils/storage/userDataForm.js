@@ -1,6 +1,5 @@
 // id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
 
-
 export default function userDataForm(
   userId,
   pw,
@@ -12,7 +11,7 @@ export default function userDataForm(
   cvc,
   role,
   addr,
-  menubar
+  menubar,
 ) {
   return {
     userId: `${userId}`,
@@ -27,6 +26,6 @@ export default function userDataForm(
     },
     role: `${role}`,
     address: `${addr}`,
-    menubar: menubar, // 계정별 메뉴 데이터 제공
+    menubar: menubar,
   };
 }

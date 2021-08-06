@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
-import { style } from './LoginPageStyle';
+import { style } from './LoginStyle';
 import Layout from 'Compnents/Layout';
 
 export default function Login() {
@@ -11,6 +11,7 @@ export default function Login() {
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
   const history = useHistory();
+  const inputPw = useRef();
   const { checkId, checkPassword } = Validation;
 
   const handleIdInput = (e) => {
@@ -48,17 +49,26 @@ export default function Login() {
       inputPwValue !== ''
     ) {
       const validLogin = await sendLogin(inputIdValue, inputPwValue);
-      console.log(validLogin);
-      if (validLogin && (await LOCAL_STORAGE.get('token')?.role) === 'admin') {
+      const tokenRole = await LOCAL_STORAGE.get('token')?.role;
+      if (validLogin && tokenRole === 'admin') {
         history.push(ROUTES.ADMIN);
-      } else {
+      } else if (validLogin && tokenRole !== 'admin') {
         history.push(ROUTES.MAIN);
       }
-    } else {
-      setIsValid(true);
-      setTimeout(() => {
-        setIsValid(false);
-      }, 6000);
+    }
+    //  else {
+    setIsValid(true);
+    setTimeout(() => {
+      setIsValid(false);
+    }, 6000);
+    // }
+  };
+
+  const enterkey = (e) => {
+    if (e.key === 'Enter') {
+      e.target.placeholder === '아이디'
+        ? inputPw.current.focus()
+        : checkLogin();
     }
   };
 
@@ -73,8 +83,11 @@ export default function Login() {
             </VaildMessage>
           )}
 
-          <IdInput onChange={(e) => handleIdInput(e)} />
-          <PasswordInput onChange={(e) => handlePwInput(e)} />
+          <IdInput onChange={(e) => handleIdInput(e)} onKeyPress={enterkey} />
+          <PasswordInput
+            onChange={(e) => handlePwInput(e)}
+            onKeyPress={enterkey}
+          />
           <LoginButton onClick={checkLogin}>로그인</LoginButton>
           <Bar />
           <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>

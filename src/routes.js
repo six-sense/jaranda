@@ -2,7 +2,7 @@ import { React } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ROUTES } from './utils/constants';
-import { checkIsAdmin, checkIsLoggedIn } from 'Services/auth';
+import { checkIsAdmin, checkIsLoggedIn, isUserMenu } from 'utils/getUserInfo';
 
 export const PublicRoute = ({ restricted, children, ...rest }) => {
   return (
@@ -27,7 +27,7 @@ PublicRoute.propTypes = {
   restricted: PropTypes.bool,
 };
 
-export const PrivateRoute = ({ restricted, children, ...rest }) => {
+export const PrivateRoute = ({ children, path, ...rest }) => {
   if (!checkIsLoggedIn()) {
     return <Redirect to={ROUTES.MAIN} />;
   }
@@ -38,12 +38,12 @@ export const PrivateRoute = ({ restricted, children, ...rest }) => {
 
   return (
     <Route {...rest}>
-      {restricted ? children : <Redirect to={ROUTES.MAIN} />}
+      {isUserMenu(path) ? children : <Redirect to={ROUTES.MAIN} />}
     </Route>
   );
 };
 
 PrivateRoute.propTypes = {
   children: PropTypes.element,
-  restricted: PropTypes.bool,
+  path: PropTypes.string,
 };
