@@ -5,20 +5,16 @@ import {
   NavbarInnerContainer,
   NavLink,
   NavMenu,
-} from 'Styles/NavbarStyles';
+} from 'Components/Navbar/NavbarStyles';
 import jaranda from 'Assets/jarandalogo.png';
-import { LOCAL_STORAGE, PUBLIC_MENUS, ROUTES } from 'utils/constants';
-import { checkIsAdmin, checkIsLoggedIn, getUserMenu } from 'utils/getUserInfo';
+import { PUBLIC_MENUS, ROUTES } from 'utils/constants';
+import { getUserMenu } from 'Services/user';
+import { checkIsAdmin, checkIsLoggedIn, logout } from 'Services/auth';
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userMenu, setUserMenu] = useState([]);
-
-  const handleLogout = () => {
-    LOCAL_STORAGE.remove('token');
-    setIsLoggedIn(checkIsLoggedIn());
-  };
 
   useEffect(() => {
     setIsLoggedIn(checkIsLoggedIn());
@@ -34,10 +30,15 @@ const Navbar = () => {
     }
   }, [isLoggedIn]);
 
+  const onClickLogout = () => {
+    logout();
+    setIsLoggedIn(checkIsLoggedIn());
+  };
+
   return (
     <NavbarContainer>
       <NavbarInnerContainer>
-        <NavLink to={ROUTES.MAIN}>
+        <NavLink to={isAdmin ? ROUTES.ADMIN : ROUTES.MAIN}>
           <img src={jaranda} alt="logo" />
         </NavLink>
         <NavMenu>
@@ -48,7 +49,7 @@ const Navbar = () => {
               </NavLink>
             ))}
           {isLoggedIn && (
-            <NavLink to={ROUTES.MAIN} onClick={handleLogout}>
+            <NavLink to={ROUTES.MAIN} onClick={onClickLogout}>
               로그아웃
             </NavLink>
           )}
@@ -64,5 +65,5 @@ Navbar.propTypes = {
   isLoggedIn: PropTypes.bool,
   userMenu: PropTypes.array,
   isAdmin: PropTypes.bool,
-  handleLogout: PropTypes.func,
+  onClickLogout: PropTypes.func,
 };

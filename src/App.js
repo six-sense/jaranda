@@ -1,9 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Landing from 'Pages/Landing';
 import Support from 'Pages/Support';
 import Help from 'Pages/Help';
-import Login from 'Pages/Login';
+import Login from 'Pages/SignIn';
 import SignUp from 'Pages/SignUp';
 import Watch from 'Pages/Watch';
 import Form from 'Pages/Form';
@@ -23,7 +23,6 @@ if (!LOCAL_STORAGE.get('userData')) {
 function App() {
   return (
     <Switch>
-      {/* public */}
       <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
         <Landing />
       </PublicRoute>
@@ -39,8 +38,6 @@ function App() {
       <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
         <SignUp />
       </PublicRoute>
-
-      {/* logged in user */}
       <PrivateRoute path={ROUTES.WATCH}>
         <Watch />
       </PrivateRoute>
@@ -56,16 +53,12 @@ function App() {
       <PrivateRoute path={ROUTES.LOG}>
         <Log />
       </PrivateRoute>
-
-      {/* admin */}
       <PrivateRoute path={ROUTES.ADMIN}>
         <Admin />
       </PrivateRoute>
-
-      {/* error */}
-      <Route path={ROUTES.NOTFOUND} restricted={true}>
+      <PublicRoute path={ROUTES.NOTFOUND} restricted={false}>
         <NotFound />
-      </Route>
+      </PublicRoute>
     </Switch>
   );
 }

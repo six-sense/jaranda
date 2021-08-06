@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Validation } from 'utils/checkValid';
 import { LOCAL_STORAGE, ROUTES } from 'utils/constants';
-import { style } from './LoginStyle';
-import Layout from 'Compnents/Layout';
+import { style } from './SignInStyle';
+import Layout from 'Components/Layout';
 
-export default function Login() {
+export default function SignIn() {
   const [isValid, setIsValid] = useState(false);
   const [inputIdValue, setInputIdValue] = useState('');
   const [inputPwValue, setInputPwValue] = useState('');
@@ -14,25 +14,24 @@ export default function Login() {
   const inputPw = useRef();
   const { checkId, checkPassword } = Validation;
 
-  const handleIdInput = (e) => {
+  const onChangePwInput = (e) => {
     setInputIdValue(e.target.value);
   };
 
-  const handlePwInput = (e) => {
+  const onChangeIdInput = (e) => {
     setInputPwValue(e.target.value);
   };
 
-  const sendLogin = async (userID, userPW) => {
-    const userInfo = await LOCAL_STORAGE.get('userData');
+  const sendLogin = (userID, userPW) => {
+    const userInfo = LOCAL_STORAGE.get('userData');
     let test =
       userInfo &&
       userInfo?.find(
         (data) => data.userId === userID && data.password === userPW,
       );
-    console.log(test);
 
     if (test !== undefined) {
-      await LOCAL_STORAGE.set('token', {
+      LOCAL_STORAGE.set('token', {
         userId: test.userId,
         role: test.role,
       });
@@ -42,34 +41,33 @@ export default function Login() {
     return false;
   };
 
-  const checkLogin = async () => {
+  const onClickCheckLogin = () => {
     if (
       checkId(inputIdValue) &&
       checkPassword(inputPwValue) &&
       inputIdValue !== '' &&
       inputPwValue !== ''
     ) {
-      const validLogin = await sendLogin(inputIdValue, inputPwValue);
-      const tokenRole = await LOCAL_STORAGE.get('token')?.role;
+      const validLogin = sendLogin(inputIdValue, inputPwValue);
+      const tokenRole = LOCAL_STORAGE.get('token')?.role;
       if (validLogin && tokenRole === 'admin') {
         history.push(ROUTES.ADMIN);
       } else if (validLogin && tokenRole !== 'admin') {
         history.push(ROUTES.MAIN);
       }
+      return;
     }
-    //  else {
     setIsValid(true);
     setTimeout(() => {
       setIsValid(false);
     }, 6000);
-    // }
   };
 
-  const enterkey = (e) => {
+  const onKeyPressEnterkey = (e) => {
     if (e.key === 'Enter') {
       e.target.placeholder === '아이디'
         ? inputPw.current.focus()
-        : checkLogin();
+        : onClickCheckLogin();
     }
   };
 
@@ -83,13 +81,15 @@ export default function Login() {
               유효한 아이디 또는 비밀번호를 입력해주세요
             </VaildMessage>
           )}
-
-          <IdInput onChange={(e) => handleIdInput(e)} onKeyPress={enterkey} />
-          <PasswordInput
-            onChange={(e) => handlePwInput(e)}
-            onKeyPress={enterkey}
+          <IdInput
+            onChange={(e) => onChangePwInput(e)}
+            onKeyPress={onKeyPressEnterkey}
           />
-          <LoginButton onClick={checkLogin}>로그인</LoginButton>
+          <PasswordInput
+            onChange={(e) => onChangeIdInput(e)}
+            onKeyPress={onKeyPressEnterkey}
+          />
+          <LoginButton onClick={onClickCheckLogin}>로그인</LoginButton>
           <Bar />
           <SignButton to={ROUTES.SIGN_UP}>회원가입</SignButton>
         </Wrap>
@@ -110,6 +110,6 @@ const {
   SignButton,
 } = style;
 
-Login.propTypes = {
+SignIn.propTypes = {
   handleLogin: PropTypes.func,
 };

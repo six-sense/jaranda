@@ -31,8 +31,6 @@ export const Cell = styled.th`
   }
 `;
 
-export const CheckButton = styled.input``;
-
 export const TableTitleContainer = styled.div`
   padding-left: 16px;
   padding-right: 8px;
@@ -73,7 +71,6 @@ export const Searchbox = styled.input`
   left: -42px;
   margin: 11px;
   width: 170px;
-  color: hsla(0, 0%, 91.8%, 0.6549019607843137);
   position: relative;
   border-radius: 15px;
   padding: 0 10px 0 45px;
@@ -126,7 +123,7 @@ export const RoleButonWrapper = styled.div`
   text-align: right;
 `;
 
-export const GoRolePageButton = styled.button`
+export const PageAuthButton = styled.button`
   display: flex;
   -webkit-box-align: center;
   align-items: center;
@@ -146,16 +143,15 @@ export const GoRolePageButton = styled.button`
 `;
 
 export const AiOutlineLeftStyle = styled(AiOutlineLeft)`
-  color: ${({ pageEnd }) => (pageEnd ? 'lightgray' : '')};
+  color: ${({ pageend }) => (pageend === 'true' ? 'lightgray' : '')};
 `;
 
 export const AiOutlineRightStyle = styled(AiOutlineRight)`
-  color: ${({ pageEnd }) => (pageEnd ? 'lightgray' : '')};
+  color: ${({ pageend }) => (pageend === 'true' ? 'lightgray' : '')};
 `;
 
 export const style = {
   Cell,
-  CheckButton,
   Searchbox,
   SearchContainer,
   SearchIcon,
@@ -165,7 +161,7 @@ export const style = {
   TableFooter,
   TableTitle,
   TableTitleContainer,
-  GoRolePageButton,
+  PageAuthButton,
   AiOutlineLeftStyle,
   AiOutlineRightStyle,
 };

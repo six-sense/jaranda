@@ -7,7 +7,7 @@ import {
   limitLength,
   validateExpiration,
 } from './utils/cardValidation';
-import ToastForm from 'Compnents/ToastForm';
+import ToastForm from 'Components/ToastForm';
 
 const INPUT_NAMES = {
   CARD_NUMBER: 'cardNumber',
@@ -44,7 +44,7 @@ export default function CreditCardForm({
     }
   }, [toast]);
 
-  const onChange = (e) => {
+  const onChangeInfo = (e) => {
     switch (e.target.name) {
       case INPUT_NAMES.CARD_NUMBER:
         setCardInput({
@@ -79,7 +79,7 @@ export default function CreditCardForm({
     }
   };
 
-  const onSubmit = () => {
+  const onClickSubmitBtn = () => {
     const { cardNumber, holderName, expired, CVC } = cardInput;
 
     if (cardNumber.length < 19) {
@@ -131,31 +131,31 @@ export default function CreditCardForm({
           <CardNumberInput
             name={INPUT_NAMES.CARD_NUMBER}
             value={cardInput.cardNumber}
-            onChange={onChange}
+            onChange={onChangeInfo}
           />
         </Row>
         <Row>
           <HolderNameInput
             name={INPUT_NAMES.HOLDER_NAME}
             value={cardInput.holderName}
-            onChange={onChange}
+            onChange={onChangeInfo}
           />
         </Row>
         <Row>
           <ExpiredInput
             name={INPUT_NAMES.EXPIRED}
             value={cardInput.expired}
-            onChange={onChange}
+            onChange={onChangeInfo}
           />
           <CVCInput
             name={INPUT_NAMES.CVC}
             value={cardInput.CVC}
-            onChange={onChange}
+            onChange={onChangeInfo}
           />
         </Row>
         <Row>
           <CancelButton onClick={closeModal}>취소</CancelButton>
-          <CreditButton onClick={onSubmit}>등록</CreditButton>
+          <CreditButton onClick={onClickSubmitBtn}>등록</CreditButton>
         </Row>
       </Wrap>
       <ToastForm show={toast.status} contents={toast.msg} />

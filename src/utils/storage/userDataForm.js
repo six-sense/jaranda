@@ -1,5 +1,3 @@
-// id,pwd, name, age, cardNumber, c_name, expired, cvc, role,
-
 export default function userDataForm(
   userId,
   pw,

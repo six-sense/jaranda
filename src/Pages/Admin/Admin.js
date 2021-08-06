@@ -3,10 +3,10 @@ import Modal from 'Modal';
 import SignUp from 'Pages/SignUp';
 import searchIcon from 'Assets/search.png';
 import { style } from './AdminStyle';
-import { MENUS, LOCAL_STORAGE } from 'utils/constants';
+import { MENUS, LOCAL_STORAGE, LIMIT } from 'utils/constants';
 import { getUserInfo } from 'utils/getUserInfo';
-import Checkbox from 'Compnents/Checkbox';
-import Layout from 'Compnents/Layout';
+import Checkbox from 'Components/Checkbox';
+import Layout from 'Components/Layout';
 import { AiOutlineCheck } from 'react-icons/ai';
 import userDataForm from 'utils/storage/userDataForm';
 
@@ -20,15 +20,22 @@ function Admin() {
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
-  const limit = 10;
+  const checkedKeys = Object.keys(checkedArray);
+
+  useEffect(() => {
+    initSelected(LOCAL_STORAGE.get('userData'));
+  }, []);
+
+  useEffect(() => {
+    const userInfo = getUserInfo(pages, LIMIT, searchValue);
+    setData(userInfo.userData);
+    setMaxPage(userInfo.maxPage);
+    setClickCheck(false);
+  }, [pages, searchValue, clickCheck]);
 
   const onHandleSearch = (e) => {
     setSearchValue(e.target.value);
   };
-
-  useEffect(() => {
-    initSelected(LOCAL_STORAGE.get('userData'));
-  }, [data]);
 
   const initSelected = (userData) => {
     let obj = new Object();
@@ -36,13 +43,10 @@ function Admin() {
       (acc, cur) => ({ ...acc, [cur.userId]: cur.menubar }),
       {},
     );
-
     setCheckedArray(obj);
   };
 
-  const checkedKeys = Object.keys(checkedArray);
-
-  const onHandleChckBtn = (page, path, userId) => {
+  const onClickChckBtn = (page, path, userId) => {
     const seletedInfo = checkedKeys.includes(userId);
     let obj = new Object();
     let newSelected = [];
@@ -89,17 +93,16 @@ function Admin() {
         }
       }
     }
+    return false;
   };
 
-  const submitBtnClick = async () => {
-    // localStorage 셋팅
-    const allUserData = await LOCAL_STORAGE.get('userData');
+  const onClickSubmitBtn = () => {
+    const allUserData = LOCAL_STORAGE.get('userData');
     let userArray = [];
     for (let i = 0; i < Object.keys(allUserData).length; i++) {
       let origin_userId = allUserData[i].userId;
       let menubar = checkedArray[origin_userId];
 
-      console.log(menubar);
       userArray.push(
         userDataForm(
           origin_userId,
@@ -115,12 +118,16 @@ function Admin() {
           menubar,
         ),
       );
-      console.log(userArray);
     }
     LOCAL_STORAGE.set('userData', userArray);
     setIsSubmit(true);
+
+    setTimeout(function () {
+      setIsSubmit(false);
+    }, 3000);
   };
-  const onHandleButtonLeft = () => {
+
+  const onClickButtonLeft = () => {
     const page = pages - 1;
     if (page < 1) {
       setPages(1);
@@ -129,7 +136,7 @@ function Admin() {
     }
   };
 
-  const onHandleButtonRight = () => {
+  const onClickButtonRight = () => {
     const page = pages + 1;
     if (page > maxPage) {
       setPages(maxPage);
@@ -148,15 +155,6 @@ function Admin() {
     setModalStyle(!modalStyle);
   };
 
-  useEffect(() => {
-    // console.log(pages,data);
-    const userInfo = getUserInfo(pages, limit, searchValue);
-    // console.log('userInfo', userInfo);
-    setData(userInfo.userData);
-    setMaxPage(userInfo.maxPage);
-    setClickCheck(false);
-  }, [pages, searchValue, clickCheck]);
-
   return (
     <Layout>
       <TableContainer>
@@ -171,20 +169,20 @@ function Admin() {
             <SearchIcon src={searchIcon} alt="search-icon" />
             <Searchbox
               type="text"
-              placeholder="Search Name"
+              placeholder="Search Name, ID"
               onChange={onHandleSearch}
             />
             {!isSubmit && (
-              <GoRolePageButton onClick={submitBtnClick}>
+              <PageAuthButton onClick={onClickSubmitBtn}>
                 페이지 권한 확정하기
-              </GoRolePageButton>
+              </PageAuthButton>
             )}
 
             {isSubmit && (
-              <GoRolePageButton disabled={true} onClick={submitBtnClick}>
+              <PageAuthButton disabled={true} onClick={onClickSubmitBtn}>
                 <AiOutlineCheck />
                 확정되었습니다.
-              </GoRolePageButton>
+              </PageAuthButton>
             )}
           </SearchContainer>
         </TableTitleContainer>
@@ -223,7 +221,7 @@ function Admin() {
                             checked={isItemSelected}
                             id={index}
                             onClick={() =>
-                              onHandleChckBtn(
+                              onClickChckBtn(
                                 property.name,
                                 property.path,
                                 data.userId,
@@ -242,20 +240,20 @@ function Admin() {
         <TableFooter>
           <div>
             <AiOutlineLeftStyle
-              pageEnd={pages === 1}
-              onClick={onHandleButtonLeft}
+              pageend={pages === 1 ? 'true' : 'false'}
+              onClick={onClickButtonLeft}
             />
             <div>{pages}</div>
             <AiOutlineRightStyle
-              pageEnd={pages === maxPage}
-              onClick={onHandleButtonRight}
+              pageend={pages === maxPage ? 'true' : 'false'}
+              onClick={onClickButtonRight}
             />
           </div>
         </TableFooter>
       </TableContainer>
       <Modal
         show={showModal}
-        onClose={() => closeModal()}
+        onClickClose={() => closeModal()}
         accountStyle={modalStyle}
       >
         <SignUp accountPlus={modalStyle} />
@@ -268,7 +266,6 @@ export default Admin;
 
 const {
   Cell,
-  // CheckButton,
   AccountAddButton,
   Searchbox,
   SearchContainer,
@@ -278,7 +275,7 @@ const {
   TableFooter,
   TableTitle,
   TableTitleContainer,
-  GoRolePageButton,
+  PageAuthButton,
   AiOutlineLeftStyle,
   AiOutlineRightStyle,
 } = style;

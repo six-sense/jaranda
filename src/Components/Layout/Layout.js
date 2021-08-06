@@ -1,4 +1,4 @@
-import Navbar from 'Compnents/Navbar';
+import Navbar from 'Components/Navbar';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Container, Contents } from './LayoutStyle';
