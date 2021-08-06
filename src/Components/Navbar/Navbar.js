@@ -5,7 +5,7 @@ import {
   NavbarInnerContainer,
   NavLink,
   NavMenu,
-} from 'Styles/NavbarStyles';
+} from 'Components/Navbar/NavbarStyles';
 import jaranda from 'Assets/jarandalogo.png';
 import { PUBLIC_MENUS, ROUTES } from 'utils/constants';
 import { getUserMenu } from 'Services/user';
