@@ -31,15 +31,12 @@ function AdminPage() {
   }, [data]);
 
   const initSelected = (userData) => {
-    console.log(userData);
-    let [f_userId, f_menubar] = ['', []];
     let obj = new Object();
-    for (let i = 0; i < Object.keys(userData).length; i++) {
-      f_userId = userData[i].userId;
-      f_menubar = userData[i].menubar;
+    obj = userData.reduce(
+      (acc, cur) => ({ ...acc, [cur.userId]: cur.menubar }),
+      {},
+    );
 
-      obj[f_userId] = f_menubar;
-    }
     setCheckedArray(obj);
   };
 
@@ -100,10 +97,7 @@ function AdminPage() {
     for (let i = 0; i < Object.keys(data).length; i++) {
       let origin_userId = data[i].userId;
       let menubar = checkedArray[origin_userId];
-      // for(let menu of checkedArray[origin_userId]){
-      //   // console.log(menu)
-      //   menubar.push(menu)
-      // }
+
       console.log(menubar);
       userArray.push(
         userDataForm(
@@ -122,9 +116,7 @@ function AdminPage() {
       );
       console.log(userArray);
     }
-    // LOCAL_STORAGE.remove('userData');
     LOCAL_STORAGE.set('userData', userArray);
-    // setUserData(userArray)
   };
   const onHandleButtonLeft = () => {
     const page = pages - 1;
@@ -182,8 +174,8 @@ function AdminPage() {
               placeholder="Search Name"
               onChange={onHandleSearch}
             />
-            <GoRolePageButton onClick={goRoleManagementPage}>
-              권한 별 사용자 목록 보기
+            <GoRolePageButton onClick={submitBtnClick}>
+              페이지 권한 확정하기
             </GoRolePageButton>
           </SearchContainer>
         </TableTitleContainer>
@@ -238,9 +230,6 @@ function AdminPage() {
               </tbody>
             ))}
         </table>
-        <button onClick={submitBtnClick} style={{ cursor: 'pointer' }}>
-          저장하기
-        </button>
         <TableFooter>
           <div>
             <AiOutlineLeftStyle
