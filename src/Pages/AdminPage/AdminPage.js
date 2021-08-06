@@ -9,17 +9,18 @@ import { getUserInfo } from 'utils/getUserInfo';
 import Checkbox from 'Compnents/Checkbox/Checkbox';
 import userDataForm from 'utils/storage/userDataForm';
 import Layout from 'Compnents/Layout';
+import { AiOutlineCheck } from 'react-icons/ai';
 
 function AdminPage() {
   const history = useHistory();
   const [data, setData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [checkedArray, setCheckedArray] = useState({});
-  // const [initCheckArray, setInitCheckArray] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [clickCheck, setClickCheck] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
   const limit = 10;
 
   const onHandleSearch = (e) => {
@@ -117,6 +118,7 @@ function AdminPage() {
       console.log(userArray);
     }
     LOCAL_STORAGE.set('userData', userArray);
+    setIsSubmit(true);
   };
   const onHandleButtonLeft = () => {
     const page = pages - 1;
@@ -174,9 +176,18 @@ function AdminPage() {
               placeholder="Search Name"
               onChange={onHandleSearch}
             />
-            <GoRolePageButton onClick={submitBtnClick}>
-              페이지 권한 확정하기
-            </GoRolePageButton>
+            {!isSubmit && (
+              <GoRolePageButton onClick={submitBtnClick}>
+                페이지 권한 확정하기
+              </GoRolePageButton>
+            )}
+
+            {isSubmit && (
+              <GoRolePageButton disabled={true} onClick={submitBtnClick}>
+                <AiOutlineCheck />
+                확정되었습니다.
+              </GoRolePageButton>
+            )}
           </SearchContainer>
         </TableTitleContainer>
 
