@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import Landing from 'Pages/Landing';
 import Support from 'Pages/Support';
 import Help from 'Pages/Help';
@@ -63,9 +63,9 @@ function App() {
       </PrivateRoute>
 
       {/* error */}
-      <Route path={ROUTES.NOTFOUND} restricted={true}>
+      <PublicRoute path={ROUTES.NOTFOUND} restricted={true}>
         <NotFound />
-      </Route>
+      </PublicRoute>
     </Switch>
   );
 }
