@@ -16,7 +16,6 @@ import userData from 'utils/userData.json';
 import roleMenu from 'utils/roleMenu.json';
 import { ROUTES, LOCAL_STORAGE } from 'utils/constants';
 import { PrivateRoute, PublicRoute } from 'routes';
-import { isUserMenu } from 'utils/getUserInfo';
 
 if (!LOCAL_STORAGE.get('userData')) {
   LOCAL_STORAGE.set('userData', userData);
@@ -27,57 +26,49 @@ if (!LOCAL_STORAGE.get('role')) {
 
 function App() {
   return (
-    <>
-      <Switch>
-        {/* public */}
-        <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
-          <LandingPage />
-        </PublicRoute>
-        <PublicRoute path={ROUTES.SUPPORT} restricted={false}>
-          <Support />
-        </PublicRoute>
-        <PublicRoute path={ROUTES.HELP} restricted={false}>
-          <Help />
-        </PublicRoute>
-        <PublicRoute path={ROUTES.SIGN_IN} restricted={true}>
-          <LoginPage />
-        </PublicRoute>
-        <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
-          <SignUpPage />
-        </PublicRoute>
+    <Switch>
+      {/* public */}
+      <PublicRoute exact path={ROUTES.MAIN} restricted={false}>
+        <LandingPage />
+      </PublicRoute>
+      <PublicRoute path={ROUTES.SUPPORT} restricted={false}>
+        <Support />
+      </PublicRoute>
+      <PublicRoute path={ROUTES.HELP} restricted={false}>
+        <Help />
+      </PublicRoute>
+      <PublicRoute path={ROUTES.SIGN_IN} restricted={true}>
+        <LoginPage />
+      </PublicRoute>
+      <PublicRoute path={ROUTES.SIGN_UP} restricted={true}>
+        <SignUpPage />
+      </PublicRoute>
 
-        {/* logged in user */}
-        <PrivateRoute path={ROUTES.WATCH} restricted={isUserMenu(ROUTES.WATCH)}>
-          <Watch />
-        </PrivateRoute>
-        <PrivateRoute path={ROUTES.FORM} restricted={isUserMenu(ROUTES.FORM)}>
-          <Form />
-        </PrivateRoute>
-        <PrivateRoute
-          path={ROUTES.HISTORY}
-          restricted={isUserMenu(ROUTES.HISTORY)}
-        >
-          <History />
-        </PrivateRoute>
-        <PrivateRoute
-          path={ROUTES.SCHEDULE}
-          restricted={isUserMenu(ROUTES.SCHEDULE)}
-        >
-          <Schedule />
-        </PrivateRoute>
-        <PrivateRoute path={ROUTES.LOG} restricted={isUserMenu(ROUTES.LOG)}>
-          <Log />
-        </PrivateRoute>
+      {/* logged in user */}
+      <PrivateRoute path={ROUTES.WATCH}>
+        <Watch />
+      </PrivateRoute>
+      <PrivateRoute path={ROUTES.FORM}>
+        <Form />
+      </PrivateRoute>
+      <PrivateRoute path={ROUTES.HISTORY}>
+        <History />
+      </PrivateRoute>
+      <PrivateRoute path={ROUTES.SCHEDULE}>
+        <Schedule />
+      </PrivateRoute>
+      <PrivateRoute path={ROUTES.LOG}>
+        <Log />
+      </PrivateRoute>
 
-        {/* admin */}
-        <PrivateRoute path={ROUTES.ADMIN}>
-          <AdminPage />
-        </PrivateRoute>
-        <PrivateRoute path={ROUTES.ROLE_MANAGEMENT}>
-          <RoleManagement />
-        </PrivateRoute>
-      </Switch>
-    </>
+      {/* admin */}
+      <PrivateRoute path={ROUTES.ADMIN}>
+        <AdminPage />
+      </PrivateRoute>
+      <PrivateRoute path={ROUTES.ROLE_MANAGEMENT}>
+        <RoleManagement />
+      </PrivateRoute>
+    </Switch>
   );
 }
 
