@@ -1,5 +1,5 @@
 <p align='middle'>
-<a href='https://610cdcae8e155c71b5fb1482--jaranda.netlify.app'><img src='https://user-images.githubusercontent.com/51367622/128473643-62cedb40-2390-4356-9db4-5ddb2cfa346e.png' width="100px;" alt="LiveMD" /></a></p>
+<a href='https://jaranda.netlify.app/'><img src='https://user-images.githubusercontent.com/51367622/128473643-62cedb40-2390-4356-9db4-5ddb2cfa346e.png' width="100px;" alt="LiveMD" /></a></p>
 <p align='middle'><img alt="GitHub top language" src="https://img.shields.io/github/languages/top/six-sense/jaranda?color=blueviolet"> <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/six-sense/jaranda"> 
 <h1 align='middle'><a href='https://jaranda.netlify.app/'>https://jaranda.netlify.app/</a></h1>
 
@@ -14,6 +14,8 @@
 
 ###  프리온보딩 코스 Jaranda 기업 과제
 > ❕ **회원가입, 로그인 / 로그아웃 기능과 다양한 메뉴를 가지고 있는 홈페이지, 관리자 페이지 구현하기**❗
+
+<br/>
 
 <details>
     <summary><STRONG>
