@@ -28,6 +28,7 @@ export default function SignUp({ accountPlus }) {
   const [isEngNum, setIsEngNum] = useState(false);
   const [isLenId, setIsLenId] = useState(false);
   const [isSpecialId, setIsSpecialId] = useState(false);
+  const [isOverlap, setIsOverlap] = useState('');
 
   const { checkIdSignUp, checkPasswordSignUp } = Validation;
   const [inputChk, setInputChk] = useState({
@@ -180,6 +181,7 @@ export default function SignUp({ accountPlus }) {
         ...inputChk,
         userId: true,
       });
+      setIsOverlap(userInfo.userId);
       return;
     } else if (!checkValidId) {
       setToast({
@@ -406,6 +408,15 @@ export default function SignUp({ accountPlus }) {
       userInfo.zcode + ' ' + userInfo.roadAddr + ' ' + userInfo.detailAddr;
 
     const check = inputCheck(7);
+
+    if (inputChk.userId && isOverlap !== userId) {
+      setInputChk({
+        ...inputChk,
+        userId: false,
+      });
+      setToast({ ...toast, status: true, msg: '아이디를 다시 입력해주세요!' });
+      return;
+    }
 
     if (check) {
       setToast({ ...toast, status: true, msg: '회원 가입이 완료되었습니다!' });
