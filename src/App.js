@@ -56,7 +56,7 @@ function App() {
       <PrivateRoute path={ROUTES.ADMIN}>
         <Admin />
       </PrivateRoute>
-      <PublicRoute path={ROUTES.NOTFOUND} restricted={true}>
+      <PublicRoute path={ROUTES.NOTFOUND} restricted={false}>
         <NotFound />
       </PublicRoute>
     </Switch>
