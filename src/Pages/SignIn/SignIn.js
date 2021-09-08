@@ -49,13 +49,15 @@ export default function SignIn() {
       inputPwValue !== ''
     ) {
       const validLogin = sendLogin(inputIdValue, inputPwValue);
-      const tokenRole = LOCAL_STORAGE.get('token')?.role;
-      if (validLogin && tokenRole === 'admin') {
-        history.push(ROUTES.ADMIN);
-      } else if (validLogin && tokenRole !== 'admin') {
-        history.push(ROUTES.MAIN);
+      if (validLogin) {
+        const tokenRole = LOCAL_STORAGE.get('token')?.role;
+        if (tokenRole === 'admin') {
+          history.push(ROUTES.ADMIN);
+        } else if (tokenRole !== 'admin') {
+          history.push(ROUTES.MAIN);
+        }
+        return;
       }
-      return;
     }
     setIsValid(true);
     setTimeout(() => {

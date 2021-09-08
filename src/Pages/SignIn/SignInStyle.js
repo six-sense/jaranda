@@ -66,6 +66,7 @@ export const Button = styled.button`
   height: 44px;
   border-radius: 6px;
   color: #fff;
+  cursor: pointer;
 `;
 
 export const LoginButton = styled(Button)`
